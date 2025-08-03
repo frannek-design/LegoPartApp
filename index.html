@@ -465,7 +465,7 @@
     };
 
     // --- Event Listeners ---
-    document.getElementById('root').addEventListener('click', function(event) {
+    document.body.addEventListener('click', function(event) {
         const target = event.target.closest('.add-to-list-button');
         if (target) {
             const partNum = target.dataset.partNum;
