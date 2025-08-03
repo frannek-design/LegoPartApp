@@ -536,7 +536,8 @@
         if (!response.ok) {
             throw new Error('Kon lego-data.json niet laden.');
         }
-        const legoData = await response.json();
+        const data = await response.json();
+        const legoData = data.lego_data.hoofd_categorieen;
         renderCategories(legoData);
       } catch (error) {
         console.error('Fout bij laden categorieën:', error);
@@ -598,3 +599,4 @@
   </script>
 </body>
 </html>
+
