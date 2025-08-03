@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LEGO Parts Categories</title>
-  <!-- Laad Tailwind CSS vanaf een CDN -->
+  <title>LEGO Onderdelen Catalogus</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Laad de Inter-font voor een modern uiterlijk -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap">
   <style>
     body {
@@ -37,7 +35,6 @@
       text-align: center;
       box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     }
-    /* Stijl voor de file-input knop */
     .file-input-button {
         cursor: pointer;
     }
@@ -45,77 +42,378 @@
 </head>
 <body class="bg-gray-900 min-h-screen p-4 sm:p-8">
   <div id="root" class="max-w-3xl mx-auto bg-gray-800 rounded-2xl shadow-xl overflow-hidden p-6 sm:p-8">
-    <h1 class="text-3xl sm:text-4xl font-extrabold mb-6 text-center text-yellow-400">LEGO Onderdelen Catalogus</h1>
     
-    <!-- Zoekformulier op nummer -->
-    <div class="mb-8">
-        <h2 class="text-2xl font-bold text-white mb-4">Zoek onderdeel op nummer</h2>
-        <form id="search-form" class="flex flex-col sm:flex-row gap-2">
-            <input type="text" id="part-number-input" placeholder="Voer onderdeelnummer in (bijv. 3005)" class="flex-grow bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400">
-            <button type="submit" class="bg-yellow-500 text-gray-900 font-bold py-3 px-4 sm:px-6 rounded-lg hover:bg-yellow-400 transition-colors">Zoek</button>
-        </form>
+    <!-- Hoofdmenu -->
+    <div id="main-menu">
+        <img src="lego-logo.png" alt="LEGO Logo" class="w-48 mx-auto mb-6">
+        <h1 class="text-3xl sm:text-4xl font-extrabold mb-8 text-center text-yellow-400">Onderdelen Vinder</h1>
+        <div class="grid grid-cols-1 gap-6">
+            <!-- Tegel 1: Zoeken -->
+            <button id="show-search-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-8 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-yellow-400">
+                <div class="flex flex-col items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mb-4 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <span class="text-2xl">Zoek via foto of nummer</span>
+                </div>
+            </button>
+            <!-- Tegel 2: Bestellijst -->
+            <button id="show-order-list-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-8 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-400">
+                <div class="flex flex-col items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mb-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                    <span class="text-2xl">Bestellijst</span>
+                </div>
+            </button>
+            <!-- Tegel 3: Bladeren -->
+            <button id="show-browse-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-8 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-400">
+                <div class="flex flex-col items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mb-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    <span class="text-2xl">Blader door Categorieën</span>
+                </div>
+            </button>
+        </div>
     </div>
-    <div id="search-result" class="mb-8"></div>
 
-    <!-- Zoekformulier op foto -->
-    <div class="mb-8">
-        <h2 class="text-2xl font-bold text-white mb-4">Of zoek op foto</h2>
-        <label for="image-upload-input" class="file-input-button w-full text-center block bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-500 transition-colors">
-            Zoek met foto (Upload of Maak)
-        </label>
-        <input type="file" id="image-upload-input" class="hidden" accept="image/*" capture="environment">
+    <!-- Zoek Sectie -->
+    <div id="search-section" class="hidden">
+        <div class="flex justify-between items-center mb-6">
+            <button class="back-button bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                Terug naar menu
+            </button>
+            <button id="go-to-order-list-btn" class="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>
+                Naar Bestellijst
+            </button>
+        </div>
+        <div id="confirmation-message" class="hidden fixed top-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg z-50"></div>
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-white mb-4">Zoek onderdeel via foto</h2>
+            <label for="image-upload-input" class="file-input-button w-full text-center block bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-500 transition-colors">Upload of maak een foto</label>
+            <input type="file" id="image-upload-input" class="hidden" accept="image/*" capture="environment">
+        </div>
+        <div id="image-search-result" class="mb-8"></div>
+        <hr class="border-gray-600 my-8">
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-white mb-4">Of zoek op nummer</h2>
+            <form id="search-form" class="flex flex-col sm:flex-row gap-2">
+                <input type="text" id="part-number-input" placeholder="Voer onderdeel nummer in" class="flex-grow bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                <button type="submit" class="bg-yellow-500 text-gray-900 font-bold py-3 px-4 sm:px-6 rounded-lg hover:bg-yellow-400 transition-colors">Zoek</button>
+            </form>
+        </div>
+        <div id="search-result" class="mb-8"></div>
     </div>
-    <div id="image-search-result"></div>
 
-    <hr class="border-gray-700 my-8">
+    <!-- Bestellijst Sectie -->
+    <div id="order-list-section" class="hidden">
+        <button class="back-button mb-6 bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+            Terug naar menu
+        </button>
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold text-white">Mijn Bestellijst</h2>
+            <div class="flex gap-2">
+                <button id="share-order-list-btn" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-lg text-sm">Deel Lijst</button>
+                <button id="clear-order-list-btn" class="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-lg text-sm">Wis hele lijst</button>
+            </div>
+        </div>
+        <div id="order-list-container" class="space-y-4"></div>
+        <button id="add-to-order-list-btn" class="mt-6 w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-lg">Voeg onderdeel toe</button>
+    </div>
 
-    <div id="app-container" class="space-y-4">
-      <!-- De categorieën worden hier dynamisch door JavaScript geladen -->
+    <!-- Blader Sectie -->
+    <div id="browse-section" class="hidden">
+         <button class="back-button mb-6 bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+            Terug naar menu
+        </button>
+        <h2 class="text-2xl font-bold text-white mb-4">Blader door Categorieën</h2>
+        <div id="app-container" class="space-y-4"></div>
     </div>
   </div>
 
-  <!-- Modal voor het weergeven van de afbeelding -->
+  <!-- Modal -->
   <div id="imageModal" class="modal">
     <div class="modal-content">
       <span class="absolute top-4 right-6 text-2xl font-bold text-gray-400 cursor-pointer hover:text-white" onclick="closeModal()">&times;</span>
-      <div id="modal-body">
-        <!-- Inhoud van de modal wordt dynamisch geladen -->
-      </div>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <div id="shareModal" class="modal">
+    <div class="modal-content">
+      <span class="absolute top-4 right-6 text-2xl font-bold text-gray-400 cursor-pointer hover:text-white" onclick="closeShareModal()">&times;</span>
+      <h2 class="text-2xl font-bold text-white mb-4">Kopieer je bestellijst</h2>
+      <p class="text-gray-400 mb-4">Kopiëren naar klembord is mislukt. Selecteer en kopieer de onderstaande tekst handmatig.</p>
+      <textarea id="share-text-area" class="w-full h-48 bg-gray-900 text-white p-2 rounded-lg border border-gray-600"></textarea>
     </div>
   </div>
 
   <script>
+    const mainMenu = document.getElementById('main-menu');
+    const searchSection = document.getElementById('search-section');
+    const browseSection = document.getElementById('browse-section');
+    const orderListSection = document.getElementById('order-list-section');
     const appContainer = document.getElementById('app-container');
     const imageModal = document.getElementById('imageModal');
     const modalBody = document.getElementById('modal-body');
+    const shareModal = document.getElementById('shareModal');
+    const shareTextArea = document.getElementById('share-text-area');
     const searchForm = document.getElementById('search-form');
     const searchInput = document.getElementById('part-number-input');
     const searchResultContainer = document.getElementById('search-result');
     const imageUploadInput = document.getElementById('image-upload-input');
     const imageSearchResultContainer = document.getElementById('image-search-result');
+    const orderListContainer = document.getElementById('order-list-container');
+    const confirmationMessage = document.getElementById('confirmation-message');
     
     const REBRICKABLE_API_KEY = '16904943652c1bc07ef5709e6b6dcbe5';
+    let googleApiKey = "AIzaSyDAdvrApo-i8HtM6Rzbsn8cTsDoY9AQ0Vg"; 
+    let searchCache = {};
+
+    // --- Navigatie ---
+    const showSearchBtn = document.getElementById('show-search-btn');
+    const showBrowseBtn = document.getElementById('show-browse-btn');
+    const showOrderListBtn = document.getElementById('show-order-list-btn');
+    const backButtons = document.querySelectorAll('.back-button');
+    const addToOrderListBtn = document.getElementById('add-to-order-list-btn');
+    const clearOrderListBtn = document.getElementById('clear-order-list-btn');
+    const goToOrderListBtn = document.getElementById('go-to-order-list-btn');
+    const shareOrderListBtn = document.getElementById('share-order-list-btn');
+
+    function showSection(sectionId) {
+        mainMenu.classList.add('hidden');
+        searchSection.classList.add('hidden');
+        browseSection.classList.add('hidden');
+        orderListSection.classList.add('hidden');
+        document.getElementById(sectionId).classList.remove('hidden');
+        window.scrollTo(0, 0);
+    }
+
+    showSearchBtn.addEventListener('click', () => showSection('search-section'));
+    addToOrderListBtn.addEventListener('click', () => showSection('search-section'));
+    showBrowseBtn.addEventListener('click', () => {
+        showSection('browse-section');
+        if (appContainer.innerHTML.trim() === '') {
+            fetchCategories();
+        }
+    });
+    showOrderListBtn.addEventListener('click', () => {
+        renderOrderList();
+        showSection('order-list-section');
+    });
+    goToOrderListBtn.addEventListener('click', () => {
+        renderOrderList();
+        showSection('order-list-section');
+    });
+    backButtons.forEach(button => {
+        button.addEventListener('click', () => showSection('main-menu'));
+    });
+    clearOrderListBtn.addEventListener('click', () => {
+        clearOrderList();
+    });
+    shareOrderListBtn.addEventListener('click', () => {
+        shareOrderList();
+    });
+
+    // --- Bestellijst Functies ---
+    const getOrderList = () => JSON.parse(localStorage.getItem('legoOrderList')) || [];
+    const saveOrderList = (list) => localStorage.setItem('legoOrderList', JSON.stringify(list));
+
+    function clearOrderList() {
+        localStorage.removeItem('legoOrderList');
+        renderOrderList();
+    }
+
+    function showConfirmation(message) {
+        confirmationMessage.textContent = message;
+        confirmationMessage.classList.remove('hidden');
+        setTimeout(() => {
+            confirmationMessage.classList.add('hidden');
+        }, 2000);
+    }
+
+    function addToOrderList(partData) {
+        let list = getOrderList();
+        const newItem = {
+            ...partData,
+            id: 'item-' + Date.now() + Math.random(), // Unieke ID
+            quantity: 1,
+            color: 'any'
+        };
+        list.push(newItem);
+        saveOrderList(list);
+        showConfirmation(`${newItem.name} toegevoegd!`);
+    }
+    
+    function handleAddToOrderList(partNum, isModal) {
+        const partData = searchCache[partNum];
+        if (partData) {
+            addToOrderList(partData);
+            if (isModal) {
+                closeModal();
+            } else {
+                document.getElementById('root').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }
+
+    function removeFromOrderList(id) {
+        let list = getOrderList();
+        list = list.filter(p => p.id !== id);
+        saveOrderList(list);
+        renderOrderList();
+    }
+
+    function updateOrderItem(id, field, value) {
+        let list = getOrderList();
+        const itemIndex = list.findIndex(p => p.id === id);
+        if (itemIndex > -1) {
+            list[itemIndex][field] = field === 'quantity' ? parseInt(value, 10) : value;
+            saveOrderList(list);
+        }
+    }
+
+    async function shareOrderList() {
+        const list = getOrderList();
+        if (list.length === 0) return;
+
+        let shareText = "Mijn LEGO Bestellijst:\n\n";
+        list.forEach(part => {
+            const colorText = part.color === 'any' ? 'N.v.t.' : part.color;
+            shareText += `- ${part.quantity}x ${part.name} (#${part.part_num}) - Kleur: ${colorText}\n`;
+        });
+
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'Mijn LEGO Bestellijst',
+                    text: shareText,
+                });
+            } catch (error) {
+                console.log('Fout bij delen via Web Share API:', error);
+            }
+        } else {
+            try {
+                await navigator.clipboard.writeText(shareText);
+                showConfirmation('Bestellijst gekopieerd!');
+            } catch (err) {
+                console.error('Clipboard API mislukt, toon fallback modal:', err);
+                shareTextArea.value = shareText;
+                shareModal.style.display = 'block';
+            }
+        }
+    }
+
+    const colorGroups = {
+        "Red & Pink": {"Solid": ["Red", "Dark Red", "Magenta", "Dark Pink", "Bright Pink"],"Transparent": ["Trans-Red", "Trans-Dark Red", "Trans-Dark Pink"],"Glitter": ["Trans-Red Sparkle"],"Chrome": ["Chrome Pink"]},
+        "Orange & Yellow": {"Solid": ["Orange", "Dark Orange", "Yellow", "Bright Light Orange", "Bright Light Yellow"],"Transparent": ["Trans-Orange", "Trans-Yellow", "Trans-Neon Orange"],"Glitter": ["Trans-Orange Sparkle"]},
+        "Green": {"Solid": ["Green", "Dark Green", "Bright Green", "Lime", "Sand Green", "Olive Green"],"Transparent": ["Trans-Green", "Trans-Bright Green", "Trans-Neon Green"],"Glitter": ["Trans-Green Sparkle"],"Chrome": ["Chrome Green"],"Metallic": ["Metallic Green"]},
+        "Blue": {"Solid": ["Blue", "Dark Blue", "Medium Blue", "Bright Light Blue", "Dark Azure", "Medium Azure", "Light Aqua", "Sand Blue"],"Transparent": ["Trans-Light Blue", "Trans-Medium Blue", "Trans-Dark Blue", "Trans-Aqua"],"Pearl": ["Pearl Sand Blue"],"Glitter": ["Trans-Light Blue Sparkle"],"Satin": ["Satin Trans-Light Blue", "Satin Trans-Dark Blue"],"Chrome": ["Chrome Blue"]},
+        "Purple": {"Solid": ["Dark Purple", "Purple", "Medium Lavender", "Lavender"],"Transparent": ["Trans-Purple"],"Glitter": ["Trans-Purple Sparkle"],"Satin": ["Satin Trans-Purple"]},
+        "Brown & Sand": {"Solid": ["Reddish Brown", "Dark Brown", "Brown", "Dark Tan", "Tan", "Nougat", "Medium Nougat", "Dark Nougat"]},
+        "Gray": {"Solid": ["Dark Bluish Gray", "Light Bluish Gray", "Very Light Bluish Gray"],"Pearl": ["Pearl Dark Gray", "Pearl Light Gray", "Pearl Very Light Gray"],"Metallic": ["Metallic Dark Grey"]},
+        "White": {"Solid": ["White"],"Pearl": ["Pearl White"],"Milky (Opal)": ["Trans-White (Opal)"]},
+        "Black": {"Solid": ["Black"],"Transparent": ["Trans-Black"],"Satin": ["Satin Trans-Black"],"Chrome": ["Chrome Black"],"Speckled": ["Marbled Black/White", "Speckled Black/Silver", "Speckled Black/Gold"]},
+        "Metallic": {"Pearl": ["Pearl Gold", "Pearl Light Gold"],"Chrome": ["Chrome Gold", "Chrome Silver", "Chrome Antique Brass"],"Metallic": ["Metallic Gold", "Metallic Silver", "Metallic Copper"]},
+        "Colorless": {"Transparent": ["Trans-Clear"],"Glitter": ["Trans-Clear Sparkle"],"Satin": ["Satin Trans-Clear"]}
+    };
+    
+    function findColorGroup(colorName) {
+        for (const [groupName, subgroups] of Object.entries(colorGroups)) {
+            for (const colors of Object.values(subgroups)) {
+                if (colors.includes(colorName)) {
+                    return groupName;
+                }
+            }
+        }
+        return null;
+    }
+
+    function populateSubColorSelect(mainColorSelect, subColorSelect, id) {
+        const selectedGroup = mainColorSelect.value;
+        subColorSelect.innerHTML = '<option value="any">Kies kleur</option>';
+        if (colorGroups[selectedGroup]) {
+            Object.entries(colorGroups[selectedGroup]).forEach(([subgroupName, colors]) => {
+                colors.forEach(color => {
+                    const option = document.createElement('option');
+                    option.value = color;
+                    option.textContent = color;
+                    subColorSelect.appendChild(option);
+                });
+            });
+            subColorSelect.disabled = false;
+        } else {
+            subColorSelect.disabled = true;
+        }
+        updateOrderItem(id, 'color', subColorSelect.value);
+    }
+
+    function renderOrderList() {
+        const list = getOrderList();
+        clearOrderListBtn.style.display = list.length > 0 ? 'block' : 'none';
+        shareOrderListBtn.style.display = list.length > 0 ? 'block' : 'none';
+
+        if (list.length === 0) {
+            orderListContainer.innerHTML = '<p class="text-gray-400 text-center">Je bestellijst is leeg.</p>';
+            return;
+        }
+
+        orderListContainer.innerHTML = list.map((part, index) => {
+            const mainColorGroup = findColorGroup(part.color);
+            
+            const mainColorOptions = Object.keys(colorGroups).map(groupName => 
+                `<option value="${groupName}" ${mainColorGroup === groupName ? 'selected' : ''}>${groupName}</option>`
+            ).join('');
+
+            let subColorOptions = '';
+            if (mainColorGroup && colorGroups[mainColorGroup]) {
+                subColorOptions = Object.entries(colorGroups[mainColorGroup]).map(([subgroupName, colors]) => 
+                    colors.map(color => `<option value="${color}" ${part.color === color ? 'selected' : ''}>${color}</option>`).join('')
+                ).join('');
+            }
+
+            return `
+            <div class="bg-gray-700/50 p-3 rounded-lg flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3 flex-shrink-0">
+                    <img src="${part.part_img_url}" alt="${part.name}" class="w-12 h-12 object-contain rounded-md bg-white/10 p-1">
+                    <div>
+                        <p class="font-bold text-white truncate max-w-[150px] sm:max-w-xs">${part.name}</p>
+                        <p class="text-sm text-gray-400">#${part.part_num}</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 flex-grow justify-end">
+                    <input type="number" value="${part.quantity || 1}" min="1" onchange="updateOrderItem('${part.id}', 'quantity', this.value)" class="bg-gray-800 text-white w-20 p-2 rounded h-10">
+                    <select id="main-color-${index}" onchange="populateSubColorSelect(this, document.getElementById('sub-color-${index}'), '${part.id}')" class="bg-gray-800 text-white p-2 rounded h-10 w-32">
+                        <option value="any">Kleur Groep</option>
+                        ${mainColorOptions}
+                    </select>
+                    <select id="sub-color-${index}" onchange="updateOrderItem('${part.id}', 'color', this.value)" class="bg-gray-800 text-white p-2 rounded h-10 w-40" ${!mainColorGroup ? 'disabled' : ''}>
+                        <option value="any">Kleur</option>
+                        ${subColorOptions}
+                    </select>
+                    <button onclick="removeFromOrderList('${part.id}')" class="bg-red-600 hover:bg-red-500 text-white font-bold p-2 rounded-lg h-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    </button>
+                </div>
+            </div>
+        `}).join('');
+    }
 
     // --- Hulpfuncties voor de UI ---
-
     const showLoading = (container, message) => {
         container.innerHTML = `<div class="flex justify-center items-center p-8"><div class="w-10 h-10 border-4 border-yellow-400 border-dotted rounded-full animate-spin"></div><span class="ml-4 text-gray-400">${message}</span></div>`;
     };
-
     const showError = (container, message) => {
         container.innerHTML = `<div class="bg-red-900 text-red-300 p-4 rounded-lg text-center">${message}</div>`;
     };
-    
-    const renderPartResult = (data, container, showClearButton = false) => {
+    const renderPartResult = (data, container, showClearButton = false, isModal = false) => {
         const { part_img_url, part_url, alternates, name, part_num } = data;
         const alternatesHtml = alternates && alternates.length > 0
             ? `<ul class="list-disc list-inside text-gray-400 mb-4">${alternates.map(alt => `<li>${alt}</li>`).join('')}</ul>`
             : '<p class="text-gray-500 mb-4">Geen alternatieven gevonden.</p>';
-
         const clearButtonHtml = showClearButton
-            ? `<button onclick="document.getElementById('${container.id}').innerHTML = ''; document.getElementById('root').scrollIntoView({ behavior: 'smooth' });" class="mt-6 w-full text-center bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-500 transition-colors">Wis resultaat</button>`
+            ? `<button onclick="document.getElementById('${container.id}').innerHTML = ''; document.getElementById('root').scrollIntoView({ behavior: 'smooth' });" class="mt-4 w-full text-center bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-500 transition-colors">Wis resultaat</button>`
             : '';
-
+        
         container.innerHTML = `
             <div class="bg-gray-700/50 p-6 rounded-lg">
                 <h2 class="text-2xl font-bold text-white mb-4 text-left">${name} (${part_num})</h2>
@@ -128,10 +426,13 @@
                             <h3 class="text-lg font-bold text-white mb-2">Alternatieve Onderdeelnummers:</h3>
                             ${alternatesHtml}
                         </div>
-                        <div class="mt-auto pt-4">
-                            <a href="${part_url}" target="_blank" rel="noopener noreferrer" class="w-full text-center inline-block bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-lg hover:bg-yellow-400 transition-colors">
+                        <div class="mt-auto pt-4 space-y-2">
+                            <a href="${part_url}" target="_blank" rel="noopener noreferrer" class="w-full text-center block bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-lg hover:bg-yellow-400 transition-colors">
                                 Bekijk op Rebrickable
                             </a>
+                            <button class="add-to-list-button w-full text-center block bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-500 transition-colors" data-part-num="${part_num}" data-is-modal="${isModal}">
+                                Voeg toe aan lijst
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -141,8 +442,7 @@
     };
 
     // --- API Functies ---
-
-    const handleRebrickableSearch = async (partNumber, container, showClearButton = false) => {
+    const handleRebrickableSearch = async (partNumber, container, showClearButton = false, isModal = false) => {
         showLoading(container, `Onderdeel ${partNumber} zoeken...`);
         try {
             const response = await fetch(`https://rebrickable.com/api/v3/lego/parts/${partNumber}/`, {
@@ -151,7 +451,11 @@
             if (!response.ok) throw new Error(`Onderdeel ${partNumber} niet gevonden in Rebrickable.`);
             const data = await response.json();
             if (!data.part_img_url) throw new Error(`Geen afbeelding gevonden voor ${partNumber}.`);
-            renderPartResult(data, container, showClearButton);
+            searchCache[data.part_num] = data;
+            renderPartResult(data, container, showClearButton, isModal);
+            if (!isModal) {
+                container.scrollIntoView({ behavior: 'smooth' });
+            }
         } catch (error) {
             console.error('Rebrickable zoekfout:', error);
             showError(container, error.message);
@@ -159,21 +463,33 @@
     };
 
     // --- Event Listeners ---
+    document.getElementById('root').addEventListener('click', function(event) {
+        const target = event.target.closest('.add-to-list-button');
+        if (target) {
+            const partNum = target.dataset.partNum;
+            const isModal = target.dataset.isModal === 'true';
+            handleAddToOrderList(partNum, isModal);
+        }
+    });
 
     searchForm.addEventListener('submit', (event) => {
         event.preventDefault();
         const partNumber = searchInput.value.trim();
         if (partNumber) {
-            handleRebrickableSearch(partNumber, searchResultContainer, true);
+            handleRebrickableSearch(partNumber, searchResultContainer, true, false);
         }
     });
-
     imageUploadInput.addEventListener('change', async (event) => {
         const file = event.target.files[0];
         if (!file) return;
-
+        if (!googleApiKey) {
+            googleApiKey = prompt("Voer je Google AI API-sleutel in:");
+            if (!googleApiKey) {
+                showError(imageSearchResultContainer, "Een Google AI API-sleutel is vereist voor beeldherkenning.");
+                return;
+            }
+        }
         showLoading(imageSearchResultContainer, 'Afbeelding analyseren...');
-
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = async () => {
@@ -181,15 +497,13 @@
             try {
                  const prompt = "Analyseer deze afbeelding van een LEGO-onderdeel. Identificeer het specifieke onderdeel en geef alleen het Rebrickable onderdeelnummer (part_num) terug. Geef geen extra tekst, alleen het nummer.";
                  const payload = { contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType: file.type, data: base64ImageData } }] }] };
-                 const apiKey = "AIzaSyDAdvrApo-i8HtM6Rzbsn8cTsDoY9AQ0Vg"; 
-                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${googleApiKey}`;
                  const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                 if (!response.ok) { throw new Error('Fout bij de communicatie met de AI-beeldherkenning.'); }
+                 if (!response.ok) { throw new Error('Fout bij de communicatie met de AI-beeldherkenning. Controleer je API-sleutel.'); }
                  const result = await response.json();
                  const partNumber = result?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-
                  if (partNumber && /^\d+$/.test(partNumber)) {
-                     handleRebrickableSearch(partNumber, imageSearchResultContainer, true);
+                     handleRebrickableSearch(partNumber, imageSearchResultContainer, true, false);
                  } else {
                      throw new Error('De AI kon geen geldig onderdeelnummer herkennen in de afbeelding.');
                  }
@@ -202,39 +516,38 @@
              showError(imageSearchResultContainer, 'Fout bij het lezen van het afbeeldingsbestand.');
         };
     });
-
     function closeModal() {
       imageModal.style.display = 'none';
       modalBody.innerHTML = '';
     }
-
+    function closeShareModal() {
+      shareModal.style.display = 'none';
+    }
     const fetchPartImage = async (partNumber, partName) => {
       imageModal.style.display = 'block';
-      handleRebrickableSearch(partNumber, modalBody, false);
+      handleRebrickableSearch(partNumber, modalBody, false, true);
     };
 
-    // Functie om de categorieën op te halen en te renderen (onveranderd)
+    // --- Categorieën Laden en Renderen ---
     const fetchCategories = async () => {
-      appContainer.innerHTML = `<div class="flex justify-center items-center h-48"><div class="w-10 h-10 border-4 border-yellow-400 border-dotted rounded-full animate-spin"></div><span class="ml-4 text-gray-400">Laden...</span></div>`;
+      showLoading(appContainer, "Categorieën laden...");
       try {
-        const legoData = [
-          { id: 1, name: 'BASIC', subcategories: [ { id: 101, name: 'Brick', subsections: [ { name: '1× Brick', parts: [ { name: '1×1', number: 3005 }, { name: '1×2', number: 3004 }, { name: '1×3', number: 3622 }, { name: '1×4', number: 3010 }, { name: '1×6', number: 3009 }, { name: '1×8', number: 3008 }, { name: '1×10', number: 6111 }, { name: '1×12', number: 6112 }, { name: '1×16', number: 2465 }, { name: '2×2 Corner', number: 2357 }, ] }, { name: '2× Brick', parts: [ { name: '2×2', number: 3003 }, { name: '2×3', number: 3002 }, { name: '2×4', number: 3001 }, { name: '2×6', number: 2456 }, { name: '2×8', number: 3007 }, { name: '2×10', number: 3006 }, ] }, { name: 'Tall Brick', parts: [ { name: '1×1×3', number: 14716 }, { name: '1×1×5', number: 2453 }, { name: '1×2×2', number: 3245 }, { name: '1×2×3', number: 22886 }, { name: '1×2×5', number: 2454 }, { name: '2×2×3', number: 30145 }, { name: '1×4×3', number: 49311 }, ] }, { name: 'Hollow Brick', parts: [ { name: '1×2 Hollow', number: 3065 }, { name: '1×2×5 Hollow', number: 46212 }, { name: '1×4 Hollow', number: 3066 }, ] }, ] }, { id: 102, name: 'Plate', subsections: [ { name: '1× Plate', parts: [ { name: '1×1', number: 3024 }, { name: '1×2', number: 3023 }, { name: '1×3', number: 3623 }, { name: '1×4', number: 3710 }, { name: '1×5', number: 78329 }, { name: '1×6', number: 3666 }, { name: '1×8', number: 3460 }, { name: '1×10', number: 4477 }, { name: '1×12', number: 60479 }, { name: '2×2 Corner', number: 2420 }, { name: '3×3 Corner', number: 77844 }, { name: '3×3 Cross', number: 15397 }, { name: '2×3 w/ Cutout', number: 73831 }, { name: '4×4 w/ Cutout', number: 64799 }, ] }, { name: '2× Plate', parts: [ { name: '2×2', number: 3022 }, { name: '2×3', number: 3021 }, { name: '2×4', number: 3020 }, { name: '2×6', number: 3795 }, { name: '2×8', number: 3034 }, { name: '2×10', number: 3832 }, { name: '2×12', number: 2445 }, { name: '2×14', number: 91988 }, { name: '2×16', number: 4282 }, { name: '4×4 Corner', number: 2639 }, ] }, { name: 'Large Plate', parts: [ { name: '3×3', number: 11212 }, { name: '4×4', number: 3031 }, { name: '4×6', number: 3032 }, { name: '4×8', number: 3035 }, { name: '4×10', number: 3030 }, { name: '4×12', number: 3029 }, { name: '6×6', number: 3958 }, { name: '6×8', number: 3036 }, { name: '6×10', number: 3033 }, { name: '6×12', number: 3028 }, { name: '6×14', number: 3456 }, { name: '6×16', number: 3027 }, { name: '8×8', number: 41539 }, { name: '8×16', number: 92438 }, { name: '16×16', number: 91405 }, ] }, { name: 'Other Plate', parts: [ { name: '1×4, 2-Studs Ends', number: 41740 }, { name: '2×2, 2-Studs Edge', number: 33909 }, { name: '3×4, 4-Studs Center', number: 88646 }, { name: '4×4, 4-Studs Edge', number: 6179 }, { name: '4×6, Studs 3-Edges', number: 6180 }, { name: '6×12, Studs 3-Edges', number: 6178 }, { name: '6×16, Studs 3-Edges', number: 6205 }, { name: '8×8 Plate w/ Grille', number: 4151 }, ] }, { name: 'Blate', parts: [ { name: '1×1×⅔', number: 86996 }, { name: '8×8×⅔ w/ Studs', number: 2628 }, { name: '8×8×⅔, Studs 4-Edges', number: 15624 }, { name: '8×16×⅔ w/ Studs', number: 2629 }, { name: '8×16×⅔, Studs 4-Edges', number: 18922 }, { name: '8×16×⅔, Recessed Studs', number: 71772 }, { name: '16×16×⅔, Recessed Studs', number: 69958 }, ] }, ] }, { id: 103, name: 'Tile', subsections: [ { name: '1× Tile', parts: [ { name: '1×1 Tile', number: 3070 }, { name: '1×2 Tile', number: 3069 }, { name: '1×3 Tile', number: 63864 }, { name: '1×4 Tile', number: 2431 }, { name: '1×6 Tile', number: 6636 }, { name: '1×8 Tile', number: 4162 }, { name: '2×2 Tile, Corner', number: 14719 }, ] }, { name: '2× Tile', parts: [ { name: '2×2 Tile', number: 3068 }, { name: '2×3 Tile', number: 26603 }, { name: '2×4 Tile', number: 87079 }, { name: '2×6 Tile', number: 69729 }, ] }, { name: 'Large Tile', parts: [ { name: '4×4 Tile', number: 1751 }, { name: '6×6 Tile', number: 10202 }, { name: '8×16 Tile', number: 90498 }, ] }, { name: 'Inverted Tile', parts: [ { name: '2×2 Tile, Inverted', number: 11203 }, { name: '1×3 Tile, Inv. w/ Hole', number: 35459 }, { name: '2×4 Tile, Inverted', number: 3395 }, { name: '4×8 Tile, Inverted', number: 83496 }, ] }, ] }, { id: 104, name: 'Baseplate', subsections: [ { name: 'Baseplates', parts: [ { name: '16×32 Baseplate', number: 3857 }, { name: '32×32 Baseplate', number: 3811 }, { name: '48×48 Baseplate', number: 4186 }, ] }, ] }, ] }, { id: 2, name: 'WALL', subcategories: [ { id: 201, name: 'Window and Door', subsections: [ { name: 'Basic Windows', parts: [ { name: '2×2 Window', number: 60592 }, { name: '2×2 Round', number: 90195 }, { name: '2×2 Glass', number: 60601 }, { name: '3×3×2 Window, Curved', number: 73878 }, ] }, { name: 'Doors', parts: [ { name: '2×3 Door', number: 60614 }, { name: '4×6 Door', number: 60616 }, { name: '4×6 Door, 3-Panes', number: 60797 }, { name: '3×6 Door', number: 80683 }, ] }, ] }, { id: 202, name: 'Panel', subsections: [ { name: 'Standard Panels', parts: [ { name: '1×1 Panel, Corner', number: 6231 }, { name: '1×2 Panel', number: 4865 }, { name: '1×4 Panel', number: 15207 }, ] }, { name: 'Rock Panels', parts: [ { name: '2×4×6 Rock Panel', number: 47847 }, { name: '4×6×10 Rock Panel (BURP)', number: 6082 }, { name: '3×8×7 Rock Panel, Triangular (LURP)', number: 6083 }, ] }, ] }, { id: 203, name: 'Fence', subsections: [ { name: 'Fences and Gates', parts: [ { name: '4×9 Gate, Arched', number: 42448 }, { name: '1×4×1 Fence', number: 3633 }, { name: '1×4×2 Fence', number: 3185 }, { name: '1×4×2 Picket', number: 33303 }, ] }, ] }, { id: 204, name: 'Decorative', subsections: [ { name: 'Textured Parts', parts: [ { name: '1×2 Tile, Grille', number: 2412 }, { name: '1×2, Ribbed', number: 2877 }, { name: '2×2×⅔, Ribbed', number: 71752 }, { name: '2×2 Round, Ribbed', number: 92947 }, { name: '1×2, Masonry', number: 98283 }, { name: '1×4, Masonry', number: 15533 }, { name: '1×2, Log (Palisade)', number: 30136 }, { name: '1×4, Log (Palisade)', number: 30137 }, { name: '1×1 w/ Scroll', number: 20310 }, ] }, ] }, { id: 205, name: 'Stairs', subsections: [ { name: 'Stair Pieces', parts: [ { name: '7×4×6 Stairs', number: 30134 }, { name: 'Stair, Spiral', number: 40243 }, { name: '1×2 Ladder', number: 4175 }, ] }, ] }, { id: 206, name: 'Structural', subsections: [ { name: 'Beams and Posts', parts: [ { name: '2×2×7 Lamp Post', number: 11062 }, { name: '2×2×10 Girder', number: 95347 }, { name: '1×6×5 Girder', number: 64448 }, { name: '2×4×5 Inclined Stanchion', number: 4476 }, { name: '1×6×10 Girder, Triangular', number: 64449 }, { name: '2×4×13 Support, ½-Circle w/ Pin Holes', number: 1749 }, ] }, ] }, { id: 207, name: 'Container', subsections: [ { name: 'Storage Parts', parts: [ { name: '8×8×3 Cupcake Cup', number: 72024 }, { name: '6×16 Book Spine', number: 65200 }, { name: 'Book Cover', number: 24324 }, ] }, ] }, ] }, { id: 3, name: 'SNOT', subcategories: [ { id: 301, name: 'SNOT', subsections: [ { name: 'SNOT Bricks', parts: [ { name: '1×1 w/ Stud on 1-Side', number: 87087 }, { name: '1×1 w/ Studs on 2-Sides', number: 26604 }, { name: '1×2 w/ Stud on 1-Side', number: 11252 }, ] }, { name: 'SNOT Plates', parts: [ { name: '1×1 Plate w/ Vertical Clip', number: 4085 }, { name: '1×2 Plate w/ Vertical Clip', number: 60478 }, { name: '1×4 Plate w/ 2-Studs End', number: 41740 }, ] }, ] }, ] }, { id: 4, name: 'ANGLE', subcategories: [ { id: 401, name: 'Slope', subsections: [ { name: 'Inverted Slopes', parts: [ { name: '2×1 Inv. Slope', number: 3665 }, { name: '2×2 Inv. Slope', number: 3660 }, { name: '33° 3×2 Inv. Slope', number: 3747 }, ] }, ] }, ] }, { id: 5, name: 'CURVE', subcategories: [ { id: 501, name: 'Slope', subsections: [ { name: 'Curved Slopes', parts: [ { name: '1×2×⅔', number: 11477 }, { name: '1×4×⅔', number: 61678 }, { name: '2×2×⅓', number: 15068 }, ] }, ] }, { id: 502, name: 'Brick', subsections: [ { name: 'Curved Bricks', parts: [ { name: '1×1 w/ 1/4-Arch', number: 13731 }, { name: '1×4, Curved Top', number: 6191 }, { name: '1×6×2 Arch', number: 15254 }, ] }, ] }, ] }, { id: 6, name: 'ARTICULATION', subcategories: [ { id: 601, name: 'Hinge', subsections: [ { name: 'Hinge Bricks', parts: [ { name: '1×2 Hinge Brick', number: 3937 }, { name: '1×4 Hinge Brick', number: 3830 }, ] }, { name: 'Hinge Plates', parts: [ { name: '1×2 Hinge Plate', number: 44302 }, { name: '1×4 Hinge Plate', number: 44301 }, ] }, ] }, ] }, { id: 7, name: 'MINIFIG', subcategories: [ { id: 701, name: 'Head', subsections: [ { name: 'Heads', parts: [ { name: 'Head, Standard', number: 3626 }, { name: 'Head, Alien', number: 30141 }, ] }, ] }, { id: 702, name: 'Torso', subsections: [ { name: 'Torsos', parts: [ { name: 'Torso, Standard', number: 973 }, { name: 'Torso, Special', number: 76527 }, ] }, ] }, ] }, { id: 8, name: 'NATURE', subcategories: [ { id: 801, name: 'Plant', subsections: [ { name: 'Trees and Leaves', parts: [ { name: 'Tree, Standard', number: 3471 }, { name: 'Leaf, 4-Studs', number: 30176 }, ] }, ] }, ] }, { id: 9, name: 'VEHICLE', subcategories: [ { id: 901, name: 'Wheel', subsections: [ { name: 'Wheels and Tires', parts: [ { name: 'Wheel 8mm', number: 3482 }, { name: 'Tire 8mm', number: 3641 }, ] }, ] }, ] }, { id: 10, name: 'TECHNIC', subcategories: [ { id: 1001, name: 'Beam', subsections: [ { name: 'Technic Beams', parts: [ { name: '1×4 Beam', number: 3701 }, { name: '1×6 Beam', number: 3894 }, ] }, ] }, ] }, { id: 11, name: 'ELECTRONICS', subcategories: [ { id: 1101, name: 'Motor', subsections: [ { name: 'Motors and Lights', parts: [ { name: 'Motor, Medium', number: 8883 }, { name: 'LED Light', number: 8870 }, ] }, ] }, ] }, { id: 12, name: 'DUPLO', subcategories: [ { id: 1201, name: 'Brick', subsections: [ { name: 'DUPLO Bricks', parts: [ { name: '2×2 Brick', number: 3437 }, { name: '2×4 Brick', number: 3011 }, ] }, ] }, ] },
-        ];
-        
-        await new Promise(resolve => setTimeout(resolve, 500));
+        const response = await fetch('lego-data.json');
+        if (!response.ok) {
+            throw new Error('Kon lego-data.json niet laden.');
+        }
+        const legoData = await response.json();
         renderCategories(legoData);
-
       } catch (error) {
-        appContainer.innerHTML = `<div class="bg-red-900 text-red-300 p-4 rounded-lg text-center">Fout bij het laden van de categorieën.</div>`;
+        console.error('Fout bij laden categorieën:', error);
+        showError(appContainer, 'Fout bij het laden van de categorieën.');
       }
     };
-
     const renderCategories = (categories) => {
       appContainer.innerHTML = '';
       categories.forEach(category => {
         const categoryItem = document.createElement('div');
         categoryItem.className = 'border-b border-gray-700 py-4 transition-colors duration-200';
-        
         const subcategoriesHtml = category.subcategories && category.subcategories.length > 0 ? `
           <ul class="mt-4 space-y-2 pl-4 border-l border-gray-600 ml-2 hidden" data-id="${category.id}">
             ${category.subcategories.map((sub, subIndex) => `
@@ -260,7 +573,6 @@
             `).join('')}
           </ul>
         ` : '';
-
         categoryItem.innerHTML = `
           <button class="flex justify-between items-center w-full text-left focus:outline-none" data-id="${category.id}">
             <span class="text-xl font-bold text-gray-100">${category.name}</span>
@@ -268,10 +580,8 @@
           </button>
           ${subcategoriesHtml}
         `;
-        
         appContainer.appendChild(categoryItem);
       });
-
       appContainer.addEventListener('click', (event) => {
         const button = event.target.closest('button');
         if (!button) return;
@@ -285,10 +595,6 @@
         }
       });
     };
-
-    fetchCategories();
   </script>
 </body>
 </html>
-
-
