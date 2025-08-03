@@ -372,27 +372,29 @@
             }
 
             return `
-            <div class="bg-gray-700/50 p-3 rounded-lg flex items-center justify-between gap-4">
-                <div class="flex items-center gap-3 flex-shrink-0">
-                    <img src="${part.part_img_url}" alt="${part.name}" class="w-12 h-12 object-contain rounded-md bg-white/10 p-1">
-                    <div>
-                        <p class="font-bold text-white truncate max-w-[150px] sm:max-w-xs">${part.name}</p>
-                        <p class="text-sm text-gray-400">#${part.part_num}</p>
+            <div class="bg-gray-700/50 p-3 rounded-lg">
+                <div class="flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3 flex-shrink-0">
+                        <img src="${part.part_img_url}" alt="${part.name}" class="w-12 h-12 object-contain rounded-md bg-white/10 p-1">
+                        <div>
+                            <p class="font-bold text-white truncate max-w-[150px] sm:max-w-xs">${part.name}</p>
+                            <p class="text-sm text-gray-400">#${part.part_num}</p>
+                        </div>
                     </div>
+                    <button onclick="removeFromOrderList('${part.id}')" class="bg-red-600 hover:bg-red-500 text-white font-bold p-2 rounded-lg h-10 flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    </button>
                 </div>
-                <div class="flex items-center gap-2 flex-grow justify-end">
-                    <input type="number" value="${part.quantity || 1}" min="1" onchange="updateOrderItem('${part.id}', 'quantity', this.value)" class="bg-gray-800 text-white w-20 p-2 rounded h-10">
-                    <select id="main-color-${index}" onchange="populateSubColorSelect(this, document.getElementById('sub-color-${index}'), '${part.id}')" class="bg-gray-800 text-white p-2 rounded h-10 w-32">
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mt-3">
+                    <input type="number" value="${part.quantity || 1}" min="1" onchange="updateOrderItem('${part.id}', 'quantity', this.value)" class="bg-gray-800 text-white p-2 rounded h-10 sm:w-20">
+                    <select id="main-color-${index}" onchange="populateSubColorSelect(this, document.getElementById('sub-color-${index}'), '${part.id}')" class="bg-gray-800 text-white p-2 rounded h-10 flex-grow">
                         <option value="any">Kleur Groep</option>
                         ${mainColorOptions}
                     </select>
-                    <select id="sub-color-${index}" onchange="updateOrderItem('${part.id}', 'color', this.value)" class="bg-gray-800 text-white p-2 rounded h-10 w-40" ${!mainColorGroup ? 'disabled' : ''}>
+                    <select id="sub-color-${index}" onchange="updateOrderItem('${part.id}', 'color', this.value)" class="bg-gray-800 text-white p-2 rounded h-10 flex-grow" ${!mainColorGroup ? 'disabled' : ''}>
                         <option value="any">Kleur</option>
                         ${subColorOptions}
                     </select>
-                    <button onclick="removeFromOrderList('${part.id}')" class="bg-red-600 hover:bg-red-500 text-white font-bold p-2 rounded-lg h-10">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                    </button>
                 </div>
             </div>
         `}).join('');
@@ -546,38 +548,51 @@
     };
     const renderCategories = (categories) => {
       appContainer.innerHTML = '';
-      categories.forEach(category => {
+      categories.forEach((category, catIndex) => {
         const categoryItem = document.createElement('div');
         categoryItem.className = 'border-b border-gray-700 py-4 transition-colors duration-200';
-        const subcategoriesHtml = category.subcategories && category.subcategories.length > 0 ? `
-          <ul class="mt-4 space-y-2 pl-4 border-l border-gray-600 ml-2 hidden" data-id="${category.id}">
-            ${category.subcategories.map((sub, subIndex) => `
+        const subcategoriesHtml = category.sub_categorieen && category.sub_categorieen.length > 0 ? `
+          <ul class="mt-4 space-y-2 pl-4 border-l border-gray-600 ml-2 hidden" data-id="cat-${catIndex}">
+            ${category.sub_categorieen.map((sub, subIndex) => {
+                const subsections = sub.types || (sub.onderdelen ? [{ naam: sub.naam, onderdelen: sub.onderdelen }] : []);
+                return `
               <li class="text-gray-300 text-lg transition-colors duration-200 hover:text-gray-100">
-                <button class="flex justify-between items-center w-full text-left focus:outline-none" data-sub-id="${category.id}-${subIndex}">
-                  <span class="font-bold text-gray-100">${sub.name}</span>
-                  ${sub.subsections ? `<svg class="text-gray-400 transform transition-transform duration-200 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>` : ''}
+                <button class="flex justify-between items-center w-full text-left focus:outline-none" data-sub-id="cat-${catIndex}-sub-${subIndex}">
+                  <span class="font-bold text-gray-100">${sub.naam}</span>
+                  <svg class="text-gray-400 transform transition-transform duration-200 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </button>
-                <div class="mt-2 space-y-1 pl-4 hidden" data-sub-id="${category.id}-${subIndex}">
-                  ${sub.subsections ? sub.subsections.map((section, sectionIndex) => `
+                <div class="mt-2 space-y-1 pl-4 hidden" data-sub-id="cat-${catIndex}-sub-${subIndex}">
+                  ${subsections.map((section, sectionIndex) => {
+                      const partsHtml = section.onderdelen.map(partString => {
+                          const match = partString.match(/(.+) \((\d+)\)/);
+                          if (match) {
+                              const name = match[1];
+                              const number = match[2];
+                              return `<li class="text-gray-400 text-sm cursor-pointer hover:text-yellow-400" onclick="fetchPartImage('${number}', '${name.replace(/'/g, "\\'")}')">${name} (Onderdeelnummer: ${number})</li>`;
+                          }
+                          return '';
+                      }).join('');
+
+                      return `
                     <div class="space-y-1">
-                      <button class="flex justify-between items-center w-full text-left focus:outline-none" data-section-id="${category.id}-${subIndex}-${sectionIndex}">
-                        <h4 class="font-semibold text-gray-200">${section.name}</h4>
+                      <button class="flex justify-between items-center w-full text-left focus:outline-none" data-section-id="cat-${catIndex}-sub-${subIndex}-sec-${sectionIndex}">
+                        <h4 class="font-semibold text-gray-200">${section.naam}</h4>
                         <svg class="text-gray-400 transform transition-transform duration-200 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                       </button>
-                      <ul class="ml-4 space-y-1 hidden" data-section-id="${category.id}-${subIndex}-${sectionIndex}">
-                        ${section.parts.map(part => `<li class="text-gray-400 text-sm cursor-pointer hover:text-yellow-400" onclick="fetchPartImage('${part.number}', '${part.name.replace(/'/g, "\\'")}')">${part.name} (Onderdeelnummer: ${part.number})</li>`).join('')}
+                      <ul class="ml-4 space-y-1 hidden" data-section-id="cat-${catIndex}-sub-${subIndex}-sec-${sectionIndex}">
+                        ${partsHtml}
                       </ul>
                     </div>
-                  `).join('') : ''}
+                  `}).join('')}
                 </div>
               </li>
-            `).join('')}
+            `}).join('')}
           </ul>
         ` : '';
         categoryItem.innerHTML = `
-          <button class="flex justify-between items-center w-full text-left focus:outline-none" data-id="${category.id}">
-            <span class="text-xl font-bold text-gray-100">${category.name}</span>
-            ${category.subcategories && category.subcategories.length > 0 ? `<svg class="text-gray-400 transform transition-transform duration-200 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>` : ''}
+          <button class="flex justify-between items-center w-full text-left focus:outline-none" data-id="cat-${catIndex}">
+            <span class="text-xl font-bold text-gray-100">${category.naam}</span>
+            <svg class="text-gray-400 transform transition-transform duration-200 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
           </button>
           ${subcategoriesHtml}
         `;
@@ -599,4 +614,3 @@
   </script>
 </body>
 </html>
-
