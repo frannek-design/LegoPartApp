@@ -444,7 +444,7 @@
                 "1×3 Jumper, Dbl. (34103)",
                 "2×4 Jumper, Dbl. (65509)",
                 "1×2 Jumper, 1-Side (86876)",
-                "1×1 Ring (4081)",
+                "1×1 Ring (4081b)",
                 "1×4 Offset w/ 2-Rings (4590)",
                 "1×2 w/ 3L Space Wing (4596)",
                 "1×2 Jumper w/ Tall Stud (24445)"
@@ -3321,3 +3321,4 @@
     ]
   }
 }
+
