@@ -38,12 +38,27 @@
     .file-input-button {
         cursor: pointer;
     }
+    /* Stijlen voor zachte overgangen tussen secties */
+    .page-section {
+        transition: opacity 0.3s ease-in-out;
+        opacity: 0;
+    }
+    .page-section.active {
+        opacity: 1;
+    }
+    /* Stijlen voor knop-feedback */
+    .btn-feedback {
+        transition: transform 0.1s ease-in-out, filter 0.1s ease-in-out;
+    }
+    .btn-feedback:active {
+        transform: scale(0.97);
+        filter: brightness(0.9);
+    }
   </style>
 </head>
 <body class="bg-gray-900 min-h-screen p-4 sm:p-8">
 
   <!-- SVG Iconen Definitie (DRY Principe) -->
-  <!-- Deze iconen worden één keer gedefinieerd en daarna hergebruikt in de app. -->
   <svg style="display: none;">
     <symbol id="icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
       <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -66,55 +81,68 @@
     <symbol id="icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="6 9 12 15 18 9"></polyline>
     </symbol>
+    <symbol id="icon-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+    </symbol>
+    <symbol id="icon-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+    </symbol>
+    <symbol id="icon-document" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+    </symbol>
   </svg>
 
   <div id="root" class="max-w-3xl mx-auto bg-gray-800 rounded-2xl shadow-xl overflow-hidden p-6 sm:p-8">
     
+    <!-- Globale Notificaties -->
+    <div id="confirmation-message" class="hidden fixed top-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg z-50"></div>
+    <div id="undo-message" class="hidden fixed top-5 right-5 bg-gray-700 text-white py-2 px-4 rounded-lg shadow-lg z-50 flex items-center gap-4">
+        <span>Item verwijderd</span>
+        <button id="undo-btn" class="font-bold text-yellow-400 hover:text-yellow-300">Ongedaan maken</button>
+    </div>
+
     <!-- Hoofdmenu -->
-    <div id="main-menu">
+    <div id="main-menu" class="page-section active">
         <img src="lego-logo.png" alt="LEGO Logo" class="w-48 mx-auto mb-6">
         <h1 class="text-3xl sm:text-4xl font-extrabold mb-8 text-center text-yellow-400">LEGO® Part Finder</h1>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Tegel 1: Zoeken -->
-            <button id="show-search-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-8 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-yellow-400 h-full">
-                <div class="flex flex-col items-center justify-center h-full">
-                    <svg class="h-16 w-16 mb-4 text-yellow-400"><use href="#icon-search"></use></svg>
-                    <span class="text-2xl">Zoek via foto of nummer</span>
-                </div>
+            <button id="show-search-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-8 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-yellow-400 h-full btn-feedback flex flex-col justify-between items-center">
+                <svg class="h-16 w-16 mb-4 text-yellow-400"><use href="#icon-search"></use></svg>
+                <span class="text-2xl">Zoek via foto of nummer</span>
             </button>
             <!-- Tegel 2: Bestellijst -->
-            <button id="show-order-list-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-8 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-400 h-full">
-                <div class="flex flex-col items-center justify-center h-full">
-                    <svg class="h-16 w-16 mb-4 text-green-400"><use href="#icon-order-list"></use></svg>
-                    <span class="text-2xl">Bestellijst</span>
-                </div>
+            <button id="show-order-list-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-8 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-400 h-full btn-feedback flex flex-col justify-between items-center">
+                <svg class="h-16 w-16 mb-4 text-green-400"><use href="#icon-order-list"></use></svg>
+                <span class="text-2xl">Bestellijst</span>
             </button>
             <!-- Tegel 3: Bladeren -->
-            <button id="show-browse-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-8 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-400 h-full">
-                <div class="flex flex-col items-center justify-center h-full">
-                    <svg class="h-16 w-16 mb-4 text-blue-400"><use href="#icon-browse"></use></svg>
-                    <span class="text-2xl">Blader door Categorieën</span>
-                </div>
+            <button id="show-browse-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-8 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-400 h-full btn-feedback flex flex-col justify-between items-center">
+                <svg class="h-16 w-16 mb-4 text-blue-400"><use href="#icon-browse"></use></svg>
+                <span class="text-2xl">Blader door Categorieën</span>
             </button>
         </div>
     </div>
 
     <!-- Zoek Sectie -->
-    <div id="search-section" class="hidden">
-        <div class="flex justify-between items-center mb-6">
-            <button class="back-button bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+    <div id="search-section" class="page-section hidden">
+        <div class="flex justify-between items-center mb-6 gap-2">
+            <button class="back-button bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg flex items-center btn-feedback">
                 <svg class="h-5 w-5 mr-2"><use href="#icon-back-arrow"></use></svg>
                 Terug naar menu
             </button>
-            <button id="go-to-order-list-btn" class="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+            <button id="go-to-order-list-btn" class="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-lg flex items-center btn-feedback">
                 <svg class="h-5 w-5 mr-2"><use href="#icon-order-list"></use></svg>
                 Naar Bestellijst
             </button>
         </div>
-        <div id="confirmation-message" class="hidden fixed top-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg z-50"></div>
         <div class="mb-8">
             <h2 class="text-2xl font-bold text-white mb-4">Zoek onderdeel via foto</h2>
-            <label for="image-upload-input" class="file-input-button w-full text-center block bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-500 transition-colors">Upload of maak een foto</label>
+            <label for="image-upload-input" class="file-input-button w-full text-center block bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-500 transition-colors btn-feedback">Upload of maak een foto</label>
             <input type="file" id="image-upload-input" class="hidden" accept="image/*" capture="environment">
         </div>
         <div id="image-search-result" class="mb-8"></div>
@@ -122,8 +150,19 @@
         <div class="mb-8">
             <h2 class="text-2xl font-bold text-white mb-4">Of zoek op nummer of naam</h2>
             <div class="flex flex-col sm:flex-row gap-2">
-                <input type="text" id="part-search-input" placeholder="Voer een onderdeelnummer of naam in" class="flex-grow bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400">
-                <button type="button" id="text-search-btn" class="bg-yellow-500 text-gray-900 font-bold py-3 px-4 sm:px-6 rounded-lg hover:bg-yellow-400 transition-colors">Zoek</button>
+                <div class="relative flex-grow">
+                    <input type="text" id="part-search-input" placeholder="Voer een onderdeelnummer of naam in" class="w-full bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-lg p-3 pr-10 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                    <button id="clear-search-btn" class="absolute inset-y-0 right-0 flex items-center pr-3 hidden">
+                        <svg class="h-5 w-5 text-gray-400 hover:text-white"><use href="#icon-x"></use></svg>
+                    </button>
+                </div>
+                <button type="button" id="text-search-btn" class="bg-yellow-500 text-gray-900 font-bold py-3 px-4 sm:px-6 rounded-lg hover:bg-yellow-400 transition-colors btn-feedback flex items-center justify-center w-28">
+                    <span id="search-btn-text">Zoek</span>
+                    <svg id="search-btn-spinner" class="h-5 w-5 animate-spin hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </button>
             </div>
         </div>
         <div id="text-search-results" class="mb-4 space-y-2"></div>
@@ -131,30 +170,31 @@
     </div>
 
     <!-- Bestellijst Sectie -->
-    <div id="order-list-section" class="hidden">
-        <button class="back-button mb-6 bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+    <div id="order-list-section" class="page-section hidden">
+        <button class="back-button mb-6 bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg flex items-center btn-feedback">
             <svg class="h-5 w-5 mr-2"><use href="#icon-back-arrow"></use></svg>
             Terug naar menu
         </button>
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-2xl font-bold text-white">Mijn Bestellijst</h2>
-            <div class="flex gap-2">
-                <button id="share-order-list-btn" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-lg text-sm">Deel Lijst</button>
-                <button id="clear-order-list-btn" class="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-lg text-sm">Wis hele lijst</button>
+            <div class="flex gap-2 w-full max-w-xs ml-auto">
+                <button id="share-order-list-btn" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-lg text-sm btn-feedback flex-1">Deel Lijst</button>
+                <button id="clear-order-list-btn" class="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-lg text-sm btn-feedback flex-1">Wis lijst</button>
             </div>
         </div>
+        <div id="order-list-summary" class="text-gray-400 text-right mb-4"></div>
         <div id="order-list-container" class="space-y-4"></div>
-        <button id="add-to-order-list-btn" class="mt-6 w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-lg">Voeg onderdeel toe</button>
+        <button id="add-to-order-list-btn" class="mt-6 w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-lg btn-feedback">Voeg onderdeel toe</button>
     </div>
 
     <!-- Blader Sectie -->
-    <div id="browse-section" class="hidden">
-         <div class="flex justify-between items-center mb-6">
-            <button class="back-button bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+    <div id="browse-section" class="page-section hidden">
+         <div class="flex justify-between items-center mb-6 gap-2">
+            <button class="back-button bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg flex items-center btn-feedback">
                 <svg class="h-5 w-5 mr-2"><use href="#icon-back-arrow"></use></svg>
                 Terug naar menu
             </button>
-            <button id="collapse-all-btn" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+            <button id="collapse-all-btn" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg flex items-center btn-feedback">
                  <svg class="h-5 w-5 mr-2"><use href="#icon-collapse"></use></svg>
                 Alles sluiten
             </button>
@@ -193,12 +233,18 @@
     const shareTextArea = document.getElementById('share-text-area');
     const searchInput = document.getElementById('part-search-input');
     const textSearchBtn = document.getElementById('text-search-btn');
+    const searchBtnText = document.getElementById('search-btn-text');
+    const searchBtnSpinner = document.getElementById('search-btn-spinner');
+    const clearSearchBtn = document.getElementById('clear-search-btn');
     const textSearchResultsContainer = document.getElementById('text-search-results');
     const searchResultContainer = document.getElementById('search-result');
     const imageUploadInput = document.getElementById('image-upload-input');
     const imageSearchResultContainer = document.getElementById('image-search-result');
     const orderListContainer = document.getElementById('order-list-container');
+    const orderListSummary = document.getElementById('order-list-summary');
     const confirmationMessage = document.getElementById('confirmation-message');
+    const undoMessage = document.getElementById('undo-message');
+    const undoBtn = document.getElementById('undo-btn');
     
     const REBRICKABLE_API_KEY = '16904943652c1bc07ef5709e6b6dcbe5';
     let googleApiKey = "AIzaSyDAdvrApo-i8HtM6Rzbsn8cTsDoY9AQ0Vg"; 
@@ -206,6 +252,8 @@
     let allParts = [];
     let isPartsDataLoaded = false;
     let isPartsDataLoading = false;
+    let lastRemovedState = null;
+    let undoTimeout = null;
 
     // --- Navigatie ---
     const showSearchBtn = document.getElementById('show-search-btn');
@@ -219,11 +267,22 @@
     const collapseAllBtn = document.getElementById('collapse-all-btn');
 
     function showSection(sectionId) {
-        mainMenu.classList.add('hidden');
-        searchSection.classList.add('hidden');
-        browseSection.classList.add('hidden');
-        orderListSection.classList.add('hidden');
-        document.getElementById(sectionId).classList.remove('hidden');
+        const currentActive = document.querySelector('.page-section.active');
+        const newSection = document.getElementById(sectionId);
+
+        if (currentActive && currentActive.id !== sectionId) {
+            currentActive.classList.remove('active');
+            setTimeout(() => {
+                currentActive.classList.add('hidden');
+            }, 300); // Moet overeenkomen met CSS transitie duur
+        }
+        
+        if (newSection) {
+            newSection.classList.remove('hidden');
+            setTimeout(() => {
+                newSection.classList.add('active');
+            }, 20);
+        }
         window.scrollTo(0, 0);
     }
 
@@ -264,8 +323,20 @@
     const saveOrderList = (list) => localStorage.setItem('legoOrderList', JSON.stringify(list));
 
     function clearOrderList() {
-        localStorage.removeItem('legoOrderList');
+        const currentList = getOrderList();
+        if (currentList.length === 0) return;
+
+        lastRemovedState = { type: 'full_list', data: currentList };
+        
+        saveOrderList([]);
         renderOrderList();
+
+        undoMessage.classList.remove('hidden');
+        clearTimeout(undoTimeout);
+        undoTimeout = setTimeout(() => {
+            lastRemovedState = null;
+            undoMessage.classList.add('hidden');
+        }, 5000);
     }
 
     function showConfirmation(message) {
@@ -301,11 +372,43 @@
         }
     }
 
-    function removeFromOrderList(id) {
+    function undoAction() {
+        if (!lastRemovedState) return;
+
         let list = getOrderList();
-        list = list.filter(p => p.id !== id);
+
+        if (lastRemovedState.type === 'single_item') {
+            list.splice(lastRemovedState.index, 0, lastRemovedState.data);
+        } else if (lastRemovedState.type === 'full_list') {
+            list = lastRemovedState.data;
+        }
+
         saveOrderList(list);
         renderOrderList();
+        lastRemovedState = null;
+        clearTimeout(undoTimeout);
+        undoMessage.classList.add('hidden');
+    }
+    undoBtn.addEventListener('click', undoAction);
+
+    function removeFromOrderList(id) {
+        let list = getOrderList();
+        const itemIndex = list.findIndex(p => p.id === id);
+        if (itemIndex === -1) return;
+
+        lastRemovedState = { type: 'single_item', data: list[itemIndex], index: itemIndex }; 
+        
+        const updatedList = list.filter(p => p.id !== id);
+        saveOrderList(updatedList);
+        renderOrderList();
+
+        undoMessage.classList.remove('hidden');
+        
+        clearTimeout(undoTimeout);
+        undoTimeout = setTimeout(() => {
+            lastRemovedState = null;
+            undoMessage.classList.add('hidden');
+        }, 5000); // 5 seconden om ongedaan te maken
     }
 
     function updateOrderItem(id, field, value) {
@@ -314,6 +417,7 @@
         if (itemIndex > -1) {
             list[itemIndex][field] = field === 'quantity' ? parseInt(value, 10) : value;
             saveOrderList(list);
+            renderOrderList(); // Her-render om de totalen bij te werken
         }
     }
 
@@ -397,6 +501,14 @@
         clearOrderListBtn.style.display = list.length > 0 ? 'block' : 'none';
         shareOrderListBtn.style.display = list.length > 0 ? 'block' : 'none';
 
+        if (list.length > 0) {
+            const totalQuantity = list.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            const uniqueParts = new Set(list.map(item => item.part_num)).size;
+            orderListSummary.textContent = `Totaal: ${totalQuantity} onderdelen (${uniqueParts} uniek)`;
+        } else {
+            orderListSummary.textContent = '';
+        }
+
         if (list.length === 0) {
             orderListContainer.innerHTML = '<p class="text-gray-400 text-center">Je bestellijst is leeg.</p>';
             return;
@@ -420,13 +532,13 @@
             <div class="bg-gray-700/50 p-3 rounded-lg">
                 <div class="flex items-center justify-between gap-4">
                     <div class="flex items-center gap-3 flex-shrink-0">
-                        <img src="${part.part_img_url}" alt="${part.name}" class="w-12 h-12 object-contain rounded-md bg-white/10 p-1">
+                        <img src="${part.part_img_url}" alt="${part.name}" class="w-12 h-12 object-contain rounded-md">
                         <div>
                             <p class="font-bold text-white truncate max-w-[150px] sm:max-w-xs">${part.name}</p>
                             <p class="text-sm text-gray-400">#${part.part_num}</p>
                         </div>
                     </div>
-                    <button onclick="removeFromOrderList('${part.id}')" class="bg-red-600 hover:bg-red-500 text-white font-bold p-2 rounded-lg h-10 flex-shrink-0">
+                    <button onclick="removeFromOrderList('${part.id}')" class="bg-red-600 hover:bg-red-500 text-white font-bold p-2 rounded-lg h-10 flex-shrink-0 btn-feedback">
                         <svg class="h-5 w-5"><use href="#icon-trash"></use></svg>
                     </button>
                 </div>
@@ -458,7 +570,7 @@
             ? `<ul class="list-disc list-inside text-gray-400 mb-4">${alternates.map(alt => `<li>${alt}</li>`).join('')}</ul>`
             : '<p class="text-gray-500 mb-4">Geen alternatieven gevonden.</p>';
         const clearButtonHtml = showClearButton
-            ? `<button onclick="document.getElementById('${container.id}').innerHTML = ''; document.getElementById('root').scrollIntoView({ behavior: 'smooth' });" class="mt-4 w-full text-center bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-500 transition-colors">Wis resultaat</button>`
+            ? `<button onclick="document.getElementById('${container.id}').innerHTML = ''; document.getElementById('root').scrollIntoView({ behavior: 'smooth' });" class="mt-4 w-full text-center bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-500 transition-colors btn-feedback">Wis resultaat</button>`
             : '';
         
         container.innerHTML = `
@@ -466,7 +578,7 @@
                 <h2 class="text-2xl font-bold text-white mb-4 text-left">${name} (${part_num})</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
                     <div>
-                        <img src="${part_img_url}" alt="Afbeelding van ${name}" class="w-full object-contain rounded-lg shadow-md max-h-64 bg-white/10 p-2">
+                        <img src="${part_img_url}" alt="Afbeelding van ${name}" class="w-full object-contain rounded-lg shadow-md max-h-64">
                     </div>
                     <div class="text-left flex flex-col h-full">
                         <div>
@@ -474,10 +586,10 @@
                             ${alternatesHtml}
                         </div>
                         <div class="mt-auto pt-4 space-y-2">
-                            <a href="${part_url}" target="_blank" rel="noopener noreferrer" class="w-full text-center block bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-lg hover:bg-yellow-400 transition-colors">
+                            <a href="${part_url}" target="_blank" rel="noopener noreferrer" class="w-full text-center block bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-lg hover:bg-yellow-400 transition-colors btn-feedback">
                                 Bekijk op Rebrickable
                             </a>
-                            <button class="add-to-list-button w-full text-center block bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-500 transition-colors" data-part-num="${part_num}" data-is-modal="${isModal}">
+                            <button class="add-to-list-button w-full text-center block bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-500 transition-colors btn-feedback" data-part-num="${part_num}" data-is-modal="${isModal}">
                                 Voeg toe aan lijst
                             </button>
                         </div>
@@ -568,22 +680,52 @@
             handleAddToOrderList(partNum, isModal);
         }
     });
+    
+    const showSearchLoadingState = () => {
+        searchInput.disabled = true;
+        textSearchBtn.disabled = true;
+        searchBtnText.classList.add('hidden');
+        searchBtnSpinner.classList.remove('hidden');
+    };
 
-    const performTextSearch = () => {
+    const hideSearchLoadingState = () => {
+        searchInput.disabled = false;
+        textSearchBtn.disabled = false;
+        searchBtnText.classList.remove('hidden');
+        searchBtnSpinner.classList.add('hidden');
+    };
+
+    const performTextSearch = async () => {
         const query = searchInput.value.trim();
-        if (!query) return;
+        if (!query || textSearchBtn.disabled) return;
 
-        searchResultContainer.innerHTML = '';
-        textSearchResultsContainer.innerHTML = '';
+        showSearchLoadingState();
+        try {
+            searchResultContainer.innerHTML = '';
+            textSearchResultsContainer.innerHTML = '';
 
-        if (/^\d+$/.test(query)) {
-            handleRebrickableSearch(query, searchResultContainer, true, false);
-        } else {
-            handleTextSearch(query);
+            if (/^\d+$/.test(query)) {
+                await handleRebrickableSearch(query, searchResultContainer, true, false);
+            } else {
+                await handleTextSearch(query);
+            }
+        } catch (error) {
+            console.error("Fout tijdens zoeken:", error);
+            showError(searchResultContainer, "Er is iets misgegaan met de zoekopdracht.");
+        } finally {
+            hideSearchLoadingState();
         }
     };
 
     textSearchBtn.addEventListener('click', performTextSearch);
+    
+    clearSearchBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        textSearchResultsContainer.innerHTML = '';
+        searchResultContainer.innerHTML = '';
+        clearSearchBtn.classList.add('hidden');
+        searchInput.focus();
+    });
 
     searchInput.addEventListener('keyup', (event) => {
         if (event.key === 'Enter') {
@@ -593,6 +735,13 @@
     
     searchInput.addEventListener('input', () => {
         const query = searchInput.value.trim();
+        
+        if (query) {
+            clearSearchBtn.classList.remove('hidden');
+        } else {
+            clearSearchBtn.classList.add('hidden');
+        }
+
         searchResultContainer.innerHTML = '';
 
         if (query.length < 2) {
@@ -694,7 +843,10 @@
                 return `
               <li class="text-gray-300 text-lg transition-colors duration-200 hover:text-gray-100">
                 <button class="flex justify-between items-center w-full text-left focus:outline-none" data-sub-id="cat-${catIndex}-sub-${subIndex}">
-                  <span class="font-bold text-gray-100">${sub.naam}</span>
+                  <span class="flex items-center">
+                    <svg class="h-5 w-5 mr-2 text-blue-400"><use href="#icon-folder"></use></svg>
+                    <span class="font-bold text-gray-100">${sub.naam}</span>
+                  </span>
                   <svg class="text-gray-400 transform transition-transform duration-200 flex-shrink-0" width="24" height="24"><use href="#icon-chevron"></use></svg>
                 </button>
                 <div class="mt-2 space-y-1 pl-4 hidden" data-sub-id="cat-${catIndex}-sub-${subIndex}">
@@ -712,7 +864,10 @@
                       return `
                     <div class="space-y-1">
                       <button class="flex justify-between items-center w-full text-left focus:outline-none" data-section-id="cat-${catIndex}-sub-${subIndex}-sec-${sectionIndex}">
-                        <h4 class="font-semibold text-gray-200">${section.naam}</h4>
+                        <span class="flex items-center">
+                            <svg class="h-4 w-4 mr-2 text-gray-400"><use href="#icon-document"></use></svg>
+                            <h4 class="font-semibold text-gray-200">${section.naam}</h4>
+                        </span>
                         <svg class="text-gray-400 transform transition-transform duration-200 flex-shrink-0" width="24" height="24"><use href="#icon-chevron"></use></svg>
                       </button>
                       <ul class="ml-4 space-y-1 hidden" data-section-id="cat-${catIndex}-sub-${subIndex}-sec-${sectionIndex}">
@@ -727,7 +882,10 @@
         ` : '';
         categoryItem.innerHTML = `
           <button class="flex justify-between items-center w-full text-left focus:outline-none" data-id="cat-${catIndex}">
-            <span class="text-xl font-bold text-gray-100">${category.naam}</span>
+            <span class="flex items-center">
+                <svg class="h-6 w-6 mr-2 text-yellow-400"><use href="#icon-folder"></use></svg>
+                <span class="text-xl font-bold text-gray-100">${category.naam}</span>
+            </span>
             <svg class="text-gray-400 transform transition-transform duration-200 flex-shrink-0" width="24" height="24"><use href="#icon-chevron"></use></svg>
           </button>
           ${subcategoriesHtml}
