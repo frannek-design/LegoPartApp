@@ -93,12 +93,13 @@
         <div id="image-search-result" class="mb-8"></div>
         <hr class="border-gray-600 my-8">
         <div class="mb-8">
-            <h2 class="text-2xl font-bold text-white mb-4">Of zoek op nummer</h2>
-            <form id="search-form" class="flex flex-col sm:flex-row gap-2">
-                <input type="text" id="part-number-input" placeholder="Voer onderdeel nummer in" class="flex-grow bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400">
-                <button type="submit" class="bg-yellow-500 text-gray-900 font-bold py-3 px-4 sm:px-6 rounded-lg hover:bg-yellow-400 transition-colors">Zoek</button>
-            </form>
+            <h2 class="text-2xl font-bold text-white mb-4">Of zoek op nummer of naam</h2>
+            <div class="flex flex-col sm:flex-row gap-2">
+                <input type="text" id="part-search-input" placeholder="Voer een onderdeelnummer of naam in" class="flex-grow bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                <button type="button" id="text-search-btn" class="bg-yellow-500 text-gray-900 font-bold py-3 px-4 sm:px-6 rounded-lg hover:bg-yellow-400 transition-colors">Zoek</button>
+            </div>
         </div>
+        <div id="text-search-results" class="mb-4 space-y-2"></div>
         <div id="search-result" class="mb-8"></div>
     </div>
 
@@ -163,8 +164,9 @@
     const modalBody = document.getElementById('modal-body');
     const shareModal = document.getElementById('shareModal');
     const shareTextArea = document.getElementById('share-text-area');
-    const searchForm = document.getElementById('search-form');
-    const searchInput = document.getElementById('part-number-input');
+    const searchInput = document.getElementById('part-search-input');
+    const textSearchBtn = document.getElementById('text-search-btn');
+    const textSearchResultsContainer = document.getElementById('text-search-results');
     const searchResultContainer = document.getElementById('search-result');
     const imageUploadInput = document.getElementById('image-upload-input');
     const imageSearchResultContainer = document.getElementById('image-search-result');
@@ -174,6 +176,8 @@
     const REBRICKABLE_API_KEY = '16904943652c1bc07ef5709e6b6dcbe5';
     let googleApiKey = "AIzaSyDAdvrApo-i8HtM6Rzbsn8cTsDoY9AQ0Vg"; 
     let searchCache = {};
+    let allParts = [];
+    let isPartsDataLoaded = false;
 
     // --- Navigatie ---
     const showSearchBtn = document.getElementById('show-search-btn');
@@ -456,7 +460,7 @@
         `;
     };
 
-    // --- API Functies ---
+    // --- API & Zoek Functies ---
     const handleRebrickableSearch = async (partNumber, container, showClearButton = false, isModal = false) => {
         showLoading(container, `Onderdeel ${partNumber} zoeken...`);
         try {
@@ -469,11 +473,57 @@
             searchCache[data.part_num] = data;
             renderPartResult(data, container, showClearButton, isModal);
             if (!isModal) {
-                container.scrollIntoView({ behavior: 'smooth' });
+                container.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         } catch (error) {
             console.error('Rebrickable zoekfout:', error);
             showError(container, error.message);
+        }
+    };
+
+    const loadAllPartsData = async () => {
+        if (isPartsDataLoaded) return;
+        try {
+            const response = await fetch('lego-data.json');
+            if (!response.ok) throw new Error('Kon lego-data.json niet laden.');
+            const data = await response.json();
+            const categories = data.lego_data.hoofd_categorieen;
+            categories.forEach(cat => {
+                (cat.sub_categorieen || []).forEach(sub => {
+                    const sections = sub.types || (sub.onderdelen ? [{ naam: sub.naam, onderdelen: sub.onderdelen }] : []);
+                    sections.forEach(sec => {
+                        (sec.onderdelen || []).forEach(partString => {
+                            const match = partString.match(/(.+) \((\d+)\)/);
+                            if (match) {
+                                allParts.push({ name: match[1].trim(), number: match[2] });
+                            }
+                        });
+                    });
+                });
+            });
+            isPartsDataLoaded = true;
+        } catch (error) {
+            console.error('Fout bij laden van alle onderdelen:', error);
+        }
+    };
+
+    const handleTextSearch = async (query) => {
+        await loadAllPartsData();
+        const lowerCaseQuery = query.toLowerCase();
+        const results = allParts.filter(part => 
+            part.name.toLowerCase().includes(lowerCaseQuery) || 
+            part.number.includes(lowerCaseQuery)
+        );
+
+        if (results.length > 0) {
+            textSearchResultsContainer.innerHTML = results.slice(0, 50).map(part => `
+                <div class="p-3 bg-gray-700 hover:bg-gray-600 rounded-lg cursor-pointer text-left text-white" data-part-num="${part.number}">
+                    <p class="font-bold">${part.name}</p>
+                    <p class="text-sm text-gray-400">#${part.number}</p>
+                </div>
+            `).join('');
+        } else {
+            textSearchResultsContainer.innerHTML = `<p class="text-gray-400 text-center">Geen onderdelen gevonden voor "${query}".</p>`;
         }
     };
 
@@ -487,13 +537,36 @@
         }
     });
 
-    searchForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const partNumber = searchInput.value.trim();
-        if (partNumber) {
-            handleRebrickableSearch(partNumber, searchResultContainer, true, false);
+    textSearchBtn.addEventListener('click', () => {
+        const query = searchInput.value.trim();
+        if (!query) return;
+
+        searchResultContainer.innerHTML = '';
+        textSearchResultsContainer.innerHTML = '';
+
+        if (/^\d+$/.test(query)) {
+            handleRebrickableSearch(query, searchResultContainer, true, false);
+        } else {
+            handleTextSearch(query);
         }
     });
+    
+    searchInput.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+            textSearchBtn.click();
+        }
+    });
+
+    textSearchResultsContainer.addEventListener('click', (event) => {
+        const target = event.target.closest('[data-part-num]');
+        if (target) {
+            const partNum = target.dataset.partNum;
+            searchInput.value = partNum;
+            textSearchResultsContainer.innerHTML = '';
+            handleRebrickableSearch(partNum, searchResultContainer, true, false);
+        }
+    });
+
     imageUploadInput.addEventListener('change', async (event) => {
         const file = event.target.files[0];
         if (!file) return;
@@ -627,4 +700,3 @@
   </script>
 </body>
 </html>
-
