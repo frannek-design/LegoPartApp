@@ -171,13 +171,15 @@
 
     <!-- Bestellijst Sectie -->
     <div id="order-list-section" class="page-section hidden">
-        <button class="back-button mb-6 bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg flex items-center btn-feedback">
-            <svg class="h-5 w-5 mr-2"><use href="#icon-back-arrow"></use></svg>
-            Terug naar menu
-        </button>
-        <div class="flex justify-between items-center mb-4">
+        <div class="flex justify-between items-center mb-6 gap-2">
+            <button class="back-button bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg flex items-center btn-feedback">
+                <svg class="h-5 w-5 mr-2"><use href="#icon-back-arrow"></use></svg>
+                Terug naar menu
+            </button>
+        </div>
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-4 gap-4">
             <h2 class="text-2xl font-bold text-white">Mijn Bestellijst</h2>
-            <div class="flex gap-2 w-full max-w-xs ml-auto">
+            <div class="flex gap-2 w-full sm:w-auto">
                 <button id="share-order-list-btn" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-lg text-sm btn-feedback flex-1">Deel Lijst</button>
                 <button id="clear-order-list-btn" class="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-lg text-sm btn-feedback flex-1">Wis lijst</button>
             </div>
@@ -207,14 +209,14 @@
   <!-- Modal -->
   <div id="imageModal" class="modal">
     <div class="modal-content">
-      <span class="absolute top-4 right-6 text-2xl font-bold text-gray-400 cursor-pointer hover:text-white" onclick="closeModal()">&times;</span>
+      <span class="absolute top-2 right-2 p-2 text-2xl font-bold text-gray-400 cursor-pointer hover:text-white" onclick="closeModal()">&times;</span>
       <div id="modal-body"></div>
     </div>
   </div>
 
   <div id="shareModal" class="modal">
     <div class="modal-content">
-      <span class="absolute top-4 right-6 text-2xl font-bold text-gray-400 cursor-pointer hover:text-white" onclick="closeShareModal()">&times;</span>
+      <span class="absolute top-2 right-2 p-2 text-2xl font-bold text-gray-400 cursor-pointer hover:text-white" onclick="closeShareModal()">&times;</span>
       <h2 class="text-2xl font-bold text-white mb-4">Kopieer je bestellijst</h2>
       <p class="text-gray-400 mb-4">Kopiëren naar klembord is mislukt. Selecteer en kopieer de onderstaande tekst handmatig.</p>
       <textarea id="share-text-area" class="w-full h-48 bg-gray-900 text-white p-2 rounded-lg border border-gray-600"></textarea>
@@ -782,7 +784,7 @@
         reader.onload = async () => {
             const base64ImageData = reader.result.split(',')[1];
             try {
-                 const prompt = "Analyseer deze afbeelding van een LEGO-onderdeel. Identificeer het specifieke onderdeel en geef alleen het Rebrickable onderdeelnummer (part_num) terug. Geef geen extra tekst, alleen het nummer.";
+                 const prompt = "Analyseer deze afbeelding van een LEGO-onderdeel. Let goed op de vorm, de afmetingen en het aantal noppen (studs). Identificeer het specifieke onderdeel en geef als antwoord alleen het meest waarschijnlijke Rebrickable onderdeelnummer (part_num). Geef geen extra tekst of uitleg, alleen het nummer.";
                  const payload = { contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType: file.type, data: base64ImageData } }] }] };
                  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${googleApiKey}`;
                  const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
