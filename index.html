@@ -178,6 +178,7 @@
     let searchCache = {};
     let allParts = [];
     let isPartsDataLoaded = false;
+    let isPartsDataLoading = false; // Nieuwe vlag om laadstatus bij te houden
 
     // --- Navigatie ---
     const showSearchBtn = document.getElementById('show-search-btn');
@@ -262,77 +263,4 @@
     }
     
     function handleAddToOrderList(partNum, isModal) {
-        const partData = searchCache[partNum];
-        if (partData) {
-            addToOrderList(partData);
-            if (isModal) {
-                closeModal();
-            } else {
-                document.getElementById('root').scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-    }
-
-    function removeFromOrderList(id) {
-        let list = getOrderList();
-        list = list.filter(p => p.id !== id);
-        saveOrderList(list);
-        renderOrderList();
-    }
-
-    function updateOrderItem(id, field, value) {
-        let list = getOrderList();
-        const itemIndex = list.findIndex(p => p.id === id);
-        if (itemIndex > -1) {
-            list[itemIndex][field] = field === 'quantity' ? parseInt(value, 10) : value;
-            saveOrderList(list);
-        }
-    }
-
-    async function shareOrderList() {
-        const list = getOrderList();
-        if (list.length === 0) return;
-
-        let shareText = "Mijn LEGO Bestellijst:\n\n";
-        list.forEach(part => {
-            const colorText = part.color === 'any' ? 'N.v.t.' : part.color;
-            shareText += `- ${part.quantity}x ${part.name} (#${part.part_num}) - Kleur: ${colorText}\n`;
-        });
-
-        if (navigator.share) {
-            try {
-                await navigator.share({
-                    title: 'Mijn LEGO Bestellijst',
-                    text: shareText,
-                });
-            } catch (error) {
-                console.log('Fout bij delen via Web Share API:', error);
-            }
-        } else {
-            try {
-                await navigator.clipboard.writeText(shareText);
-                showConfirmation('Bestellijst gekopieerd!');
-            } catch (err) {
-                console.error('Clipboard API mislukt, toon fallback modal:', err);
-                shareTextArea.value = shareText;
-                shareModal.style.display = 'block';
-            }
-        }
-    }
-
-    const colorGroups = {
-        "Red & Pink": {"Solid": ["Red", "Dark Red", "Magenta", "Dark Pink", "Bright Pink"],"Transparent": ["Trans-Red", "Trans-Dark Red", "Trans-Dark Pink"],"Glitter": ["Trans-Red Sparkle"],"Chrome": ["Chrome Pink"]},
-        "Orange & Yellow": {"Solid": ["Orange", "Dark Orange", "Yellow", "Bright Light Orange", "Bright Light Yellow"],"Transparent": ["Trans-Orange", "Trans-Yellow", "Trans-Neon Orange"],"Glitter": ["Trans-Orange Sparkle"]},
-        "Green": {"Solid": ["Green", "Dark Green", "Bright Green", "Lime", "Sand Green", "Olive Green"],"Transparent": ["Trans-Green", "Trans-Bright Green", "Trans-Neon Green"],"Glitter": ["Trans-Green Sparkle"],"Chrome": ["Chrome Green"],"Metallic": ["Metallic Green"]},
-        "Blue": {"Solid": ["Blue", "Dark Blue", "Medium Blue", "Bright Light Blue", "Dark Azure", "Medium Azure", "Light Aqua", "Sand Blue"],"Transparent": ["Trans-Light Blue", "Trans-Medium Blue", "Trans-Dark Blue", "Trans-Aqua"],"Pearl": ["Pearl Sand Blue"],"Glitter": ["Trans-Light Blue Sparkle"],"Satin": ["Satin Trans-Light Blue", "Satin Trans-Dark Blue"],"Chrome": ["Chrome Blue"]},
-        "Purple": {"Solid": ["Dark Purple", "Purple", "Medium Lavender", "Lavender"],"Transparent": ["Trans-Purple"],"Glitter": ["Trans-Purple Sparkle"],"Satin": ["Satin Trans-Purple"]},
-        "Brown & Sand": {"Solid": ["Reddish Brown", "Dark Brown", "Brown", "Dark Tan", "Tan", "Nougat", "Medium Nougat", "Dark Nougat"]},
-        "Gray": {"Solid": ["Dark Bluish Gray", "Light Bluish Gray", "Very Light Bluish Gray"],"Pearl": ["Pearl Dark Gray", "Pearl Light Gray", "Pearl Very Light Gray"],"Metallic": ["Metallic Dark Grey"]},
-        "White": {"Solid": ["White"],"Pearl": ["Pearl White"],"Milky (Opal)": ["Trans-White (Opal)"]},
-        "Black": {"Solid": ["Black"],"Transparent": ["Trans-Black"],"Satin": ["Satin Trans-Black"],"Chrome": ["Chrome Black"],"Speckled": ["Marbled Black/White", "Speckled Black/Silver", "Speckled Black/Gold"]},
-        "Metallic": {"Pearl": ["Pearl Gold", "Pearl Light Gold"],"Chrome": ["Chrome Gold", "Chrome Silver", "Chrome Antique Brass"],"Metallic": ["Metallic Gold", "Metallic Silver", "Metallic Copper"]},
-        "Colorless": {"Transparent": ["Trans-Clear"],"Glitter": ["Trans-Clear Sparkle"],"Satin": ["Satin Trans-Clear"]}
-    };
-    
-    function findColorGroup(colorName) {
-        for (co
+        const partData = searchCache[partNu
