@@ -1,5 +1,9 @@
-[build]
-  functions = "netlify/functions/"
+# netlify.toml
 
 [dev]
-  port = 9999
+  # De punt "." betekent 'deze huidige map'
+  publish = "."
+
+[build]
+  # Dit vertelt Netlify ook welke map de live-versie moet worden
+  publish = "."
