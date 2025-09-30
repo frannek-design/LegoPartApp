@@ -96,6 +96,12 @@
         <line x1="16" y1="13" x2="8" y2="13"></line>
         <line x1="16" y1="17" x2="8" y2="17"></line>
     </symbol>
+    <symbol id="icon-brick" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 2a1 1 0 011-1h2a1 1 0 110 2H7a1 1 0 01-1-1zm5 0a1 1 0 00-1 1v2a1 1 0 102 0V7a1 1 0 00-1-1zm-5 5a1 1 0 011-1h2a1 1 0 110 2H7a1 1 0 01-1-1z" clip-rule="evenodd" />
+    </symbol>
+    <symbol id="icon-info" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+    </symbol>
   </svg>
 
   <div id="root" class="max-w-3xl mx-auto bg-gray-800 rounded-2xl shadow-xl overflow-hidden p-6 sm:p-8">
@@ -638,7 +644,7 @@
                     sections.forEach(sec => {
                         (sec.onderdelen || []).forEach(partString => {
                             const correctedPartString = partString.replace(/×/g, 'x');
-                            const match = correctedPartString.match(/(.+) \((\d+)\)/);
+                            const match = correctedPartString.match(/(.+) \((\w+)\)$/);
                             if (match) {
                                 allParts.push({ name: match[1].trim(), number: match[2] });
                             }
@@ -664,9 +670,12 @@
 
         if (results.length > 0) {
             textSearchResultsContainer.innerHTML = results.slice(0, 50).map(part => `
-                <div class="p-3 bg-gray-700 hover:bg-gray-600 rounded-lg cursor-pointer text-left text-white" data-part-num="${part.number}">
-                    <p class="font-bold">${part.name}</p>
-                    <p class="text-sm text-gray-400">#${part.number}</p>
+                <div class="flex items-start gap-3 p-3 bg-gray-700 hover:bg-gray-600 rounded-lg cursor-pointer text-left text-white" data-part-num="${part.number}">
+                    <svg class="h-5 w-5 text-gray-500 flex-shrink-0 mt-0.5"><use href="#icon-brick"></use></svg>
+                    <div>
+                        <p class="font-bold">${part.name}</p>
+                        <p class="text-sm text-gray-400">#${part.number}</p>
+                    </div>
                 </div>
             `).join('');
         } else {
@@ -707,8 +716,11 @@
             searchResultContainer.innerHTML = '';
             textSearchResultsContainer.innerHTML = '';
 
-            if (/^\d+$/.test(query)) {
-                await handleRebrickableSearch(query, searchResultContainer, true, false);
+            const numberMatch = query.match(/\d+/);
+
+            if (numberMatch) {
+                const partNumber = numberMatch[0];
+                await handleRebrickableSearch(partNumber, searchResultContainer, true, false);
             } else {
                 await handleTextSearch(query);
             }
@@ -837,80 +849,119 @@
         showError(appContainer, 'Fout bij het laden van de categorieën.');
       }
     };
-    const renderCategories = (categories) => {
+   const renderCategories = (categories) => {
       appContainer.innerHTML = '';
       categories.forEach((category, catIndex) => {
         const categoryItem = document.createElement('div');
-        categoryItem.className = 'border-b border-gray-700 py-4 transition-colors duration-200';
-        const subcategoriesHtml = category.sub_categorieen && category.sub_categorieen.length > 0 ? `
-          <ul class="mt-4 space-y-2 pl-4 border-l border-gray-600 ml-2 hidden" data-id="cat-${catIndex}">
-            ${category.sub_categorieen.map((sub, subIndex) => {
-                const subsections = sub.types || (sub.onderdelen ? [{ naam: sub.naam, onderdelen: sub.onderdelen }] : []);
-                return `
-              <li class="text-gray-300 text-lg transition-colors duration-200 hover:text-gray-100">
-                <button class="flex justify-between items-center w-full text-left focus:outline-none" data-sub-id="cat-${catIndex}-sub-${subIndex}">
-                  <span class="flex items-center">
-                    <svg class="h-5 w-5 mr-2 text-blue-400"><use href="#icon-folder"></use></svg>
-                    <span class="font-bold text-gray-100">${sub.naam}</span>
-                  </span>
-                  <svg class="text-gray-400 transform transition-transform duration-200 flex-shrink-0" width="24" height="24"><use href="#icon-chevron"></use></svg>
-                </button>
-                <div class="mt-2 space-y-1 pl-4 hidden" data-sub-id="cat-${catIndex}-sub-${subIndex}">
-                  ${subsections.map((section, sectionIndex) => {
-                      const partsHtml = section.onderdelen.map(partString => {
-                          const match = partString.match(/(.+) \((\d+)\)/);
-                          if (match) {
-                              const name = match[1];
-                              const number = match[2];
-                              return `<li class="text-gray-400 text-sm cursor-pointer hover:text-yellow-400" onclick="fetchPartImage('${number}', '${name.replace(/'/g, "\\'")}')">${name} (Onderdeelnummer: ${number})</li>`;
-                          }
-                          return '';
-                      }).join('');
+        categoryItem.className = 'border-b border-gray-700 py-4';
 
-                      return `
+        const subcategoriesList = category.sub_categorieen?.map((sub, subIndex) => {
+            let contentHtml = '';
+            if (sub.types) {
+                contentHtml = sub.types.map((section, sectionIndex) => `
                     <div class="space-y-1">
-                      <button class="flex justify-between items-center w-full text-left focus:outline-none" data-section-id="cat-${catIndex}-sub-${subIndex}-sec-${sectionIndex}">
-                        <span class="flex items-center">
+                      <div class="accordion-header flex justify-between items-center w-full text-left cursor-pointer" data-accordion-trigger="cat-${catIndex}-sub-${subIndex}-sec-${sectionIndex}">
+                        <span class="flex items-center gap-2">
                             <svg class="h-4 w-4 mr-2 text-gray-400"><use href="#icon-document"></use></svg>
                             <h4 class="font-semibold text-gray-200">${section.naam}</h4>
                         </span>
-                        <svg class="text-gray-400 transform transition-transform duration-200 flex-shrink-0" width="24" height="24"><use href="#icon-chevron"></use></svg>
-                      </button>
-                      <ul class="ml-4 space-y-1 hidden" data-section-id="cat-${catIndex}-sub-${subIndex}-sec-${sectionIndex}">
-                        ${partsHtml}
+                        <span class="flex items-center gap-2">
+                            ${section.beschrijving ? `<button class="info-btn p-1" data-desc-id="desc-sec-${catIndex}-${subIndex}-${sectionIndex}"><svg class="h-4 w-4 text-gray-500 hover:text-gray-300 pointer-events-none"><use href="#icon-info"></use></svg></button>` : ''}
+                            <svg class="chevron-icon text-gray-400 transform transition-transform duration-200 flex-shrink-0" width="24" height="24"><use href="#icon-chevron"></use></svg>
+                        </span>
+                      </div>
+                      ${section.beschrijving ? `<p id="desc-sec-${catIndex}-${subIndex}-${sectionIndex}" class="hidden text-sm text-gray-400 mt-2 ml-8 p-3 bg-gray-700/50 rounded-md">${section.beschrijving}</p>` : ''}
+                      <ul class="ml-4 space-y-1 hidden" data-accordion-content="cat-${catIndex}-sub-${subIndex}-sec-${sectionIndex}">
+                        ${section.onderdelen.map(partString => {
+                            const match = partString.match(/(.+) \((\w+)\)$/);
+                            if (!match) return '';
+                            const safeName = match[1].replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+                            return `<li class="flex items-start gap-2 py-1 text-gray-400 text-sm cursor-pointer hover:text-yellow-400" onclick="fetchPartImage('${match[2]}', '${safeName}')">
+                                <svg class="h-4 w-4 text-gray-500 flex-shrink-0 mt-0.5"><use href="#icon-brick"></use></svg>
+                                <span>${match[1]} (${match[2]})</span></li>`;
+                        }).join('')}
                       </ul>
-                    </div>
-                  `}).join('')}
+                    </div>`).join('');
+            } else if (sub.onderdelen) {
+                contentHtml = `<ul class="ml-4 space-y-1">${sub.onderdelen.map(partString => {
+                    const match = partString.match(/(.+) \((\w+)\)$/);
+                    if (!match) return '';
+                    const safeName = match[1].replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+                    return `<li class="flex items-start gap-2 py-1 text-gray-400 text-sm cursor-pointer hover:text-yellow-400" onclick="fetchPartImage('${match[2]}', '${safeName}')">
+                        <svg class="h-4 w-4 text-gray-500 flex-shrink-0 mt-0.5"><use href="#icon-brick"></use></svg>
+                        <span>${match[1]} (${match[2]})</span></li>`;
+                }).join('')}</ul>`;
+            }
+
+            return `
+              <li class="text-gray-300 text-lg">
+                <div class="accordion-header flex justify-between items-center w-full text-left cursor-pointer" data-accordion-trigger="cat-${catIndex}-sub-${subIndex}">
+                  <span class="flex items-center gap-2">
+                    <svg class="h-5 w-5 mr-2 text-blue-400"><use href="#icon-folder"></use></svg>
+                    <span class="font-bold text-gray-100">${sub.naam}</span>
+                  </span>
+                   <span class="flex items-center gap-2">
+                    ${sub.beschrijving ? `<button class="info-btn p-1" data-desc-id="desc-sub-${catIndex}-${subIndex}"><svg class="h-4 w-4 text-gray-500 hover:text-gray-300 pointer-events-none"><use href="#icon-info"></use></svg></button>` : ''}
+                    <svg class="chevron-icon text-gray-400 transform transition-transform duration-200 flex-shrink-0" width="24" height="24"><use href="#icon-chevron"></use></svg>
+                  </span>
                 </div>
-              </li>
-            `}).join('')}
-          </ul>
-        ` : '';
+                ${sub.beschrijving ? `<p id="desc-sub-${catIndex}-${subIndex}" class="hidden text-sm text-gray-400 mt-2 ml-8 p-3 bg-gray-700/50 rounded-md">${sub.beschrijving}</p>` : ''}
+                <div class="mt-2 space-y-1 pl-4 hidden" data-accordion-content="cat-${catIndex}-sub-${subIndex}">
+                  ${contentHtml}
+                </div>
+              </li>`;
+        }).join('') || '';
+
+        const subcategoriesHtml = subcategoriesList ? `
+            <ul class="mt-4 space-y-2 pl-4 border-l border-gray-600 ml-2 hidden" data-accordion-content="cat-${catIndex}">
+                ${subcategoriesList}
+            </ul>` : '';
+
         categoryItem.innerHTML = `
-          <button class="flex justify-between items-center w-full text-left focus:outline-none" data-id="cat-${catIndex}">
-            <span class="flex items-center">
+          <div class="accordion-header flex justify-between items-center w-full text-left cursor-pointer" data-accordion-trigger="cat-${catIndex}">
+            <span class="flex items-center gap-2">
                 <svg class="h-6 w-6 mr-2 text-yellow-400"><use href="#icon-folder"></use></svg>
                 <span class="text-xl font-bold text-gray-100">${category.naam}</span>
             </span>
-            <svg class="text-gray-400 transform transition-transform duration-200 flex-shrink-0" width="24" height="24"><use href="#icon-chevron"></use></svg>
-          </button>
-          ${subcategoriesHtml}
-        `;
+            <span class="flex items-center gap-2">
+                ${category.beschrijving ? `<button class="info-btn p-1" data-desc-id="desc-cat-${catIndex}"><svg class="h-5 w-5 text-gray-500 hover:text-gray-300 pointer-events-none"><use href="#icon-info"></use></svg></button>` : ''}
+                <svg class="chevron-icon text-gray-400 transform transition-transform duration-200 flex-shrink-0" width="24" height="24"><use href="#icon-chevron"></use></svg>
+            </span>
+          </div>
+          ${category.beschrijving ? `<p id="desc-cat-${catIndex}" class="hidden text-sm text-gray-400 mt-2 ml-8 p-3 bg-gray-700/50 rounded-md">${category.beschrijving}</p>` : ''}
+          ${subcategoriesHtml}`;
+          
         appContainer.appendChild(categoryItem);
-      });
-      appContainer.addEventListener('click', (event) => {
-        const button = event.target.closest('button');
-        if (!button) return;
-        const id = button.dataset.id || button.dataset.subId || button.dataset.sectionId;
-        if (!id) return;
-        const list = appContainer.querySelector(`ul[data-id="${id}"], div[data-sub-id="${id}"], ul[data-section-id="${id}"]`);
-        const icon = button.querySelector('svg');
-        if (list) {
-          list.classList.toggle('hidden');
-          if (icon) icon.classList.toggle('rotate-180');
-        }
-      });
-    };
+    });
+
+    appContainer.querySelectorAll('.accordion-header').forEach(header => {
+        header.addEventListener('click', (event) => {
+            if (event.target.closest('.info-btn')) {
+                const infoButton = event.target.closest('.info-btn');
+                const descId = infoButton.dataset.descId;
+                const descriptionEl = document.getElementById(descId);
+                if (descriptionEl) {
+                    descriptionEl.classList.toggle('hidden');
+                }
+                return;
+            }
+            
+            const triggerId = header.dataset.accordionTrigger;
+            if (!triggerId) return;
+
+            const contentEl = appContainer.querySelector(`[data-accordion-content="${triggerId}"]`);
+            const iconEl = header.querySelector('svg.chevron-icon');
+            
+            if (contentEl) {
+                contentEl.classList.toggle('hidden');
+            }
+            if (iconEl) {
+                iconEl.classList.toggle('rotate-180');
+            }
+        });
+    });
+};
   </script>
 </body>
 </html>
+

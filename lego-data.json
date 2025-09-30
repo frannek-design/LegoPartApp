@@ -2,16 +2,16 @@
   "lego_data": {
     "hoofd_categorieen": [
       {
-        "naam": "BASIC",
-        "beschrijving": "Classic LEGO Bricks, Plates, and Tiles can be stacked vertically by attaching the round studs with a small amount of pressure.",
+        "naam": "BASICS",
+        "beschrijving": "Standaard LEGO bricks, plates, en tiles met een rechthoekige vorm",
         "sub_categorieen": [
           {
-            "naam": "Brick",
-            "beschrijving": "A LEGO brick is a rectangular prism with one or more round 'studs' on the top.",
+            "naam": "Bricks",
+            "beschrijving": "Een rechthoekige vorm met ronde studs aan de bovenkant",
             "types": [
               {
-                "naam": "1× Brick",
-                "beschrijving": "Bricks that are 1-stud wide.",
+                "naam": "1× Bricks",
+                "beschrijving": "Bricks die 1-stud breed zijn",
                 "onderdelen": [
                   "1×1 (3005)",
                   "1×2 (3004)",
@@ -22,12 +22,12 @@
                   "1×10 (6111)",
                   "1×12 (6112)",
                   "1×16 (2465)",
-                  "2×2 Corner (2357)"
+                  "2×2 corner (2357)"
                 ]
               },
               {
-                "naam": "2× Brick",
-                "beschrijving": "Bricks that are 2-studs wide.",
+                "naam": "2× Bricks",
+                "beschrijving": "Bricks die 2-studs breed zijn",
                 "onderdelen": [
                   "2×2 (3003)",
                   "2×3 (3002)",
@@ -38,36 +38,36 @@
                 ]
               },
               {
-                "naam": "Tall Brick",
-                "beschrijving": "Bricks that are taller than a standard LEGO brick.",
+                "naam": "Tall Bricks",
+                "beschrijving": "Bricks die hoger zijn dan een standaard LEGO brick",
                 "onderdelen": [
                   "1×1×3 (14716)",
                   "1×1×5 (2453)",
                   "1×2×2 (3245)",
                   "1×2×3 (22886)",
-                  "1×2×5 (2454)",
+                  "1×2×5 (2454b)",
                   "2×2×3 (30145)",
                   "1×4×3 (49311)"
                 ]
               },
               {
-                "naam": "Hollow Brick",
-                "beschrijving": "Bricks that are hollow because they do not have a bottom tube.",
+                "naam": "Hollow Bricks",
+                "beschrijving": "Bricks die hol zijn aan de onderzijde",
                 "onderdelen": [
-                  "1×2 Hollow (3065)",
-                  "1×2×5 Hollow (46212)",
-                  "1×4 Hollow (3066)"
+                  "1×2 hollow (3065)",
+                  "1×2×5 hollow (46212)",
+                  "1×4 hollow (3066)"
                 ]
               }
             ]
           },
           {
-            "naam": "Plate",
-            "beschrijving": "A LEGO Plate is 1/3 of the height of a LEGO brick.",
+            "naam": "Plates",
+            "beschrijving": "Een rechthoekige vorm met een hoogte van 1/3 van een LEGO brick",
             "types": [
               {
-                "naam": "1× Plate",
-                "beschrijving": "Plates that are 1-stud wide.",
+                "naam": "1× Plates",
+                "beschrijving": "Plates die 1-stud breed zijn",
                 "onderdelen": [
                   "1×1 (3024)",
                   "1×2 (3023)",
@@ -78,16 +78,16 @@
                   "1×8 (3460)",
                   "1×10 (4477)",
                   "1×12 (60479)",
-                  "2×2 Corner (2420)",
-                  "3×3 Corner (77844)",
-                  "3×3 Cross (15397)",
-                  "2×3 w/ Cutout (73831)",
-                  "4×4 w/ Cutout (64799)"
+                  "2×2 corner (2420)",
+                  "3×3 corner (77844)",
+                  "3×3 cross (15397)",
+                  "2×3 with 1x1 cutout (73831)",
+                  "4×4 with 2x2 opening (64799)"
                 ]
               },
               {
-                "naam": "2× Plate",
-                "beschrijving": "Plates that are 2-studs wide.",
+                "naam": "2× Plates",
+                "beschrijving": "Plates die 2-studs breed zijn",
                 "onderdelen": [
                   "2×2 (3022)",
                   "2×3 (3021)",
@@ -98,12 +98,12 @@
                   "2×12 (2445)",
                   "2×14 (91988)",
                   "2×16 (4282)",
-                  "4×4 Corner (2639)"
+                  "4×4 corner (2639)"
                 ]
               },
               {
-                "naam": "Large Plate",
-                "beschrijving": "Plates that are 3 or more studs wide.",
+                "naam": "Large Plates",
+                "beschrijving": "Plates die 3 of meer studs breed zijn",
                 "onderdelen": [
                   "3×3 (11212)",
                   "4×4 (3031)",
@@ -123,331 +123,198 @@
                 ]
               },
               {
-                "naam": "Other Plate",
-                "beschrijving": "Basic plates that are modified in a small way, such as a smooth section without studs.",
+                "naam": "Other Plates",
+                "beschrijving": "Basic plates die op allerlei manieren zijn aangepast",
                 "onderdelen": [
-                  "1×4, 2-Studs Ends (41740)",
-                  "2×2, 2-Studs Edge (33909)",
-                  "3×4, 4-Studs Center (88646)",
-                  "4×4, 4-Studs Edge (6179)",
-                  "4×6, Studs 3-Edges (6180)",
-                  "6×12, Studs 3-Edges (6178)",
-                  "6×16, Studs 3-Edges (6205)",
-                  "8×8 Plate w/ Grille (4151)"
+                  "8×8 with grid (4151b)"
                 ]
               }
             ]
           },
           {
-            "naam": "Blate",
-            "beschrijving": "At two plates thick, it isn't really a brick or a plate.",
+            "naam": "Blates",
+            "beschrijving": "Een rechthoekige vorm met een hoogte van 2/3 van een LEGO brick",
             "onderdelen": [
               "1×1×⅔ (86996)",
-              "8×8×⅔ w/ Studs (2628)",
-              "8×8×⅔, Studs 4-Edges (15624)",
-              "8×16×⅔ w/ Studs (2629)",
-              "8×16×⅔, Studs 4-Edges (18922)",
-              "8×16×⅔, Recessed Studs (71772)",
-              "16×16×⅔, Recessed Studs (69958)"
+              "2×2×⅔, Ribbed (71752)",
+              "8×8×⅔ with 4 recessed edges (2628)",
+              "8×8×⅔ with 3 recessed edges and 1x4 add-on (15624)",
+              "8×16×⅔ with 6 recessed edges (2629)",
+              "8×16×⅔ with 3 recessed edges and 1x4 add-on (18922)",
+              "8×16×⅔ with 6 recessed edges and 1 recessed center (71772)",
+              "16×16×⅔ with 8 recessed edges and 4 recessed centers (69958)"
             ]
           },
           {
-            "naam": "Tile",
-            "beschrijving": "A tile is the same thickness as a plate, but has a smooth surface on one side.",
+            "naam": "Tiles",
+            "beschrijving": "Een rechthoekige vorm met een hoogte van 1/3 van een LEGO brick en een (voornamelijk) glad oppervlak aan één kant",
             "types": [
               {
-                "naam": "1× Tile",
-                "beschrijving": "Tiles that are just 1-stud wide.",
+                "naam": "1× Tiles",
+                "beschrijving": "Tiles die 1-stud breed zijn",
                 "onderdelen": [
-                  "1×1 Tile (3070)",
-                  "1×2 Tile (3069)",
-                  "1×3 Tile (63864)",
-                  "1×4 Tile (2431)",
-                  "1×6 Tile (6636)",
-                  "1×8 Tile (4162)",
-                  "2×2 Tile, Corner (14719)"
+                  "1×1 (3070)",
+                  "1×2 (3069)",
+                  "1×3 (63864)",
+                  "1×4 (2431)",
+                  "1×6 (6636)",
+                  "1×8 (4162)",
+                  "2×2 corner (14719)"
                 ]
               },
               {
-                "naam": "2× Tile",
-                "beschrijving": "Tiles that are 2-studs wide.",
+                "naam": "2× Tiles",
+                "beschrijving": "Tiles die 2-studs breed zijn",
                 "onderdelen": [
-                  "2×2 Tile (3068)",
-                  "2×3 Tile (26603)",
-                  "2×4 Tile (87079)",
-                  "2×6 Tile (69729)"
+                  "2×2 (3068)",
+                  "2×3 (26603)",
+                  "2×4 (87079)",
+                  "2×6 (69729)"
                 ]
               },
               {
-                "naam": "Large Tile",
-                "beschrijving": "Tiles that are more than two studs wide.",
+                "naam": "Large Tiles",
+                "beschrijving": "Tiles die 3 of meer studs breed zijn",
                 "onderdelen": [
-                  "4×4 Tile (1751)",
-                  "6×6 Tile (10202)",
-                  "8×16 Tile (90498)"
+                  "4×4 (1751)",
+                  "6×6 (10202)",
+                  "8×16 (90498)"
                 ]
               },
               {
-                "naam": "Inverted Tile",
-                "beschrijving": "Tiles that are smooth on the bottom and have studs on top.",
+                "naam": "Inverted Tiles",
+                "beschrijving": "Tiles die glad aan de onderkant zijn en studs aan de bovenkant hebben",
                 "onderdelen": [
-                  "2×2 Tile, Inverted (11203)",
-                  "1×3 Tile, Inv. w/ Hole (35459)",
-                  "2×4 Tile, Inverted (3395)",
-                  "4×8 Tile, Inverted (83496)"
+                  "2×2 inverted (11203)",
+                  "1×3 inverted (70681)",
+                  "2×4 inverted (3395)",
+                  "4×8 inverted (83496)"
                 ]
               }
             ]
           },
-          {
-            "naam": "Baseplate",
-            "beschrijving": "Baseplates are thin and flexible — much thinner than a standard LEGO Plate.",
+                    {
+            "naam": "Jumpers",
+            "beschrijving": "Een rechthoekige vorm met een offset van een halve stud in één of beide richtingen.",
             "onderdelen": [
-              "16×32 Baseplate (3857)",
-              "32×32 Baseplate (3811)",
-              "48×48 Baseplate (4186)"
+              "1×2 jumper (15573)",
+              "1×2 Jumper with tall stud (24445)",
+              "2×2 jumper (87580)",
+              "1×3 double jumper (34103)",
+              "2×4 double jumper (65509)"
+            ]
+          },
+          {
+            "naam": "Baseplates",
+            "beschrijving": "Een dunne en flexibele plaat die wordt gebruikt als basis voor bouwwerken",
+            "onderdelen": [
+              "16×32 (3857)",
+              "32×32 (3811)",
+              "48×48 (4186)"
             ]
           }
         ]
       },
       {
-        "naam": "WALL",
-        "beschrijving": "Panels, walls, doors, and related parts make it easier to construct models than using bricks and plates alone.",
+        "naam": "SPECIALS",
+        "beschrijving": "Afwijkende LEGO bricks, plates, en tiles met een rechthoekige vorm",
         "sub_categorieen": [
           {
-            "naam": "Window and Door",
-            "beschrijving": "Windows, doors, and their matching frames.",
+            "naam": "Bricks",
+            "beschrijving": "Bricks met een textuur",
             "onderdelen": [
-                "2×2 Window (60592)",
-                "3×3×2 Window, Curved (73878)",
-                "2×2 Round (90195)",
-                "2×2 Glass (60601)",
-                "2×2 Pane, Lattice (38320)",
-                "3×2 Window (6798)",
-                "3×2 Glass (7757)",
-                "2×3 Window (60593)",
-                "2×3 Glass (60602)",
-                "3×3 Window (51239)",
-                "3×3 Glass (51266)",
-                "4×3 Window (60594)",
-                "2×4×3 Window (60598)",
-                "2×3 Pane, Lattice (60607)",
-                "2×3 Pane (60608)",
-                "2×3 Door (60614)",
-                "2×3 Shutter (60800)",
-                "4×3 Glass (60603)",
-                "4×3 Grille (62113)",
-                "4×4 Window (6154)",
-                "4×4 Door, Lift (6155)",
-                "3×5 Door (2657)",
-                "1×4×6 Frame (60596)",
-                "1×4×6 3-panes (57894)",
-                "2×4×6 Frame (60599)",
-                "2×16×6 3-Frames (35103)",
-                "4×6 Glass (57895)",
-                "4×6 Door (60616)",
-                "4×6 Door, 3-Panes (60797)",
-                "4×6 Door, 4-Panes (60623)",
-                "4×6 Door, Pet Door (79730)",
-                "4×6 Door, Grille (60621)",
-                "4×6 Grille (92589)",
-                "1×6×6 Frame (42205)",
-                "2×8×6 Frame (80400)",
-                "3×6 Door (80683)",
-                "6×6 Glass (42509)",
-                "2×2 Window, Plane (60032)",
-                "4×2 Window, Plane (61345)",
-                "1×2×3 Train (4035)",
-                "1×2×2⅔ Frame, Arched (30044)",
-                "2×2⅔ Shutter, Arched (94161)",
-                "2×2⅔ Lattice, Arched (30046)",
-                "1×4×6 Door, Arched (64390)",
-                "4×7 Glass, Arched (65066)",
-                "1×4×1⅔ Window, Arched (20309)",
-                "1×4×5 Panel w/ Arched Window (60808)",
-                "2×6×6 Gothic Arch (35565)",
-                "4×4×6 Frame, Corner (28327)",
-                "45° 4×4×3 Window, Sloped (60806)",
-                "1×3 Door, L. (3822)",
-                "1×3 Door, R. (3821)",
-                "3×2 Door, L. (92262)",
-                "3×2 Door, R. (92263)",
-                "3×3 Door, L. (60658)",
-                "3×3 Door, R. (60657)",
-                "3×4 Door, L. (58381)",
-                "3×4 Door, R. (58380)",
-                "4×5 Train Door, L. (4181)",
-                "4×5 Train Door, R. (4182)",
-                "Glass, Train Door (35157)",
-                "5×3 Door w/ 3-Studs (93096)",
-                "4×6 Pane, Lattice (5032)"
-            ]
-          },
-          {
-            "naam": "Panel",
-            "beschrijving": "Panels are thin parts with just one wall.",
+              "1×2, Ribbed (2877)",
+              "1×2, Masonry (98283)",
+              "1×4, Masonry (15533)",
+              "1×2, Log (Palisade) (30136)",
+              "1×4, Log (Palisade) (30137)"
+                ]
+              },
+              {
+            "naam": "Plates",
+            "beschrijving": "Plates met een add-on",
             "onderdelen": [
-                "1×1 Panel, Corner (6231)",
-                "1×2 Panel (4865)",
-                "1×2 Panel w/ 2-Sides (23969)",
-                "1×2 Panel w/ Divider (93095)",
-                "1×3 Panel (23950)",
-                "1×4 Panel (15207)",
-                "2×2 Panel, Corner (91501)",
-                "2×2 Panel, 4-Corners (3131)",
-                "1×2×2 Panel (87552)",
-                "1×4×2 Panel (14718)",
-                "1×2×3 Panel (87544)",
-                "1×4×3 Panel (60581)",
-                "1×6×5 Panel (59349)",
-                "1×6×5 Panel, Corrugated (23405)",
-                "1×6×3 Panel, Studs 2-Sides (98280)",
-                "2×4×2 Windscreen (4594)",
-                "1×6×3 Windscreen (64453)",
-                "1×10×4 Windscreen (65735)",
-                "2×2×5 Panel, Corner (78594)",
-                "3×3×6 Panel, Corner (87421)",
-                "3×4×6 Panel (30246)",
-                "2×4×6 Rock Panel (47847)",
-                "Panel, Angled (Tipper) (30022)",
-                "4×6×10 Rock Panel (BURP) (6082)",
-                "3×8×7 Rock Panel, Triangular (LURP) (6083)",
-                "8×8×6 Rock Panel, Corner (23996)"
-            ]
-          },
-          {
-            "naam": "Fence",
-            "beschrijving": "A selection of fences (without studs on top) and railings (with studs on top).",
-            "onderdelen": [
-                "4×9 Gate, Arched (42448)",
-                "1×2×1⅔ Diagonal Bar (3224)",
-                "1×4×1 Fence (3633)",
-                "1×4×2 Fence (3185)",
-                "1×4×2 Picket (33303)",
-                "1×4×2 Spindled (15332)",
-                "4×4×2 Spindled, Curved (21229)",
-                "1×4×2 Ornamental (19121)",
-                "3×3×2 Ornamental, Curved (41823)",
-                "1×4×2 Asian, Circle (5103)",
-                "1×4×2 Asian, Square (32932)"
-            ]
-          },
-          {
-            "naam": "Decorative",
-            "beschrijving": "Parts with a textured exterior mimicking stone, brick, wood, or grilles.",
-            "onderdelen": [
-                "1×2 Tile, Grille (2412)",
-                "1×2, Ribbed (2877)",
-                "2×2×⅔, Ribbed (71752)",
-                "2×2 Round, Ribbed (92947)",
-                "1×2, Masonry (98283)",
-                "1×4, Masonry (15533)",
-                "1×2, Log (Palisade) (30136)",
-                "1×4, Log (Palisade) (30137)",
-                "1×1 w/ Scroll (20310)"
-            ]
-          },
-          {
-            "naam": "Stairs",
-            "beschrijving": "Purpose-built pieces to add a staircase to your model.",
-            "onderdelen": [
-                "7×4×6 Stairs (30134)",
-                "Stair, Spiral (40243)",
-                "1×2 Ladder (4175)"
-            ]
-          },
-          {
-            "naam": "Structural",
-            "beschrijving": "Structural elements that do not fit well anywhere else.",
-            "onderdelen": [
-                "2×2×7 Lamp Post (11062)",
-                "2×2×10 Girder (95347)",
-                "1×6×5 Girder (64448)",
-                "2×4×5 Inclined Stanchion (4476)",
-                "1×6×10 Girder, Triangular (64449)",
-                "2×4×13 Support, ½-Circle w/ Pin Holes (1749)"
-            ]
-          },
-          {
-            "naam": "Container",
-            "beschrijving": "Pieces which are used to hold, store, display, or protect other parts.",
-            "onderdelen": [
-                "8×8×3 Cupcake Cup (72024)",
-                "6×16 Book Spine (65200)",
-                "Book Cover (24324)"
-            ]
-          }
-        ]
+              "1×1 with ring (4081b)"
+                ]
+              },
+              {
+            "naam": "Tiles",
+            "beschrijving": "Tiles die studs op enkele plaatsen hebben",
+                "onderdelen": [
+                  "1×4 with studs on both ends (41740)",
+                  "2×2 with studs on 1 edge (33909)",
+                  "3×4 with 4 center studs (88646)",
+                  "4×4 with studs on 1 edge (6179)",
+                  "4×6 with studs on 3 edges (6180)",
+                  "6×12 with studs on 3 edges (6178)",
+                  "6×16 with studs on 3 edges (6205)"
+                ]
+              }
+                ]
       },
       {
-        "naam": "SNOT",
-        "beschrijving": "These parts allow you to attach studs facing outwards (Studs Not On Top) or attach studs at an offset from the normal grid.",
+        "naam": "SNOT PIECES",
+        "beschrijving": "Onderdelen met studs aan de zijkanten (Studs-Not-On-Top)",
         "sub_categorieen": [
           {
-            "naam": "Brick",
-            "beschrijving": "A SNOT brick has one or more outward-facing studs on the side.",
+            "naam": "Bricks",
+            "beschrijving": "Een brick met een of meer stuts die naar buiten wijzen aan de zijkant.",
             "onderdelen": [
-                "1×1×⅔ Stud 1-Side, Ø1 Rounded (3386)",
-                "1×1 Headlight (4070)",
-                "1×1 Stud 1-Side (87087)",
-                "1×1 2-Studs, Opposite (47905)",
-                "1×1 2-Studs, Adjacent (26604)",
-                "1×1 Studs 4-Sides (4733)",
-                "1×2 Studs 1-Side (11211)",
-                "1×2 Studs 2-Sides (52107)",
-                "1×4 Studs 1-Side (30414)",
-                "1×1×1⅔ Studs 1-Side (32952)",
-                "1×2×1⅔ Studs 1-Side (22885)",
-                "1×2×1⅔ Studs 2-Sides (80796)",
-                "1×2×1⅔ Studs 3-Sides (67329)",
-                "1×2×⅔ Studs 2-Sides (4595)",
-                "1×2×⅔ Studs 5-Sides, Gun Handle (15071)",
-                "3×3 Cube w/ Ring (69182)"
+                "1×1×⅔ half Round with side stud (3386)",
+                "1×1 headlight (4070)",
+                "1×1 with stud on 1-side (87087)",
+                "1×1 with studs on opposite sides (47905)",
+                "1×1 with studs on adjacent sides(26604)",
+                "1×1 with studs on 4-sides (4733)",
+                "1×2 with studs on 1-side (11211)",
+                "1×2 with studs on opposite sides (52107)",
+                "1×2 with stud on 1-side Jumper (86876)",
+                "1×4 with studs on 1-side (30414)",
+                "1×1×1⅔ with studs 1-side (32952)",
+                "1×2×1⅔ with studs 1-side (22885)",
+                "1×2×1⅔ with studs on opposite sides (80796)",
+                "1×2×1⅔ with studs 3-sides (67329)"
             ]
           },
           {
             "naam": "Bracket",
-            "beschrijving": "Brackets are SNOT parts that are thinner than a brick.",
+            "beschrijving": "Een plate met een of meer stuts die naar buiten wijzen aan de zijkant.",
             "onderdelen": [
-                "1×1 Bracket (36841)",
-                "1×1 Bracket, Inverted (36840)",
-                "1×2 Bracket (99781)",
-                "1×2 Bracket, Inverted (99780)",
-                "1×4 Bracket w/ 1×2 (28802)",
-                "2×1 Bracket (79389)",
-                "2×1 Bracket, Inverted (73825)",
-                "2×2 Bracket (44728)",
-                "2×2 Bracket, Inverted (99207)",
-                "2×4 Bracket (93274)",
-                "1×4 Bracket w/ 2×4 (5175)",
-                "1×6 Bracket w/ 2×6, Inv. (64570)",
-                "2×6 Bracket, Inverted (5090)",
-                "2×2 Bracket w/ Holes (3956)",
-                "3×2×2 Bracket (Space) (4598)",
-                "2×2×⅔ 2-studs, Side (4304)",
-                "2×6×⅔ 4-Studs, Side (87609)",
-                "1×4×1⅔ Bumper w/ Arches (14520)",
-                "2×2 Bracket, Centered (41682)",
-                "2×1 Bracket, Centered (4585)",
-                "2×2 Bracket w/ 3×2 Plate, Curved (69906)",
-                "Minifig Bracket w/ 1-Stud (28974)",
-                "Minifig Bracket w/ 2-Studs (18986)",
-                "2×6 Bracket (6970)"
+                "1×1 plate with 1x1 hanging bracket (36841)",
+                "1×1 plate with 1x1 standing bracket (36840)",
+                "1×2 plate with 1×2 hanging bracket (99781)",
+                "1×2 plate with 1×2 standing bracket (99780)",
+                "1×2 plate with 1×4 hanging bracket (28802)",
+                "1x1 plate with 1x2 hanging bracket (79389)",
+                "1x1 plate with 1x2 standing bracket (73825)",
+                "1x2 plate with 2×2 hanging bracket (44728)",
+                "1x2 plate with 2×2 standing bracket (99207)",
+                "1x2 plate with 2x4 hanging bracket (93274)",
+                "1x2 plate with 2x8 hanging bracket (6970)",
+                "1x6 plate with 2×6 standing bracket (5090)",
+                "2×4 plate with 1x4 hanging bracket (5175)",
+                "2×6 plate with 1x6 standing bracket (64570)",
+                "2×2×⅔ with 2-studs (4304)",
+                "2×6×⅔ with 4-studs (87609)"
             ]
           },
           {
-            "naam": "Jumper",
-            "beschrijving": "Jumpers offer a 1/2 stud offset in one or both directions.",
+            "naam": "Specials",
+            "beschrijving": "Special SNOT parts die niet passen in de andere categorieën.",
             "onderdelen": [
-                "1×2 Jumper (15573)",
-                "2×2 Jumper (87580)",
-                "1×3 Jumper, Dbl. (34103)",
-                "2×4 Jumper, Dbl. (65509)",
-                "1×2 Jumper, 1-Side (86876)",
-                "1×1 Ring (4081)",
-                "1×4 Offset w/ 2-Rings (4590)",
-                "1×2 w/ 3L Space Wing (4596)",
-                "1×2 Jumper w/ Tall Stud (24445)"
+                "1×4 offset with bar holes (4590)",
+                "1×4×1⅔ Bumper with Arches (14520)",
+                "1×2 with 3L space wing (4596)",
+                "1×2×⅔ studs 2-sides (4595)",
+                "1×2×⅔ studs 5-sides, Gun Handle (15071)",
+                "2×1 bracket with centered 2x1 plate (4585)",
+                "2×2 bracket, centered 1x2 plate (41682)",
+                "2×2 plate with 2x2 hanging bracket, inside studs and holes (3956)",
+                "2×3 plate with 2x2 bracket, Curved (69906)",
+                "3×2×2 bracket (Space Seat) (4598)",
+                "3×3 Cube with Ring (69182)",
+                "Minifig bracket with 1-stud (28974)",
+                "Minifig bracket with 2-studs (18986)"
             ]
           }
         ]
@@ -738,7 +605,7 @@
             "naam": "Curved Brick",
             "beschrijving": "Bricks which are curved along the horizontal plane.",
             "onderdelen": [
-                "1×1 Round (3062)",
+                "1×1 Round (3062b)",
                 "2×2 Round (3941)",
                 "2×2 Ø4 Corner (85080)",
                 "3×3 Ø6 Corner (5152)",
@@ -1197,6 +1064,169 @@
                 "1×1 Ring (11010)",
                 "Basketball Net w/ Axle (11641)",
                 "Shoulder Cover, Round w/ 2-Bars (21560)"
+            ]
+          }
+        ]
+      },
+      {
+        "naam": "BUILDING & FURNITURE",
+        "beschrijving": "Panels, walls, doors, en andere gerelateerde onderdelen voor gebouwen",
+        "sub_categorieen": [
+          {
+            "naam": "Windows en Doors",
+            "beschrijving": "Windows, doors en hun bijpassende frames.",
+            "onderdelen": [
+                "2×2 frame (60592)",
+                "3×3×2 frame, Curved (73878)",
+                "2×2 Round (90195)",
+                "2×2 Glass (60601)",
+                "2×2 Pane, Lattice (38320)",
+                "3×2 Window (6798)",
+                "3×2 Glass (7757)",
+                "2×3 Window (60593)",
+                "2×3 Glass (60602)",
+                "3×3 Window (51239)",
+                "3×3 Glass (51266)",
+                "4×3 Window (60594)",
+                "2×4×3 Window (60598)",
+                "2×3 Pane, Lattice (60607)",
+                "2×3 Pane (60608)",
+                "2×3 Door (60614)",
+                "2×3 Shutter (60800)",
+                "4×3 Glass (60603)",
+                "4×3 Grille (62113)",
+                "4×4 Window (6154)",
+                "4×4 Door, Lift (6155)",
+                "3×5 Door (2657)",
+                "1×4×6 Frame (60596)",
+                "1×4×6 3-panes (57894)",
+                "2×4×6 Frame (60599)",
+                "2×16×6 3-Frames (35103)",
+                "4×6 Glass (57895)",
+                "4×6 Door (60616)",
+                "4×6 Door, 3-Panes (60797)",
+                "4×6 Door, 4-Panes (60623)",
+                "4×6 Door, Pet Door (79730)",
+                "4×6 Door, Grille (60621)",
+                "4×6 Grille (92589)",
+                "1×6×6 Frame (42205)",
+                "2×8×6 Frame (80400)",
+                "3×6 Door (80683)",
+                "6×6 Glass (42509)",
+                "2×2 Window, Plane (60032)",
+                "4×2 Window, Plane (61345)",
+                "1×2×3 Train (4035)",
+                "1×2×2⅔ Frame, Arched (30044)",
+                "2×2⅔ Shutter, Arched (94161)",
+                "2×2⅔ Lattice, Arched (30046)",
+                "1×4×6 Door, Arched (64390)",
+                "4×7 Glass, Arched (65066)",
+                "1×4×1⅔ Window, Arched (20309)",
+                "1×4×5 Panel w/ Arched Window (60808)",
+                "2×6×6 Gothic Arch (35565)",
+                "4×4×6 Frame, Corner (28327)",
+                "45° 4×4×3 Window, Sloped (60806)",
+                "1×3 Door, L. (3822)",
+                "1×3 Door, R. (3821)",
+                "3×2 Door, L. (92262)",
+                "3×2 Door, R. (92263)",
+                "3×3 Door, L. (60658)",
+                "3×3 Door, R. (60657)",
+                "3×4 Door, L. (58381)",
+                "3×4 Door, R. (58380)",
+                "4×5 Train Door, L. (4181)",
+                "4×5 Train Door, R. (4182)",
+                "Glass, Train Door (35157)",
+                "5×3 Door w/ 3-Studs (93096)",
+                "4×6 Pane, Lattice (5032)"
+            ]
+          },
+          {
+            "naam": "Panel",
+            "beschrijving": "Panels are thin parts with just one wall.",
+            "onderdelen": [
+                "1×1 Panel, Corner (6231)",
+                "1×2 Panel (4865)",
+                "1×2 Panel w/ 2-Sides (23969)",
+                "1×2 Panel w/ Divider (93095)",
+                "1×3 Panel (23950)",
+                "1×4 Panel (15207)",
+                "2×2 Panel, Corner (91501)",
+                "2×2 Panel, 4-Corners (3131)",
+                "1×2×2 Panel (87552)",
+                "1×4×2 Panel (14718)",
+                "1×2×3 Panel (87544)",
+                "1×4×3 Panel (60581)",
+                "1×6×5 Panel (59349)",
+                "1×6×5 Panel, Corrugated (23405)",
+                "1×6×3 Panel, Studs 2-Sides (98280)",
+                "2×4×2 Windscreen (4594)",
+                "1×6×3 Windscreen (64453)",
+                "1×10×4 Windscreen (65735)",
+                "2×2×5 Panel, Corner (78594)",
+                "3×3×6 Panel, Corner (87421)",
+                "3×4×6 Panel (30246)",
+                "2×4×6 Rock Panel (47847)",
+                "Panel, Angled (Tipper) (30022)",
+                "4×6×10 Rock Panel (BURP) (6082)",
+                "3×8×7 Rock Panel, Triangular (LURP) (6083)",
+                "8×8×6 Rock Panel, Corner (23996)"
+            ]
+          },
+          {
+            "naam": "Fence",
+            "beschrijving": "A selection of fences (without studs on top) and railings (with studs on top).",
+            "onderdelen": [
+                "4×9 Gate, Arched (42448)",
+                "1×2×1⅔ Diagonal Bar (3224)",
+                "1×4×1 Fence (3633)",
+                "1×4×2 Fence (3185)",
+                "1×4×2 Picket (33303)",
+                "1×4×2 Spindled (15332)",
+                "4×4×2 Spindled, Curved (21229)",
+                "1×4×2 Ornamental (19121)",
+                "3×3×2 Ornamental, Curved (41823)",
+                "1×4×2 Asian, Circle (5103)",
+                "1×4×2 Asian, Square (32932)"
+            ]
+          },
+          {
+            "naam": "Decorative",
+            "beschrijving": "Parts with a textured exterior mimicking stone, brick, wood, or grilles.",
+            "onderdelen": [
+                "1×2 Tile, Grille (2412b)",
+                "2×2 Round, Ribbed (92947)",
+                "1×1 with Scroll (20310)"
+            ]
+          },
+          {
+            "naam": "Stairs",
+            "beschrijving": "Purpose-built pieces to add a staircase to your model.",
+            "onderdelen": [
+                "7×4×6 Stairs (30134)",
+                "Stair, Spiral (40243)",
+                "1×2 Ladder (4175)"
+            ]
+          },
+          {
+            "naam": "Structural",
+            "beschrijving": "Structural elements that do not fit well anywhere else.",
+            "onderdelen": [
+                "2×2×7 Lamp Post (11062)",
+                "2×2×10 Girder (95347)",
+                "1×6×5 Girder (64448)",
+                "2×4×5 Inclined Stanchion (4476)",
+                "1×6×10 Girder, Triangular (64449)",
+                "2×4×13 Support, ½-Circle w/ Pin Holes (1749)"
+            ]
+          },
+          {
+            "naam": "Container",
+            "beschrijving": "Pieces which are used to hold, store, display, or protect other parts.",
+            "onderdelen": [
+                "8×8×3 Cupcake Cup (72024)",
+                "6×16 Book Spine (65200)",
+                "Book Cover (24324)"
             ]
           }
         ]
@@ -1928,7 +1958,7 @@
               "5L Bone (92691)",
               "2L Bone (93160)",
               "Heart Jewel (15745)",
-              "1×2 Gold Bar (99563)",
+              "1×2 Gold Bar / ingot (99563)",
               "Winder Key (98375)",
               "Ski Pole (90540)",
               "Oar/Paddle Head (31990)",
