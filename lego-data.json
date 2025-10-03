@@ -3,11 +3,11 @@
     "hoofd_categorieen": [
       {
         "naam": "BASICS",
-        "beschrijving": "Standaard LEGO bricks, plates, en tiles met een rechthoekige vorm",
+        "beschrijving": "Standaard rechthoekige bricks, plates, en tiles",
         "sub_categorieen": [
           {
             "naam": "Bricks",
-            "beschrijving": "Een rechthoekige vorm met ronde studs aan de bovenkant",
+            "beschrijving": "Rechthoekige blokjes met studs aan de bovenkant",
             "types": [
               {
                 "naam": "1× Bricks",
@@ -39,7 +39,7 @@
               },
               {
                 "naam": "Tall Bricks",
-                "beschrijving": "Bricks die hoger zijn dan een standaard LEGO brick",
+                "beschrijving": "Bricks die hoger zijn dan een standaard brick",
                 "onderdelen": [
                   "1×1×3 (14716)",
                   "1×1×5 (2453)",
@@ -63,7 +63,7 @@
           },
           {
             "naam": "Plates",
-            "beschrijving": "Een rechthoekige vorm met een hoogte van 1/3 van een LEGO brick",
+            "beschrijving": "Rechthoekige blokjes met de hoogte van 1/3 brick",
             "types": [
               {
                 "naam": "1× Plates",
@@ -133,7 +133,7 @@
           },
           {
             "naam": "Blates",
-            "beschrijving": "Een rechthoekige vorm met een hoogte van 2/3 van een LEGO brick",
+            "beschrijving": "Rechthoekige blokjes met de hoogte van 2/3 brick",
             "onderdelen": [
               "1×1×⅔ (86996)",
               "2×2×⅔, Ribbed (71752)",
@@ -147,7 +147,7 @@
           },
           {
             "naam": "Tiles",
-            "beschrijving": "Een rechthoekige vorm met een hoogte van 1/3 van een LEGO brick en een (voornamelijk) glad oppervlak aan één kant",
+            "beschrijving": "Rechthoekige blokjes met een hoogte van 1/3 brick en een gladde boven- of onderkant",
             "types": [
               {
                 "naam": "1× Tiles",
@@ -193,20 +193,9 @@
               }
             ]
           },
-                    {
-            "naam": "Jumpers",
-            "beschrijving": "Een rechthoekige vorm met een offset van een halve stud in één of beide richtingen.",
-            "onderdelen": [
-              "1×2 jumper (15573)",
-              "1×2 Jumper with tall stud (24445)",
-              "2×2 jumper (87580)",
-              "1×3 double jumper (34103)",
-              "2×4 double jumper (65509)"
-            ]
-          },
           {
             "naam": "Baseplates",
-            "beschrijving": "Een dunne en flexibele plaat die wordt gebruikt als basis voor bouwwerken",
+            "beschrijving": "Dunne en flexibele plaat die wordt gebruikt als basis voor bouwwerken",
             "onderdelen": [
               "16×32 (3857)",
               "32×32 (3811)",
@@ -217,7 +206,7 @@
       },
       {
         "naam": "SPECIALS",
-        "beschrijving": "Afwijkende LEGO bricks, plates, en tiles met een rechthoekige vorm",
+        "beschrijving": "Afwijkende rechthoekige bricks, plates, en tiles",
         "sub_categorieen": [
           {
             "naam": "Bricks",
@@ -239,7 +228,7 @@
               },
               {
             "naam": "Tiles",
-            "beschrijving": "Tiles die studs op enkele plaatsen hebben",
+            "beschrijving": "Tiles met studs op enkele plaatsen",
                 "onderdelen": [
                   "1×4 with studs on both ends (41740)",
                   "2×2 with studs on 1 edge (33909)",
@@ -249,16 +238,27 @@
                   "6×12 with studs on 3 edges (6178)",
                   "6×16 with studs on 3 edges (6205)"
                 ]
-              }
+              },
+              {
+            "naam": "Jumpers",
+            "beschrijving": "Tiles met offset stud(s) in één of beide richtingen.",
+            "onderdelen": [
+              "1×2 jumper (15573)",
+              "1×2 Jumper with tall stud (24445)",
+              "2×2 jumper (87580)",
+              "1×3 double jumper (34103)",
+              "2×4 double jumper (65509)"
+            ]
+          }
                 ]
       },
       {
         "naam": "SNOT PIECES",
-        "beschrijving": "Onderdelen met studs aan de zijkanten (Studs-Not-On-Top)",
+        "beschrijving": "Bricks en plates met studs aan de zijkanten (Studs-Not-On-Top)",
         "sub_categorieen": [
           {
             "naam": "Bricks",
-            "beschrijving": "Een brick met een of meer stuts die naar buiten wijzen aan de zijkant.",
+            "beschrijving": "Bricks met een of meer stuts aan de zijkant.",
             "onderdelen": [
                 "1×1×⅔ half Round with side stud (3386)",
                 "1×1 headlight (4070)",
@@ -268,7 +268,7 @@
                 "1×1 with studs on 4-sides (4733)",
                 "1×2 with studs on 1-side (11211)",
                 "1×2 with studs on opposite sides (52107)",
-                "1×2 with stud on 1-side Jumper (86876)",
+                "1×2 with stud on 1-side (jumper) (86876)",
                 "1×4 with studs on 1-side (30414)",
                 "1×1×1⅔ with studs 1-side (32952)",
                 "1×2×1⅔ with studs 1-side (22885)",
@@ -278,15 +278,15 @@
           },
           {
             "naam": "Bracket",
-            "beschrijving": "Een plate met een of meer stuts die naar buiten wijzen aan de zijkant.",
+            "beschrijving": "Plates met een of meer stuts aan de zijkant.",
             "onderdelen": [
                 "1×1 plate with 1x1 hanging bracket (36841)",
                 "1×1 plate with 1x1 standing bracket (36840)",
-                "1×2 plate with 1×2 hanging bracket (99781)",
-                "1×2 plate with 1×2 standing bracket (99780)",
-                "1×2 plate with 1×4 hanging bracket (28802)",
                 "1x1 plate with 1x2 hanging bracket (79389)",
                 "1x1 plate with 1x2 standing bracket (73825)",
+                "1×2 plate with 1×2 hanging bracket (99781)",
+                "1×2 plate with 1×2 standing bracket (99780)",
+                "1×2 plate with 1×4 hanging bracket (28802)", 
                 "1x2 plate with 2×2 hanging bracket (44728)",
                 "1x2 plate with 2×2 standing bracket (99207)",
                 "1x2 plate with 2x4 hanging bracket (93274)",
@@ -300,13 +300,13 @@
           },
           {
             "naam": "Specials",
-            "beschrijving": "Special SNOT parts die niet passen in de andere categorieën.",
+            "beschrijving": "Afwijkende SNOT parts",
             "onderdelen": [
                 "1×4 offset with bar holes (4590)",
                 "1×4×1⅔ Bumper with Arches (14520)",
                 "1×2 with 3L space wing (4596)",
-                "1×2×⅔ studs 2-sides (4595)",
-                "1×2×⅔ studs 5-sides, Gun Handle (15071)",
+                "1×2×⅔ with studs on 2-sides (camera) (4595)",
+                "1×2×⅔ with studs on 5-sides (Gun Handle) (15071)",
                 "2×1 bracket with centered 2x1 plate (4585)",
                 "2×2 bracket, centered 1x2 plate (41682)",
                 "2×2 plate with 2x2 hanging bracket, inside studs and holes (3956)",
@@ -320,127 +320,108 @@
         ]
       },
       {
-        "naam": "ANGLE",
-        "beschrijving": "Slopes, wedges, and windscreens allow you to include angled sections in your model.",
+        "naam": "ANGLES",
+        "beschrijving": "Bricks en plates met helling langs een verticale of horizontale as",
         "sub_categorieen": [
           {
             "naam": "Slope",
-            "beschrijving": "Slopes have an angle along a vertical axis.",
+            "beschrijving": "Brick met een hoek langs de verticale as",
             "types": [
               {
-                "naam": "10-30° Slope",
-                "beschrijving": "There are only a few sloped parts with these very shallow angles.",
+                "naam": "10-30°",
+                "beschrijving": "Slopes met zeer kleine helling",
                 "onderdelen": [
-                    "10° 6×1 Slope (4569)",
-                    "10° 6×8 Slope (4515)",
-                    "13° 4×1 Slope (5654)",
-                    "18° 2×1×⅔ Slope (5404)",
-                    "18° 2×1×⅔ Slope (Grater) (61409)",
-                    "18° 4×1 Slope (60477)",
-                    "18° 4×2 Slope (30363)",
-                    "25° 8×1×3 Slope (49618)",
-                    "30° 1×1×⅔ Slope (Cheese) (54200)",
-                    "30° 1×2×⅔ Slope (85984)"
+                    "10° 6×1 (4569)",
+                    "10° 6×8 (4515)",
+                    "13° 4×1 (5654)",
+                    "18° 2×1×⅔ (5404)",
+                    "18° 2×1×⅔ (cheese grater) (61409)",
+                    "18° 4×1 (60477)",
+                    "18° 4×2 (30363)",
+                    "25° 8×1×3 (49618)",
+                    "30° 1×1×⅔ (cheese) (54200)",
+                    "30° 1×2×⅔ (double cheese) (85984)"
                 ]
               },
               {
-                "naam": "33° Slope",
-                "beschrijving": "This angle is most commonly found in the popular 3× slope bricks.",
+                "naam": "33°",
+                "beschrijving": "Slopes met een hoek van 33 graden.",
                 "onderdelen": [
-                    "33° 3×1 Slope (4286)",
-                    "33° 3×2 Slope (3298)",
-                    "33° 3×3 Slope (4161)",
-                    "33° 3×4 Slope (3297)",
-                    "33° 3×6 Slope (58181)",
-                    "33° 3×3 Corner Slope (3675)",
-                    "33° 3×3 Inside Corner Slope (99301)",
-                    "33° 2×2 Dbl. Slope (3300)",
-                    "33° 2×4 Dbl. Slope (3299)"
+                    "33° 3×1 (4286)",
+                    "33° 3×2 (3298)",
+                    "33° 3×3 (4161)",
+                    "33° 3×4 (3297)",
+                    "33° 3×6 (58181)",
+                    "33° 3×3 corner (3675)",
+                    "33° 3×3 inside corner (99301)",
+                    "33° 2×2 double (3300)",
+                    "33° 2×2 double, inverted and curved (1762)",
+                    "33° 2×4 double (3299)"
                 ]
               },
               {
-                "naam": "45° Slope",
-                "beschrijving": "The most common angle for sloped LEGO elements, as popularized by 2× slope bricks.",
+                "naam": "45°",
+                "beschrijving": "Slopes met een hoek van 45 graden",
                 "onderdelen": [
-                    "45° 2×1 Slope (3040)",
-                    "45° 2×2 Slope (3039)",
-                    "45° 2×3 Slope (3038)",
-                    "45° 2×4 Slope (3037)",
-                    "45° 2×6 Slope (23949)",
-                    "45° 2×8 Slope (4445)",
-                    "45° 2×2 Corner Slope (3045)",
-                    "45° 2×2 Inside Corner Slope (3046)",
-                    "45° 2×1 w/ Cutout (92946)",
-                    "45° 2×2 w/ Cutout (28192)",
-                    "45° 2×4 w/ Cutout (5540)",
-                    "45° 1×1×⅔ Pyramid (22388)",
-                    "45° 1×1 Dbl. Slope (35464)",
-                    "45° 2×1 Dbl. Slope (3044)",
-                    "45° 2×2 Dbl. Slope (3043)",
-                    "45° 2×4 Dbl. Slope (3041)",
-                    "45° 1×2 Dbl. Slope, Inv. (3049)",
-                    "45° 2×1 Triple Slope (15571)",
-                    "45° / 33° 6×4 Train Roof (13269)",
-                    "45° 6×4 Train Roof (32083)",
-                    "45° 2×4×1⅓ Dbl. Slope (80545)",
-                    "45° 10×2×2 Dbl. Slope (30180)"
+                    "45° 2×1 (3040)",
+                    "45° 2×2 (3039)",
+                    "45° 2×3 (3038)",
+                    "45° 2×4 (3037)",
+                    "45° 2×6 (23949)",
+                    "45° 2×8 (4445)",
+                    "45° 2×2 corner (3045)",
+                    "45° 2×2 inside corner (3046a)",
+                    "45° 2×1 with ⅔ cutout (92946)",
+                    "45° 2×2 with ⅔ inverted cutout (28192)",
+                    "45° 2×4 with ⅔ inverted cutout (5540)",
+                    "45° 1×1×⅔ pyramid (22388)",
+                    "45° 1×1 double (35464)",
+                    "45° 2×1 double (3044c)",
+                    "45° 2×2 double (3043)",
+                    "45° 2×4 double (3041)",
+                    "45° 1×2 double, inverted (3049d)",
+                    "45° 2×1 triple (15571)",
+                    "45° / 33° 6×4 - train roof (13269)",
+                    "45° 6×4 - train roof (32083)",
+                    "45° 2×4×1⅓ double (80545)",
+                    "45° 10×2×2 double (30180)"
                 ]
               },
               {
                 "naam": "55-75° Slope",
-                "beschrijving": "These are very steep sloped elements which are taller than a single brick.",
+                "beschrijving": "Slopes met een hoek van 55 tot 75 graden.",
                 "onderdelen": [
-                    "55° 6×1×5 Slope (30249)",
-                    "65° 2×1×2 Slope (60481)",
-                    "65° 2×2×2 Slope (3678)",
-                    "75° 2×1×3 Slope (4460)",
-                    "75° 2×2×3 Slope (98560)",
-                    "75° 2×2×3 Corner Slope (3685)",
-                    "75° 2×2×2 Square Cone w/ 1-Stud (3688)"
+                    "55° 6×1×5 (30249)",
+                    "65° 2×1×2 (60481)",
+                    "65° 2×2×2 (3678)",
+                    "75° 2×1×3 (4460)",
+                    "75° 2×2×3 (98560)",
+                    "75° 2×2×3 corner (3685)",
+                    "75° 2×2×2 square cone with stud (3688)"
                 ]
               },
               {
                 "naam": "Inverted Slope",
-                "beschrijving": "A selection of inverted slopes are also available. Most are inverted versions of other sloped elements.",
+                "beschrijving": "Inverted slopes met een hoek van 33 tot 75 graden.",
                 "onderdelen": [
-                    "-33° 3×1 Inv. Slope (4287)",
-                    "-33° 3×2 Inv. Slope (3747)",
-                    "-45° 2×1 Inv. Slope (3665)",
-                    "-45° 2×2 Inv. Slope (3660)",
-                    "-45° 2×2 Inv. Corner Slope (3676)",
-                    "-45 3×1 Inv. Dbl. Slope (18759)",
-                    "-45° 2×1 Inv. Slope w/ Cutout (2310)",
-                    "-45° 4×1 Inv. Dbl. Slope (32802)",
-                    "-45° 4×2 Inv. Dbl. Slope (4871)",
-                    "-45° 4×4 Inv. Dbl. Slope (72454)",
-                    "-45° 6×1 Inv. Dbl. Slope (52501)",
-                    "-45° 6×2 Inv. Dbl. Slope (22889)",
-                    "-45° 6×4 Inv. Dbl. Slope (60219)",
-                    "-45° 6×8 Inv. Dbl. Slope (5117)",
-                    "-60° 4×1×3 Inv. Slope (67440)",
-                    "-75° 2×1×3 Inv. Slope (2449)"
+                    "-33° 3×1 (4287)",
+                    "-33° 3×2 (3747)",
+                    "-45° 2×1 (3665)",
+                    "-45° 2×2 (3660)",
+                    "-45° 2×2 corner (3676)",
+                    "-45° 3×1 double (18759)",
+                    "-45° 2×1 with⅔ Cutout (2310)",
+                    "-45° 4×1 double with 1x2 recessed (32802)",
+                    "-45° 4×2 double with 2x2 recessed (4871)",
+                    "-45° 4×4 double with 2x4 recessed and 2 holes (72454)",
+                    "-45° 6×1 double with 1x4 recessed (52501)",
+                    "-45° 6×2 double with 2x4 recessed (22889)",
+                    "-45° 6×4 double with 4x4 recessed and 3 holes (60219)",
+                    "-45° 6×8 double with 4x6 recessed, 4 holes and  pin-holes (5117)",
+                    "-60° 4×1×3 (67440)",
+                    "-75° 2×1×3 (2449)"
                 ]
               }
-            ]
-          },
-          {
-            "naam": "Windscreen",
-            "beschrijving": "A windscreen is a panel that is sloped on a vertical axis.",
-            "onderdelen": [
-                "65° 2×4×2 Windscreen (3823)",
-                "3×4×1⅓ Windscreen (57783)",
-                "3×4×1⅓ Windscreen (2437)",
-                "65° 2×6×2 Windscreen (4176)",
-                "45° 3×6×2 Windscreen (92583)",
-                "5×2×1⅔ Windscreen (6070)",
-                "6×4×1 Windscreen, Hexagonal w/ Handle (27262)",
-                "4×4×4⅔ Windscreen w/ Handle (11289)",
-                "3×4×4 Windscreen, Inv. (4872)",
-                "6×4×1⅓ Windscreen, Pointed (22483)",
-                "3×4×3 Windscreen (84954)",
-                "5×8×2 Windscreen (62576)",
-                "6×6×2 Windscreen (87606)",
-                "8×4×2 Windscreen w/ Handle (21849)"
             ]
           },
           {
@@ -2461,6 +2442,26 @@
                   "56mm ID. ZR (68.8×36mm) (44771)",
                   "56mm ID. R (94.3×38mm) (92912)"
                 ]
+              },
+              {
+                "naam": "Windscreen",
+                "beschrijving": "A windscreen is a panel that is sloped on a vertical axis.",
+                "onderdelen": [
+                  "65° 2×4×2 Windscreen (3823)",
+                  "3×4×1⅓ Windscreen (57783)",
+                  "3×4×1⅓ Windscreen (2437)",
+                  "65° 2×6×2 Windscreen (4176)",
+                  "45° 3×6×2 Windscreen (92583)",
+                  "5×2×1⅔ Windscreen (6070)",
+                  "6×4×1 Windscreen, Hexagonal w/ Handle (27262)",
+                  "4×4×4⅔ Windscreen w/ Handle (11289)",
+                  "3×4×4 Windscreen, Inv. (4872)",
+                  "6×4×1⅓ Windscreen, Pointed (22483)",
+                  "3×4×3 Windscreen (84954)",
+                  "5×8×2 Windscreen (62576)",
+                  "6×6×2 Windscreen (87606)",
+                  "8×4×2 Windscreen w/ Handle (21849)"
+                ]    
               },
               {
                 "naam": "Motorcycle",
