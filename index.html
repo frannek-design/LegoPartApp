@@ -639,21 +639,25 @@
             const response = await fetch('lego-data.json?t=' + new Date().getTime());
             if (!response.ok) throw new Error('Kon lego-data.json niet laden.');
             const data = await response.json();
-            const categories = data.lego_data.hoofd_categorieen;
-            categories.forEach(cat => {
-                (cat.sub_categorieen || []).forEach(sub => {
-                    const sections = sub.types || (sub.onderdelen ? [{ naam: sub.naam, onderdelen: sub.onderdelen }] : []);
-                    sections.forEach(sec => {
-                        (sec.onderdelen || []).forEach(partString => {
-                            const correctedPartString = partString.replace(/×/g, 'x');
-                            const match = correctedPartString.match(/(.+) \((\w+)\)$/);
-                            if (match) {
-                                allParts.push({ name: match[1].trim(), number: match[2] });
-                            }
-                        });
+            
+            function extractParts(item) {
+                if (item.onderdelen) {
+                    item.onderdelen.forEach(partString => {
+                        const correctedPartString = partString.replace(/×/g, 'x');
+                        const match = correctedPartString.match(/(.+) \((\w+)\)$/);
+                        if (match) {
+                            allParts.push({ name: match[1].trim(), number: match[2] });
+                        }
                     });
-                });
-            });
+                }
+                if (item.sub_categorieen) {
+                    item.sub_categorieen.forEach(extractParts);
+                }
+                if (item.types) {
+                    item.types.forEach(extractParts);
+                }
+            }
+            data.lego_data.hoofd_categorieen.forEach(extractParts);
             isPartsDataLoaded = true;
         } catch (error) {
             console.error('Fout bij laden van alle onderdelen:', error);
@@ -835,128 +839,120 @@
       handleRebrickableSearch(partNumber, modalBody, false, true);
     };
 
-    // --- Categorieën Laden en Renderen ---
+    // --- Categorieën Laden en Renderen (NIEUWE ROBUUSTE FUNCTIE) ---
     const fetchCategories = async () => {
-      showLoading(appContainer, "Categorieën laden...");
-      try {
-        const response = await fetch('lego-data.json?t=' + new Date().getTime());
-        if (!response.ok) {
-            throw new Error('Kon lego-data.json niet laden.');
-        }
-        const data = await response.json();
-        const legoData = data.lego_data.hoofd_categorieen;
-        renderCategories(legoData);
-      } catch (error) {
-        console.error('Fout bij laden categorieën:', error);
-        showError(appContainer, 'Fout bij het laden van de categorieën.');
-      }
-    };
-   const renderCategories = (categories) => {
-      appContainer.innerHTML = '';
-      categories.forEach((category, catIndex) => {
-        const categoryItem = document.createElement('div');
-        categoryItem.className = 'border-b border-gray-700 py-4';
+        showLoading(appContainer, "Categorieën laden...");
+        try {
+            const response = await fetch('lego-data.json?t=' + new Date().getTime());
+            if (!response.ok) {
+                throw new Error('Kon lego-data.json niet laden.');
+            }
+            const data = await response.json();
+            
+            appContainer.innerHTML = buildCategoryHtml(data.lego_data.hoofd_categorieen, 0);
 
-        const subcategoriesList = category.sub_categorieen?.map((sub, subIndex) => {
-            let contentHtml = '';
-            if (sub.types) {
-                contentHtml = sub.types.map((section, sectionIndex) => `
-                    <div class="space-y-1">
-                      <div class="accordion-header flex justify-between items-center w-full text-left cursor-pointer" data-accordion-trigger="cat-${catIndex}-sub-${subIndex}-sec-${sectionIndex}">
-                        <span class="flex items-center gap-2">
-                            <svg class="h-4 w-4 mr-2 text-gray-400"><use href="#icon-document"></use></svg>
-                            <h4 class="font-semibold text-gray-200">${section.naam}</h4>
-                             ${section.beschrijving ? `<button class="info-btn p-1" data-desc-id="desc-sec-${catIndex}-${subIndex}-${sectionIndex}"><svg class="h-4 w-4 text-gray-500 hover:text-gray-300 pointer-events-none"><use href="#icon-info"></use></svg></button>` : ''}
-                        </span>
-                        <svg class="chevron-icon text-gray-400 transform transition-transform duration-200 flex-shrink-0" width="24" height="24"><use href="#icon-chevron"></use></svg>
-                      </div>
-                      ${section.beschrijving ? `<p id="desc-sec-${catIndex}-${subIndex}-${sectionIndex}" class="hidden text-sm text-gray-400 mt-2 ml-8 p-3 bg-gray-700/50 rounded-md">${section.beschrijving}</p>` : ''}
-                      <ul class="ml-4 space-y-1 hidden" data-accordion-content="cat-${catIndex}-sub-${subIndex}-sec-${sectionIndex}">
-                        ${section.onderdelen.map(partString => {
-                            const match = partString.match(/(.+) \((\w+)\)$/);
-                            if (!match) return '';
-                            const safeName = match[1].replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-                            return `<li class="flex items-start gap-2 py-1 text-gray-400 text-sm cursor-pointer hover:text-yellow-400" onclick="fetchPartImage('${match[2]}', '${safeName}')">
-                                <svg class="h-4 w-4 text-gray-500 flex-shrink-0 mt-0.5"><use href="#icon-brick"></use></svg>
-                                <span>${match[1]} (${match[2]})</span></li>`;
-                        }).join('')}
-                      </ul>
-                    </div>`).join('');
-            } else if (sub.onderdelen) {
-                contentHtml = `<ul class="ml-4 space-y-1">${sub.onderdelen.map(partString => {
+            // Voeg nu pas de event listeners toe
+            appContainer.querySelectorAll('.accordion-header').forEach(header => {
+                header.addEventListener('click', (event) => {
+                    // Stop de actie als er op een info knop wordt geklikt
+                    if (event.target.closest('.info-btn')) {
+                        const infoButton = event.target.closest('.info-btn');
+                        const descId = infoButton.dataset.descId;
+                        const descriptionEl = document.getElementById(descId);
+                        if (descriptionEl) {
+                            descriptionEl.classList.toggle('hidden');
+                        }
+                        return; // Stop verdere acties
+                    }
+                    
+                    const triggerId = header.dataset.accordionTrigger;
+                    if (!triggerId) return;
+
+                    const contentEl = appContainer.querySelector(`[data-accordion-content="${triggerId}"]`);
+                    const iconEl = header.querySelector('svg.chevron-icon');
+                    
+                    if (contentEl) {
+                        contentEl.classList.toggle('hidden');
+                    }
+                    if (iconEl) {
+                        iconEl.classList.toggle('rotate-180');
+                    }
+                });
+            });
+
+        } catch (error) {
+            console.error('Fout bij laden categorieën:', error);
+            showError(appContainer, 'Fout bij het laden van de categorieën.');
+        }
+    };
+
+    const buildCategoryHtml = (items, level, idPrefix = '') => {
+        if (!items) return '';
+
+        let html = '';
+        const listTag = level === 0 ? 'div' : 'ul';
+        const itemTag = level === 0 ? 'div' : 'li';
+        
+        let listClass = '';
+        if (level === 0) listClass = 'space-y-4';
+        if (level === 1) listClass = 'mt-4 space-y-2 pl-4 border-l border-gray-600 ml-2 hidden';
+        if (level > 1) listClass = 'mt-2 space-y-1 pl-4 hidden';
+
+        html += `<${listTag} class="${listClass}" ${level > 0 ? `data-accordion-content="${idPrefix}"` : ''}>`;
+
+        items.forEach((item, index) => {
+            const currentId = idPrefix ? `${idPrefix}-${index}` : `${level}-${index}`;
+            const hasSub = item.sub_categorieen || item.types;
+            const hasParts = item.onderdelen;
+            
+            let itemClass = '';
+            let headerIcon = 'icon-document';
+            let iconColor = 'text-gray-400';
+
+            if (level === 0) {
+                itemClass = 'border-b border-gray-700 py-4';
+                headerIcon = 'icon-folder';
+                iconColor = 'text-yellow-400';
+            } else if (level === 1) {
+                itemClass = 'text-gray-300 text-lg';
+                 headerIcon = 'icon-folder';
+                 iconColor = 'text-blue-400';
+            }
+             
+            html += `<${itemTag} class="${itemClass}">`;
+            
+            html += `
+              <div class="accordion-header flex justify-between items-center w-full text-left cursor-pointer" data-accordion-trigger="${currentId}">
+                <span class="flex items-center gap-2">
+                    <svg class="h-6 w-6 mr-2 ${iconColor}"><use href="#${headerIcon}"></use></svg>
+                    <span class="text-xl font-bold text-gray-100">${item.naam}</span>
+                    ${item.beschrijving ? `<button class="info-btn p-1" data-desc-id="desc-${currentId}"><svg class="h-5 w-5 text-gray-500 hover:text-gray-300 pointer-events-none"><use href="#icon-info"></use></svg></button>` : ''}
+                </span>
+                ${hasSub || hasParts ? `<svg class="chevron-icon text-gray-400 transform transition-transform duration-200 flex-shrink-0" width="24" height="24"><use href="#icon-chevron"></use></svg>` : ''}
+              </div>
+              ${item.beschrijving ? `<p id="desc-${currentId}" class="description hidden text-sm text-gray-400 mt-2 ml-8 p-3 bg-gray-700/50 rounded-md">${item.beschrijving}</p>` : ''}
+            `;
+
+            if (hasSub) {
+                html += buildCategoryHtml(hasSub, level + 1, currentId);
+            } else if (hasParts) {
+                html += `<ul class="ml-4 space-y-1 hidden" data-accordion-content="${currentId}">`;
+                html += item.onderdelen.map(partString => {
                     const match = partString.match(/(.+) \((\w+)\)$/);
                     if (!match) return '';
                     const safeName = match[1].replace(/\\/g, '\\\\').replace(/'/g, "\\'");
                     return `<li class="flex items-start gap-2 py-1 text-gray-400 text-sm cursor-pointer hover:text-yellow-400" onclick="fetchPartImage('${match[2]}', '${safeName}')">
-                        <svg class="h-4 w-4 text-gray-500 flex-shrink-0 mt-0.5"><use href="#icon-brick"></use></svg>
-                        <span>${match[1]} (${match[2]})</span></li>`;
-                }).join('')}</ul>`;
+                                <svg class="h-4 w-4 text-gray-500 flex-shrink-0 mt-0.5"><use href="#icon-brick"></use></svg>
+                                <span>${match[1]} (${match[2]})</span></li>`;
+                }).join('');
+                html += `</ul>`;
             }
-            
-            return `
-              <li class="text-gray-300 text-lg">
-                <div class="accordion-header flex justify-between items-center w-full text-left cursor-pointer" data-accordion-trigger="cat-${catIndex}-sub-${subIndex}">
-                  <span class="flex items-center gap-2">
-                    <svg class="h-5 w-5 mr-2 text-blue-400"><use href="#icon-folder"></use></svg>
-                    <span class="font-bold text-gray-100">${sub.naam}</span>
-                    ${sub.beschrijving ? `<button class="info-btn p-1" data-desc-id="desc-sub-${catIndex}-${subIndex}"><svg class="h-4 w-4 text-gray-500 hover:text-gray-300 pointer-events-none"><use href="#icon-info"></use></svg></button>` : ''}
-                  </span>
-                  <svg class="chevron-icon text-gray-400 transform transition-transform duration-200 flex-shrink-0" width="24" height="24"><use href="#icon-chevron"></use></svg>
-                </div>
-                ${sub.beschrijving ? `<p id="desc-sub-${catIndex}-${subIndex}" class="hidden text-sm text-gray-400 mt-2 ml-8 p-3 bg-gray-700/50 rounded-md">${sub.beschrijving}</p>` : ''}
-                <div class="mt-2 space-y-1 pl-4 hidden" data-accordion-content="cat-${catIndex}-sub-${subIndex}">
-                  ${contentHtml}
-                </div>
-              </li>`;
-        }).join('') || '';
-
-        const subcategoriesHtml = subcategoriesList ? `
-            <ul class="mt-4 space-y-2 pl-4 border-l border-gray-600 ml-2 hidden" data-accordion-content="cat-${catIndex}">
-                ${subcategoriesList}
-            </ul>` : '';
-
-        categoryItem.innerHTML = `
-          <div class="accordion-header flex justify-between items-center w-full text-left cursor-pointer" data-accordion-trigger="cat-${catIndex}">
-            <span class="flex items-center gap-2">
-                <svg class="h-6 w-6 mr-2 text-yellow-400"><use href="#icon-folder"></use></svg>
-                <span class="text-xl font-bold text-gray-100">${category.naam}</span>
-                 ${category.beschrijving ? `<button class="info-btn p-1" data-desc-id="desc-cat-${catIndex}"><svg class="h-5 w-5 text-gray-500 hover:text-gray-300 pointer-events-none"><use href="#icon-info"></use></svg></button>` : ''}
-            </span>
-            <svg class="chevron-icon text-gray-400 transform transition-transform duration-200 flex-shrink-0" width="24" height="24"><use href="#icon-chevron"></use></svg>
-          </div>
-          ${category.beschrijving ? `<p id="desc-cat-${catIndex}" class="hidden text-sm text-gray-400 mt-2 ml-8 p-3 bg-gray-700/50 rounded-md">${category.beschrijving}</p>` : ''}
-          ${subcategoriesHtml}`;
-          
-        appContainer.appendChild(categoryItem);
-    });
-
-    appContainer.querySelectorAll('.accordion-header').forEach(header => {
-        header.addEventListener('click', (event) => {
-            if (event.target.closest('.info-btn')) {
-                const infoButton = event.target.closest('.info-btn');
-                const descId = infoButton.dataset.descId;
-                const descriptionEl = document.getElementById(descId);
-                if (descriptionEl) {
-                    descriptionEl.classList.toggle('hidden');
-                }
-                return;
-            }
-            
-            const triggerId = header.dataset.accordionTrigger;
-            if (!triggerId) return;
-
-            const contentEl = appContainer.querySelector(`[data-accordion-content="${triggerId}"]`);
-            const iconEl = header.querySelector('svg.chevron-icon');
-            
-            if (contentEl) {
-                contentEl.classList.toggle('hidden');
-            }
-            if (iconEl) {
-                iconEl.classList.toggle('rotate-180');
-            }
+            html += `</${itemTag}>`;
         });
-    });
-};
+
+        html += `</${listTag}>`;
+        return html;
+    };
   </script>
 </body>
 </html>

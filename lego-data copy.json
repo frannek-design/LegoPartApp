@@ -115,13 +115,13 @@
                 "beschrijving": "Bricks met toevoeging zoals een bar, clip of hinge-element",
                 "types": [
                   {
-                    "naam": "Click-Hinge",
-                    "beschrijving": "Bricks met een click-hinge connectie.",
+                    "naam": "Click-Hinge › Brick",
+                    "beschrijving": "Bricks with one or more click-hinge connection.",
                     "onderdelen": [
-                      "1×2 | With 1-Finger vertical End (30364)",
-                      "1×2 | With 2-Finger vertical (54671)",
-                      "1×2 | With 1-Finger horizontal (30541)",
-                      "1×2 | With 2-Finger horizontal (54672)",
+                      "1×2 | 2-Finger End, Vertical (30364)",
+                      "1×2 | 2-Finger, Vertical (54671)",
+                      "1×2 | 2-Finger, Horizontal (30541)",
+                      "1×2 | 2-Finger, Horizontal (54672)",
                       "1×2 | With fingers on both ends, Vertical (39893)",
                       "1×4 | With fingers on both ends, Vertical (54661)",
                       "1×6 | With fingers on both ends, Vertical (53914)",
@@ -156,62 +156,6 @@
         "naam": "BASICS",
         "beschrijving": "Standaard rechthoekige bricks, plates, en tiles",
         "sub_categorieen": [
-          {
-            "naam": "Bricks",
-            "beschrijving": "Rechthoekige blokjes met studs aan de bovenkant",
-            "types": [
-              {
-                "naam": "1× Bricks",
-                "beschrijving": "Bricks die 1-stud breed zijn",
-                "onderdelen": [
-                  "1×1 (3005)",
-                  "1×2 (3004)",
-                  "1×3 (3622)",
-                  "1×4 (3010)",
-                  "1×6 (3009)",
-                  "1×8 (3008)",
-                  "1×10 (6111)",
-                  "1×12 (6112)",
-                  "1×16 (2465)",
-                  "2×2 corner (2357)"
-                ]
-              },
-              {
-                "naam": "2× Bricks",
-                "beschrijving": "Bricks die 2-studs breed zijn",
-                "onderdelen": [
-                  "2×2 (3003)",
-                  "2×3 (3002)",
-                  "2×4 (3001)",
-                  "2×6 (2456)",
-                  "2×8 (3007)",
-                  "2×10 (3006)"
-                ]
-              },
-              {
-                "naam": "Tall Bricks",
-                "beschrijving": "Bricks die hoger zijn dan een standaard brick",
-                "onderdelen": [
-                  "1×1×3 (14716)",
-                  "1×1×5 (2453)",
-                  "1×2×2 (3245)",
-                  "1×2×3 (22886)",
-                  "1×2×5 (2454b)",
-                  "2×2×3 (30145)",
-                  "1×4×3 (49311)"
-                ]
-              },
-              {
-                "naam": "Hollow Bricks",
-                "beschrijving": "Bricks die hol zijn aan de onderzijde",
-                "onderdelen": [
-                  "1×2 hollow (3065)",
-                  "1×2×5 hollow (46212)",
-                  "1×4 hollow (3066)"
-                ]
-              }
-            ]
-          },
           {
             "naam": "Plates",
             "beschrijving": "Rechthoekige blokjes met de hoogte van 1/3 brick",
@@ -360,17 +304,6 @@
         "beschrijving": "Afwijkende rechthoekige bricks, plates, en tiles",
         "sub_categorieen": [
           {
-            "naam": "Bricks",
-            "beschrijving": "Bricks met een textuur",
-            "onderdelen": [
-              "1×2, Ribbed (2877)",
-              "1×2, Masonry (98283)",
-              "1×4, Masonry (15533)",
-              "1×2, Log (Palisade) (30136)",
-              "1×4, Log (Palisade) (30137)"
-                ]
-              },
-              {
             "naam": "Plates",
             "beschrijving": "Plates met een add-on",
             "onderdelen": [
@@ -1574,21 +1507,6 @@
                   ]
                 },
                 {
-                  "naam": "Click-Hinge › Brick",
-                  "beschrijving": "Bricks with one or more click-hinge connection.",
-                  "onderdelen": [
-                    "1×2, 2-Finger End, Vertical (30364)",
-                    "1×2, 2-Finger, Vertical (54671)",
-                    "1×2, 2-Finger, Horizontal (30541)",
-                    "1×2, 2-Finger, Horizontal (54672)",
-                    "1×2 Both Ends, Vertical (39893)",
-                    "1×4, Both Ends, Vertical (54661)",
-                    "1×6 Both Ends, Vertical (53914)",
-                    "2×2, 2-Finger, Vertical (53029)",
-                    "2×2, 1-Finger, Vertical (30389)"
-                  ]
-                },
-                {
                   "naam": "Click-Hinge › Click Other",
                   "beschrijving": "Other parts that use the click-hinge connection.",
                   "onderdelen": [
@@ -1684,10 +1602,6 @@
                 "1½×2 Door Rail (32028)",
                 "1½×8 Door Rail (4510)",
                 "2×8 Door Rail (30586)",
-                "1×2 Brick w/ Groove, Vertical (4216)",
-                "1×2×5 Brick w/ Groove, Vertical (88393)",
-                "1×4 Brick w/ Groove, Horizontal (2653)",
-                "1×14 Brick w/ Groove, Curved Horizontal (4217)",
                 "Garage Door Section (4218)",
                 "Garage Door Section w/ Handle (4219)"
               ]
