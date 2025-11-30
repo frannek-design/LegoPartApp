@@ -9,145 +9,66 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap">
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 100;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.8);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-    }
-    .modal-content {
-      position: relative;
-      background-color: #1f2937;
-      margin: 10% auto;
-      padding: 1.5rem;
-      border-radius: 1rem;
-      border: 1px solid #4b5563;
-      width: 90%;
-      max-width: 600px;
-      text-align: center;
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    }
-    .file-input-button {
-        cursor: pointer;
-    }
-    /* Stijlen voor zachte overgangen tussen secties */
-    .page-section {
-        transition: opacity 0.3s ease-in-out;
-        opacity: 0;
-    }
-    .page-section.active {
-        opacity: 1;
-    }
-    /* Stijlen voor knop-feedback */
-    .btn-feedback {
-        transition: transform 0.1s ease-in-out, filter 0.1s ease-in-out;
-    }
-    .btn-feedback:active {
-        transform: scale(0.97);
-        filter: brightness(0.9);
-    }
+    body { font-family: 'Inter', sans-serif; }
+    .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
+    .modal-content { position: relative; background-color: #1f2937; margin: 10% auto; padding: 1.5rem; border-radius: 1rem; border: 1px solid #4b5563; width: 90%; max-width: 600px; text-align: center; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+    .file-input-button { cursor: pointer; }
+    .page-section { transition: opacity 0.3s ease-in-out; opacity: 0; }
+    .page-section.active { opacity: 1; }
+    .btn-feedback { transition: transform 0.1s ease-in-out, filter 0.1s ease-in-out; }
+    .btn-feedback:active { transform: scale(0.97); filter: brightness(0.9); }
   </style>
 </head>
 <body class="bg-gray-900 min-h-screen p-4 sm:p-8">
 
-  <!-- SVG Iconen Definitie (DRY Principe) -->
+  <!-- SVG Iconen -->
   <svg style="display: none;">
-    <symbol id="icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-      <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-    </symbol>
-    <symbol id="icon-order-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-      <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
-    </symbol>
-    <symbol id="icon-browse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-      <path d="M4 6h16M4 12h16M4 18h16"/>
-    </symbol>
-    <symbol id="icon-back-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-      <path d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-    </symbol>
-    <symbol id="icon-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-      <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-    </symbol>
-    <symbol id="icon-collapse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-      <path d="M5 11l7-7 7 7M5 19l7-7 7 7"/>
-    </symbol>
-    <symbol id="icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="6 9 12 15 18 9"></polyline>
-    </symbol>
-    <symbol id="icon-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-    </symbol>
-    <symbol id="icon-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-    </symbol>
-    <symbol id="icon-document" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-        <polyline points="14 2 14 8 20 8"></polyline>
-        <line x1="16" y1="13" x2="8" y2="13"></line>
-        <line x1="16" y1="17" x2="8" y2="17"></line>
-    </symbol>
-    <symbol id="icon-brick" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 2a1 1 0 011-1h2a1 1 0 110 2H7a1 1 0 01-1-1zm5 0a1 1 0 00-1 1v2a1 1 0 102 0V7a1 1 0 00-1-1zm-5 5a1 1 0 011-1h2a1 1 0 110 2H7a1 1 0 01-1-1z" clip-rule="evenodd" />
-    </symbol>
-    <symbol id="icon-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"></circle>
-        <line x1="12" y1="16" x2="12" y2="12"></line>
-        <line x1="12" y1="8" x2="12.01" y2="8"></line>
-    </symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+    <symbol id="icon-order-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></symbol>
+    <symbol id="icon-browse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></symbol>
+    <symbol id="icon-back-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></symbol>
+    <symbol id="icon-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+    <symbol id="icon-collapse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></symbol>
+    <symbol id="icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></symbol>
+    <symbol id="icon-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <symbol id="icon-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></symbol>
+    <symbol id="icon-document" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></symbol>
+    <symbol id="icon-brick" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 2a1 1 0 011-1h2a1 1 0 110 2H7a1 1 0 01-1-1zm5 0a1 1 0 00-1 1v2a1 1 0 102 0V7a1 1 0 00-1-1zm-5 5a1 1 0 011-1h2a1 1 0 110 2H7a1 1 0 01-1-1z" clip-rule="evenodd" /></symbol>
+    <symbol id="icon-info" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></symbol>
+    <symbol id="icon-thumb-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></symbol>
+    <symbol id="icon-thumb-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></symbol>
   </svg>
 
   <div id="root" class="max-w-3xl mx-auto bg-gray-800 rounded-2xl shadow-xl overflow-hidden p-6 sm:p-8">
-    
-    <!-- Globale Notificaties -->
     <div id="confirmation-message" class="hidden fixed top-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg z-50"></div>
     <div id="undo-message" class="hidden fixed top-5 right-5 bg-gray-700 text-white py-2 px-4 rounded-lg shadow-lg z-50 flex items-center gap-4">
         <span>Item verwijderd</span>
         <button id="undo-btn" class="font-bold text-yellow-400 hover:text-yellow-300">Ongedaan maken</button>
     </div>
 
-    <!-- Hoofdmenu -->
     <div id="main-menu" class="page-section active">
         <img src="lego-logo.png" alt="LEGO Logo" class="w-48 mx-auto mb-6">
         <h1 class="text-3xl sm:text-4xl font-extrabold mb-8 text-center text-yellow-400">LEGO® Part Finder</h1>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Tegel 1: Zoeken -->
             <button id="show-search-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-8 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-yellow-400 h-full btn-feedback flex flex-col justify-between items-center">
-                <svg class="h-16 w-16 mb-4 text-yellow-400"><use href="#icon-search"></use></svg>
-                <span class="text-2xl">Zoek via foto of nummer</span>
+                <svg class="h-16 w-16 mb-4 text-yellow-400"><use href="#icon-search"></use></svg><span class="text-2xl">Zoek</span>
             </button>
-            <!-- Tegel 2: Bestellijst -->
             <button id="show-order-list-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-8 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-400 h-full btn-feedback flex flex-col justify-between items-center">
-                <svg class="h-16 w-16 mb-4 text-green-400"><use href="#icon-order-list"></use></svg>
-                <span class="text-2xl">Bestellijst</span>
+                <svg class="h-16 w-16 mb-4 text-green-400"><use href="#icon-order-list"></use></svg><span class="text-2xl">Bestellijst</span>
             </button>
-            <!-- Tegel 3: Bladeren -->
             <button id="show-browse-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-8 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-400 h-full btn-feedback flex flex-col justify-between items-center">
-                <svg class="h-16 w-16 mb-4 text-blue-400"><use href="#icon-browse"></use></svg>
-                <span class="text-2xl">Blader door Categorieën</span>
+                <svg class="h-16 w-16 mb-4 text-blue-400"><use href="#icon-browse"></use></svg><span class="text-2xl">Bladeren</span>
             </button>
         </div>
     </div>
 
-    <!-- Zoek Sectie -->
     <div id="search-section" class="page-section hidden">
         <div class="flex justify-between items-center mb-6 gap-2">
             <button class="back-button bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg flex items-center btn-feedback">
-                <svg class="h-5 w-5 mr-2"><use href="#icon-back-arrow"></use></svg>
-                Terug naar menu
+                <svg class="h-5 w-5 mr-2"><use href="#icon-back-arrow"></use></svg> Terug
             </button>
             <button id="go-to-order-list-btn" class="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-lg flex items-center btn-feedback">
-                <svg class="h-5 w-5 mr-2"><use href="#icon-order-list"></use></svg>
-                Naar Bestellijst
+                <svg class="h-5 w-5 mr-2"><use href="#icon-order-list"></use></svg> Lijst
             </button>
         </div>
         <div class="mb-8">
@@ -158,20 +79,15 @@
         <div id="image-search-result" class="mb-8"></div>
         <hr class="border-gray-600 my-8">
         <div class="mb-8">
-            <h2 class="text-2xl font-bold text-white mb-4">Of zoek op nummer of naam</h2>
+            <h2 class="text-2xl font-bold text-white mb-4">Of zoek op nummer/naam</h2>
             <div class="flex flex-col sm:flex-row gap-2">
                 <div class="relative flex-grow">
-                    <input type="text" id="part-search-input" placeholder="Voer een onderdeelnummer of naam in" class="w-full bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-lg p-3 pr-10 focus:outline-none focus:ring-2 focus:ring-yellow-400">
-                    <button id="clear-search-btn" class="absolute inset-y-0 right-0 flex items-center pr-3 hidden">
-                        <svg class="h-5 w-5 text-gray-400 hover:text-white"><use href="#icon-x"></use></svg>
-                    </button>
+                    <input type="text" id="part-search-input" placeholder="Nummer of naam..." class="w-full bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-lg p-3 pr-10 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                    <button id="clear-search-btn" class="absolute inset-y-0 right-0 flex items-center pr-3 hidden"><svg class="h-5 w-5 text-gray-400 hover:text-white"><use href="#icon-x"></use></svg></button>
                 </div>
                 <button type="button" id="text-search-btn" class="bg-yellow-500 text-gray-900 font-bold py-3 px-4 sm:px-6 rounded-lg hover:bg-yellow-400 transition-colors btn-feedback flex items-center justify-center w-28">
                     <span id="search-btn-text">Zoek</span>
-                    <svg id="search-btn-spinner" class="h-5 w-5 animate-spin hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
+                    <svg id="search-btn-spinner" class="h-5 w-5 animate-spin hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                 </button>
             </div>
         </div>
@@ -179,12 +95,10 @@
         <div id="search-result" class="mb-8"></div>
     </div>
 
-    <!-- Bestellijst Sectie -->
     <div id="order-list-section" class="page-section hidden">
         <div class="flex justify-between items-center mb-6 gap-2">
             <button class="back-button bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg flex items-center btn-feedback">
-                <svg class="h-5 w-5 mr-2"><use href="#icon-back-arrow"></use></svg>
-                Terug naar menu
+                <svg class="h-5 w-5 mr-2"><use href="#icon-back-arrow"></use></svg> Terug
             </button>
         </div>
         <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-4 gap-4">
@@ -199,16 +113,13 @@
         <button id="add-to-order-list-btn" class="mt-6 w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-lg btn-feedback">Voeg onderdeel toe</button>
     </div>
 
-    <!-- Blader Sectie -->
     <div id="browse-section" class="page-section hidden">
          <div class="flex justify-between items-center mb-6 gap-2">
             <button class="back-button bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg flex items-center btn-feedback">
-                <svg class="h-5 w-5 mr-2"><use href="#icon-back-arrow"></use></svg>
-                Terug naar menu
+                <svg class="h-5 w-5 mr-2"><use href="#icon-back-arrow"></use></svg> Terug
             </button>
             <button id="collapse-all-btn" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg flex items-center btn-feedback">
-                 <svg class="h-5 w-5 mr-2"><use href="#icon-collapse"></use></svg>
-                Alles sluiten
+                 <svg class="h-5 w-5 mr-2"><use href="#icon-collapse"></use></svg> Alles sluiten
             </button>
         </div>
         <h2 class="text-2xl font-bold text-white mb-4">Blader door Categorieën</h2>
@@ -216,7 +127,6 @@
     </div>
   </div>
 
-  <!-- Modal -->
   <div id="imageModal" class="modal">
     <div class="modal-content">
       <span class="absolute top-5 right-6 text-3xl font-bold text-gray-400 cursor-pointer hover:text-white" onclick="closeModal()">&times;</span>
@@ -233,7 +143,76 @@
     </div>
   </div>
 
-  <script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // ==================================================================
+    // CONFIGURATIE ZONE - VUL DIT IN VOOR LOKAAL TESTEN
+    // ==================================================================
+    
+    // 1. Gemini API Key (voor foto herkenning lokaal)
+    const LOCAL_GEMINI_KEY = "VUL_HIER_JE_GEMINI_API_KEY_IN";
+
+    // 2. Firebase Config (voor feedback lokaal)
+    const manualFirebaseConfig = {
+        apiKey: "AIzaSyDg6JXnLyo5Oc4Cvs-I2FPzJ2dAHmNcOWY",
+        authDomain: "legopartfinder-c7c12.firebaseapp.com",
+        projectId: "legopartfinder-c7c12",
+        storageBucket: "legopartfinder-c7c12.firebasestorage.app",
+        messagingSenderId: "349308974654",
+        appId: "1:349308974654:web:56a9566b1a7c19f35cc36f",
+    };
+    // ==================================================================
+
+    // Initialisatie Logica
+    let db;
+    let auth;
+    let appId = 'default-app-id';
+    let useLocalGemini = false;
+
+    try {
+        let configToUse;
+        // Als we in de cloud editor zijn (env vars bestaan)
+        if (typeof __firebase_config !== 'undefined') {
+            configToUse = JSON.parse(__firebase_config);
+            if (typeof __app_id !== 'undefined') appId = __app_id;
+        } 
+        // Als we lokaal/live zijn: check of manual config is ingevuld
+        else if (manualFirebaseConfig.apiKey && manualFirebaseConfig.apiKey !== "VUL_HIER_JE_FIREBASE_API_KEY") {
+            configToUse = manualFirebaseConfig;
+            appId = 'lego-local-dev';
+            useLocalGemini = true;
+        }
+
+        if (configToUse) {
+            const app = initializeApp(configToUse);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            signInAnonymously(auth).then(userCredential => {
+                console.log("Ingelogd als gebruiker:", userCredential.user.uid);
+            }).catch(err => console.error("Auth Fout:", err));
+            console.log("Firebase geinitialiseerd met appId:", appId);
+        } else {
+            console.warn("Geen geldige Firebase configuratie.");
+        }
+    } catch (e) {
+        console.error("Firebase init fout:", e);
+    }
+
+    // Globale functies en variabelen
+    window.closeModal = () => { document.getElementById('imageModal').style.display = 'none'; document.getElementById('modal-body').innerHTML = ''; };
+    window.closeShareModal = () => { document.getElementById('shareModal').style.display = 'none'; };
+
+    const REBRICKABLE_API_KEY = '16904943652c1bc07ef5709e6b6dcbe5';
+    let searchCache = {};
+    let allParts = [];
+    let isPartsDataLoaded = false;
+    let isPartsDataLoading = false;
+    let lastRemovedState = null;
+    let undoTimeout = null;
+
     const mainMenu = document.getElementById('main-menu');
     const searchSection = document.getElementById('search-section');
     const browseSection = document.getElementById('browse-section');
@@ -257,16 +236,6 @@
     const confirmationMessage = document.getElementById('confirmation-message');
     const undoMessage = document.getElementById('undo-message');
     const undoBtn = document.getElementById('undo-btn');
-    
-    const REBRICKABLE_API_KEY = '16904943652c1bc07ef5709e6b6dcbe5';
-    let searchCache = {};
-    let allParts = [];
-    let isPartsDataLoaded = false;
-    let isPartsDataLoading = false;
-    let lastRemovedState = null;
-    let undoTimeout = null;
-
-    // --- Navigatie ---
     const showSearchBtn = document.getElementById('show-search-btn');
     const showBrowseBtn = document.getElementById('show-browse-btn');
     const showOrderListBtn = document.getElementById('show-order-list-btn');
@@ -277,6 +246,7 @@
     const shareOrderListBtn = document.getElementById('share-order-list-btn');
     const collapseAllBtn = document.getElementById('collapse-all-btn');
 
+    // Helper function for showing sections
     function showSection(sectionId) {
         const currentActive = document.querySelector('.page-section.active');
         const newSection = document.getElementById(sectionId);
@@ -285,7 +255,7 @@
             currentActive.classList.remove('active');
             setTimeout(() => {
                 currentActive.classList.add('hidden');
-            }, 300); // Moet overeenkomen met CSS transitie duur
+            }, 300); 
         }
         
         if (newSection) {
@@ -296,7 +266,94 @@
         }
         window.scrollTo(0, 0);
     }
+    
+    // Expose logic to window for inline handlers
+    window.updateOrderItem = function(id, field, value) {
+        let list = JSON.parse(localStorage.getItem('legoOrderList')) || [];
+        const itemIndex = list.findIndex(p => p.id === id);
+        if (itemIndex > -1) {
+            list[itemIndex][field] = field === 'quantity' ? parseInt(value, 10) : value;
+            localStorage.setItem('legoOrderList', JSON.stringify(list));
+            renderOrderList(); 
+        }
+    }
+    
+    window.removeFromOrderList = function(id) {
+        let list = JSON.parse(localStorage.getItem('legoOrderList')) || [];
+        const itemIndex = list.findIndex(p => p.id === id);
+        if (itemIndex === -1) return;
 
+        lastRemovedState = { type: 'single_item', data: list[itemIndex], index: itemIndex }; 
+        
+        const updatedList = list.filter(p => p.id !== id);
+        localStorage.setItem('legoOrderList', JSON.stringify(updatedList));
+        renderOrderList();
+
+        undoMessage.classList.remove('hidden');
+        
+        clearTimeout(undoTimeout);
+        undoTimeout = setTimeout(() => {
+            lastRemovedState = null;
+            undoMessage.classList.add('hidden');
+        }, 5000);
+    }
+    
+    window.populateSubColorSelect = function(mainColorSelect, subColorSelect, id) {
+        const selectedGroup = mainColorSelect.value;
+        subColorSelect.innerHTML = '<option value="any">Kies kleur</option>';
+        if (colorGroups[selectedGroup]) {
+            Object.entries(colorGroups[selectedGroup]).forEach(([subgroupName, colors]) => {
+                colors.forEach(color => {
+                    const option = document.createElement('option');
+                    option.value = color;
+                    option.textContent = color;
+                    subColorSelect.appendChild(option);
+                });
+            });
+            subColorSelect.disabled = false;
+        } else {
+            subColorSelect.disabled = true;
+        }
+        updateOrderItem(id, 'color', subColorSelect.value);
+    }
+
+    window.fetchPartImage = async (partNumber, partName) => {
+      imageModal.style.display = 'block';
+      handleRebrickableSearch(partNumber, modalBody, false, true);
+    };
+    
+    // Function to submit feedback - ROBUST & USER FRIENDLY
+    window.sendFeedback = async (correct, aiData, userCorrection = null) => {
+        const feedbackContainer = document.getElementById('ai-feedback-ui');
+        
+        // 1. Directe Visuele Feedback (altijd tonen)
+        if(feedbackContainer) {
+            feedbackContainer.innerHTML = `<div class="text-center text-sm text-green-400 font-bold animate-pulse">Bedankt voor je feedback!</div>`;
+        }
+        
+        if (!db || !auth) {
+            console.warn("Feedback niet opgeslagen: Geen database verbinding.");
+            return;
+        }
+        
+        try {
+            const user = auth.currentUser;
+            await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'feedback'), {
+                timestamp: serverTimestamp(),
+                correct: correct,
+                ai_prediction: aiData?.design_id || 'unknown',
+                user_correction: userCorrection,
+                ai_visual_reasoning: aiData?.visual_reasoning || 'none',
+                userId: user?.uid || 'anonymous',
+                environment: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'local' : 'live'
+            });
+            console.log("Feedback succesvol opgeslagen.");
+        } catch (e) {
+            console.error("Fout bij opslaan feedback:", e);
+        }
+    };
+
+    // Event Listeners setup
     showSearchBtn.addEventListener('click', () => showSection('search-section'));
     addToOrderListBtn.addEventListener('click', () => showSection('search-section'));
     showBrowseBtn.addEventListener('click', () => {
@@ -317,123 +374,20 @@
         button.addEventListener('click', () => showSection('main-menu'));
     });
     clearOrderListBtn.addEventListener('click', () => {
-        clearOrderList();
-    });
-    shareOrderListBtn.addEventListener('click', () => {
-        shareOrderList();
-    });
-    collapseAllBtn.addEventListener('click', () => {
-        const openLists = appContainer.querySelectorAll('ul:not(.hidden), div.pl-4:not(.hidden)');
-        openLists.forEach(list => list.classList.add('hidden'));
-        const openIcons = appContainer.querySelectorAll('svg.rotate-180');
-        openIcons.forEach(icon => icon.classList.remove('rotate-180'));
-    });
-
-    // --- Bestellijst Functies ---
-    const getOrderList = () => JSON.parse(localStorage.getItem('legoOrderList')) || [];
-    const saveOrderList = (list) => localStorage.setItem('legoOrderList', JSON.stringify(list));
-
-    function clearOrderList() {
-        const currentList = getOrderList();
+        const currentList = JSON.parse(localStorage.getItem('legoOrderList')) || [];
         if (currentList.length === 0) return;
-
         lastRemovedState = { type: 'full_list', data: currentList };
-        
-        saveOrderList([]);
+        localStorage.setItem('legoOrderList', JSON.stringify([]));
         renderOrderList();
-
         undoMessage.classList.remove('hidden');
         clearTimeout(undoTimeout);
         undoTimeout = setTimeout(() => {
             lastRemovedState = null;
             undoMessage.classList.add('hidden');
         }, 5000);
-    }
-
-    function showConfirmation(message) {
-        confirmationMessage.textContent = message;
-        confirmationMessage.classList.remove('hidden');
-        setTimeout(() => {
-            confirmationMessage.classList.add('hidden');
-        }, 2000);
-    }
-
-    function addToOrderList(partData) {
-        let list = getOrderList();
-        const newItem = {
-            ...partData,
-            id: 'item-' + Date.now() + Math.random(), // Unieke ID
-            quantity: 1,
-            color: 'any'
-        };
-        list.push(newItem);
-        saveOrderList(list);
-        showConfirmation(`${newItem.name} toegevoegd!`);
-    }
-    
-    function handleAddToOrderList(partNum, isModal) {
-        const partData = searchCache[partNum];
-        if (partData) {
-            addToOrderList(partData);
-            if (isModal) {
-                closeModal();
-            } else {
-                document.getElementById('root').scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-    }
-
-    function undoAction() {
-        if (!lastRemovedState) return;
-
-        let list = getOrderList();
-
-        if (lastRemovedState.type === 'single_item') {
-            list.splice(lastRemovedState.index, 0, lastRemovedState.data);
-        } else if (lastRemovedState.type === 'full_list') {
-            list = lastRemovedState.data;
-        }
-
-        saveOrderList(list);
-        renderOrderList();
-        lastRemovedState = null;
-        clearTimeout(undoTimeout);
-        undoMessage.classList.add('hidden');
-    }
-    undoBtn.addEventListener('click', undoAction);
-
-    function removeFromOrderList(id) {
-        let list = getOrderList();
-        const itemIndex = list.findIndex(p => p.id === id);
-        if (itemIndex === -1) return;
-
-        lastRemovedState = { type: 'single_item', data: list[itemIndex], index: itemIndex }; 
-        
-        const updatedList = list.filter(p => p.id !== id);
-        saveOrderList(updatedList);
-        renderOrderList();
-
-        undoMessage.classList.remove('hidden');
-        
-        clearTimeout(undoTimeout);
-        undoTimeout = setTimeout(() => {
-            lastRemovedState = null;
-            undoMessage.classList.add('hidden');
-        }, 5000); // 5 seconden om ongedaan te maken
-    }
-
-    function updateOrderItem(id, field, value) {
-        let list = getOrderList();
-        const itemIndex = list.findIndex(p => p.id === id);
-        if (itemIndex > -1) {
-            list[itemIndex][field] = field === 'quantity' ? parseInt(value, 10) : value;
-            saveOrderList(list);
-            renderOrderList(); // Her-render om de totalen bij te werken
-        }
-    }
-
-    async function shareOrderList() {
-        const list = getOrderList();
+    });
+    shareOrderListBtn.addEventListener('click', async () => {
+         const list = JSON.parse(localStorage.getItem('legoOrderList')) || [];
         if (list.length === 0) return;
 
         let shareText = "Mijn LEGO Bestellijst:\n\n";
@@ -461,121 +415,270 @@
                 shareModal.style.display = 'block';
             }
         }
-    }
-
-    const colorGroups = {
-        "Red & Pink": {"Solid": ["Red", "Dark Red", "Magenta", "Dark Pink", "Bright Pink"],"Transparent": ["Trans-Red", "Trans-Dark Red", "Trans-Dark Pink"],"Glitter": ["Trans-Red Sparkle"],"Chrome": ["Chrome Pink"]},
-        "Orange & Yellow": {"Solid": ["Orange", "Dark Orange", "Yellow", "Bright Light Orange", "Bright Light Yellow"],"Transparent": ["Trans-Orange", "Trans-Yellow", "Trans-Neon Orange"],"Glitter": ["Trans-Orange Sparkle"]},
-        "Green": {"Solid": ["Green", "Dark Green", "Bright Green", "Lime", "Sand Green", "Olive Green"],"Transparent": ["Trans-Green", "Trans-Bright Green", "Trans-Neon Green"],"Glitter": ["Trans-Green Sparkle"],"Chrome": ["Chrome Green"],"Metallic": ["Metallic Green"]},
-        "Blue": {"Solid": ["Blue", "Dark Blue", "Medium Blue", "Bright Light Blue", "Dark Azure", "Medium Azure", "Light Aqua", "Sand Blue"],"Transparent": ["Trans-Light Blue", "Trans-Medium Blue", "Trans-Dark Blue", "Trans-Aqua"],"Pearl": ["Pearl Sand Blue"],"Glitter": ["Trans-Light Blue Sparkle"],"Satin": ["Satin Trans-Light Blue", "Satin Trans-Dark Blue"],"Chrome": ["Chrome Blue"]},
-        "Purple": {"Solid": ["Dark Purple", "Purple", "Medium Lavender", "Lavender"],"Transparent": ["Trans-Purple"],"Glitter": ["Trans-Purple Sparkle"],"Satin": ["Satin Trans-Purple"]},
-        "Brown & Sand": {"Solid": ["Reddish Brown", "Dark Brown", "Brown", "Dark Tan", "Tan", "Nougat", "Medium Nougat", "Dark Nougat"]},
-        "Gray": {"Solid": ["Dark Bluish Gray", "Light Bluish Gray", "Very Light Bluish Gray"],"Pearl": ["Pearl Dark Gray", "Pearl Light Gray", "Pearl Very Light Gray"],"Metallic": ["Metallic Dark Grey"]},
-        "White": {"Solid": ["White"],"Pearl": ["Pearl White"],"Milky (Opal)": ["Trans-White (Opal)"]},
-        "Black": {"Solid": ["Black"],"Transparent": ["Trans-Black"],"Satin": ["Satin Trans-Black"],"Chrome": ["Chrome Black"],"Speckled": ["Marbled Black/White", "Speckled Black/Silver", "Speckled Black/Gold"]},
-        "Metallic": {"Pearl": ["Pearl Gold", "Pearl Light Gold"],"Chrome": ["Chrome Gold", "Chrome Silver", "Chrome Antique Brass"],"Metallic": ["Metallic Gold", "Metallic Silver", "Metallic Copper"]},
-        "Colorless": {"Transparent": ["Trans-Clear"],"Glitter": ["Trans-Clear Sparkle"],"Satin": ["Satin Trans-Clear"]}
-    };
+    });
+    collapseAllBtn.addEventListener('click', () => {
+        const openLists = appContainer.querySelectorAll('ul:not(.hidden), div.pl-4:not(.hidden)');
+        openLists.forEach(list => list.classList.add('hidden'));
+        const openIcons = appContainer.querySelectorAll('svg.rotate-180');
+        openIcons.forEach(icon => icon.classList.remove('rotate-180'));
+    });
     
-    function findColorGroup(colorName) {
-        for (const [groupName, subgroups] of Object.entries(colorGroups)) {
-            for (const colors of Object.values(subgroups)) {
-                if (colors.includes(colorName)) {
-                    return groupName;
+    undoBtn.addEventListener('click', () => {
+        if (!lastRemovedState) return;
+        let list = JSON.parse(localStorage.getItem('legoOrderList')) || [];
+
+        if (lastRemovedState.type === 'single_item') {
+            list.splice(lastRemovedState.index, 0, lastRemovedState.data);
+        } else if (lastRemovedState.type === 'full_list') {
+            list = lastRemovedState.data;
+        }
+
+        localStorage.setItem('legoOrderList', JSON.stringify(list));
+        renderOrderList();
+        lastRemovedState = null;
+        clearTimeout(undoTimeout);
+        undoMessage.classList.add('hidden');
+    });
+    
+    // Text search logic
+    textSearchBtn.addEventListener('click', performTextSearch);
+    clearSearchBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        textSearchResultsContainer.innerHTML = '';
+        searchResultContainer.innerHTML = '';
+        clearSearchBtn.classList.add('hidden');
+        searchInput.focus();
+    });
+    searchInput.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+            performTextSearch();
+        }
+    });
+    searchInput.addEventListener('input', () => {
+         const query = searchInput.value.trim();
+        
+        if (query) {
+            clearSearchBtn.classList.remove('hidden');
+        } else {
+            clearSearchBtn.classList.add('hidden');
+        }
+
+        searchResultContainer.innerHTML = '';
+
+        if (query.length < 2) {
+            textSearchResultsContainer.innerHTML = '';
+            return;
+        }
+        
+        if (!/^\d+$/.test(query)) {
+             handleTextSearch(query);
+        } else {
+            textSearchResultsContainer.innerHTML = '';
+        }
+    });
+    
+    textSearchResultsContainer.addEventListener('click', (event) => {
+        const target = event.target.closest('[data-part-num]');
+        if (target) {
+            const partNum = target.dataset.partNum;
+            searchInput.value = partNum;
+            textSearchResultsContainer.innerHTML = '';
+            handleRebrickableSearch(partNum, searchResultContainer, true, false);
+        }
+    });
+
+    // Click Handler for adding to list
+    document.body.addEventListener('click', function(event) {
+        const target = event.target.closest('.add-to-list-button');
+        if (target) {
+            const partNum = target.dataset.partNum;
+            const isModal = target.dataset.isModal === 'true';
+            const partData = searchCache[partNum];
+            if (partData) {
+                addToOrderList(partData);
+                if (isModal) {
+                    closeModal();
+                } else {
+                    document.getElementById('root').scrollIntoView({ behavior: 'smooth' });
                 }
             }
         }
-        return null;
-    }
+    });
 
-    function populateSubColorSelect(mainColorSelect, subColorSelect, id) {
-        const selectedGroup = mainColorSelect.value;
-        subColorSelect.innerHTML = '<option value="any">Kies kleur</option>';
-        if (colorGroups[selectedGroup]) {
-            Object.entries(colorGroups[selectedGroup]).forEach(([subgroupName, colors]) => {
-                colors.forEach(color => {
-                    const option = document.createElement('option');
-                    option.value = color;
-                    option.textContent = color;
-                    subColorSelect.appendChild(option);
-                });
-            });
-            subColorSelect.disabled = false;
-        } else {
-            subColorSelect.disabled = true;
-        }
-        updateOrderItem(id, 'color', subColorSelect.value);
-    }
+    // Image Upload & AI Analysis
+    imageUploadInput.addEventListener('change', async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        showLoading(imageSearchResultContainer, 'Afbeelding analyseren...');
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = async () => {
+            const base64ImageData = reader.result.split(',')[1];
+            try {
+                 let promptText = "Identify the LEGO part number shown in this image. Return ONLY the part number (digits and optional letters), nothing else.";
+                 try {
+                    const promptResponse = await fetch('prompt.txt?t=' + new Date().getTime());
+                    if (promptResponse.ok) {
+                        promptText = await promptResponse.text();
+                    }
+                 } catch (e) {
+                     console.warn('Kon prompt.txt niet laden', e);
+                 }
+                 
+                 let result;
+                 // LOGICA: Als we lokaal zijn (met key), gebruik direct Google. Anders gebruik Netlify.
+                 if (useLocalGemini && LOCAL_GEMINI_KEY !== "VUL_HIER_JE_GEMINI_API_KEY_IN") {
+                     console.log("Gebruik lokale Gemini Key...");
+                     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${LOCAL_GEMINI_KEY}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [
+                                    { text: promptText },
+                                    { inline_data: { mime_type: file.type, data: base64ImageData } }
+                                ]
+                            }]
+                        })
+                     });
 
-    function renderOrderList() {
-        const list = getOrderList();
-        clearOrderListBtn.style.display = list.length > 0 ? 'block' : 'none';
-        shareOrderListBtn.style.display = list.length > 0 ? 'block' : 'none';
+                     if (!response.ok) {
+                         const errorText = await response.text();
+                         throw new Error(`Google API Fout (${response.status}): ${errorText}`);
+                     }
+                     result = await response.json();
 
-        if (list.length > 0) {
-            const totalQuantity = list.reduce((sum, item) => sum + (item.quantity || 1), 0);
-            const uniqueParts = new Set(list.map(item => item.part_num)).size;
-            orderListSummary.textContent = `Totaal: ${totalQuantity} onderdelen (${uniqueParts} uniek)`;
-        } else {
-            orderListSummary.textContent = '';
-        }
+                 } else {
+                     // Live omgeving: gebruik Netlify functie
+                     const response = await fetch('/.netlify/functions/image-search', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            imageData: base64ImageData,
+                            mimeType: file.type,
+                            prompt: promptText
+                        })
+                     });
 
-        if (list.length === 0) {
-            orderListContainer.innerHTML = '<p class="text-gray-400 text-center">Je bestellijst is leeg.</p>';
-            return;
-        }
+                     // AANPASSING: We checken niet meer strikt op de header.
+                     if (response.ok) {
+                        try {
+                            result = await response.json();
+                        } catch (e) {
+                            const errText = await response.text(); 
+                            throw new Error(`Server gaf OK (200), maar ongeldige data: ${errText.substring(0, 100)}...`);
+                        }
+                     } else {
+                        const errText = await response.text();
+                        if (errText.includes("Timeout") || response.status === 502) {
+                            throw new Error("De AI had te lang nodig om te antwoorden. Probeer het nog eens.");
+                        }
+                        throw new Error(`Server fout (${response.status}): ${errText.substring(0, 100)}...`);
+                     }
+                 }
 
-        orderListContainer.innerHTML = list.map((part, index) => {
-            const mainColorGroup = findColorGroup(part.color);
-            
-            const mainColorOptions = Object.keys(colorGroups).map(groupName => 
-                `<option value="${groupName}" ${mainColorGroup === groupName ? 'selected' : ''}>${groupName}</option>`
-            ).join('');
+                 const rawText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+                 
+                 if (!rawText) {
+                    throw new Error('Geen tekst ontvangen van de AI.');
+                 }
 
-            let subColorOptions = '';
-            if (mainColorGroup && colorGroups[mainColorGroup]) {
-                subColorOptions = Object.entries(colorGroups[mainColorGroup]).map(([subgroupName, colors]) => 
-                    colors.map(color => `<option value="${color}" ${part.color === color ? 'selected' : ''}>${color}</option>`).join('')
-                ).join('');
-            }
+                 const cleanJson = rawText.replace(/```json|```/g, '').trim();
+                 
+                 let aiData = {};
+                 let partNumber = null;
 
-            return `
-            <div class="bg-gray-700/50 p-3 rounded-lg">
-                <div class="flex items-center justify-between gap-4">
-                    <div class="flex items-center gap-3 flex-shrink-0">
-                        <img src="${part.part_img_url}" alt="${part.name}" class="w-12 h-12 object-contain rounded-md">
-                        <div>
-                            <p class="font-bold text-white truncate max-w-[150px] sm:max-w-xs">${part.name}</p>
-                            <p class="text-sm text-gray-400">#${part.part_num}</p>
+                 try {
+                    aiData = JSON.parse(cleanJson);
+                    partNumber = aiData.design_id;
+                 } catch (e) {
+                    console.error("Kon JSON niet parsen, fallback:", e);
+                    const fallbackMatch = rawText.match(/\d+[a-zA-Z]?/);
+                    if (fallbackMatch) {
+                        partNumber = fallbackMatch[0];
+                        aiData = { 
+                            design_id: partNumber, 
+                            visual_reasoning: "JSON parsing mislukt, nummer uit tekst gehaald.",
+                            part_name: "Onbekend",
+                            confidence: "?"
+                        };
+                    }
+                 }
+
+                 if (partNumber) {
+                     // Render AI Analysis + Feedback UI
+                     // Safe string encoding for onclick handlers
+                     const safeAiData = encodeURIComponent(JSON.stringify(aiData)).replace(/'/g, "%27");
+                     
+                     imageSearchResultContainer.innerHTML = `
+                        <div class="bg-gray-700 p-4 rounded-lg mb-4 border border-gray-600">
+                            <h3 class="font-bold text-yellow-400 mb-2 flex items-center gap-2">
+                                <svg class="h-5 w-5"><use href="#icon-search"></use></svg>
+                                AI Analyse
+                            </h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-300">
+                                <p><span class="font-semibold text-white">Gedetecteerd:</span> ${aiData.part_name || 'Onbekend'} (#${aiData.design_id})</p>
+                                <p><span class="font-semibold text-white">Type:</span> ${aiData.detected_type || '-'} | <span class="font-semibold text-white">Noppen:</span> ${aiData.stud_count || '-'}</p>
+                                <p><span class="font-semibold text-white">Kleur:</span> ${aiData.color || '-'}</p>
+                                <p><span class="font-semibold text-white">Zekerheid:</span> ${aiData.confidence || '?'}%</p>
+                            </div>
+                            <div class="mt-3 p-3 bg-gray-800 rounded border-l-4 border-yellow-500">
+                                <p class="text-sm italic text-gray-400">"${aiData.visual_reasoning || 'Geen redenering beschikbaar'}"</p>
+                            </div>
+                            
+                            <!-- Feedback Section -->
+                            <div id="ai-feedback-ui" class="mt-4 pt-3 border-t border-gray-600">
+                                <p class="text-sm text-gray-300 mb-2 text-center">Is dit correct?</p>
+                                <div class="flex gap-3 justify-center" id="feedback-buttons">
+                                    <button onclick="sendFeedback(true, JSON.parse(decodeURIComponent('${safeAiData}')))" class="flex items-center gap-1 px-3 py-1 bg-green-600/20 text-green-400 border border-green-600/50 rounded hover:bg-green-600/40 transition">
+                                        <svg class="w-4 h-4"><use href="#icon-thumb-up"></use></svg> Ja
+                                    </button>
+                                    <button onclick="document.getElementById('correction-input').classList.remove('hidden'); document.getElementById('feedback-buttons').classList.add('hidden');" class="flex items-center gap-1 px-3 py-1 bg-red-600/20 text-red-400 border border-red-600/50 rounded hover:bg-red-600/40 transition">
+                                        <svg class="w-4 h-4"><use href="#icon-thumb-down"></use></svg> Nee
+                                    </button>
+                                </div>
+                                <div id="correction-input" class="hidden mt-2">
+                                    <input type="text" id="user-correct-id" placeholder="Wat is het juiste nummer?" class="w-full bg-gray-800 text-white p-2 rounded border border-gray-500 text-sm mb-2">
+                                    <button onclick="const cor = document.getElementById('user-correct-id').value; if(cor) sendFeedback(false, JSON.parse(decodeURIComponent('${safeAiData}')), cor);" class="w-full bg-blue-600 text-white text-sm font-bold py-1 rounded hover:bg-blue-500">Verstuur Correctie</button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <button onclick="removeFromOrderList('${part.id}')" class="bg-red-600 hover:bg-red-500 text-white font-bold p-2 rounded-lg h-10 flex-shrink-0 btn-feedback">
-                        <svg class="h-5 w-5"><use href="#icon-trash"></use></svg>
-                    </button>
-                </div>
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mt-3">
-                    <input type="number" value="${part.quantity || 1}" min="1" onchange="updateOrderItem('${part.id}', 'quantity', this.value)" class="bg-gray-800 text-white p-2 rounded h-10 sm:w-20">
-                    <select id="main-color-${index}" onchange="populateSubColorSelect(this, document.getElementById('sub-color-${index}'), '${part.id}')" class="bg-gray-800 text-white p-2 rounded h-10 flex-grow">
-                        <option value="any">Kleur Groep</option>
-                        ${mainColorOptions}
-                    </select>
-                    <select id="sub-color-${index}" onchange="updateOrderItem('${part.id}', 'color', this.value)" class="bg-gray-800 text-white p-2 rounded h-10 flex-grow" ${!mainColorGroup ? 'disabled' : ''}>
-                        <option value="any">Kleur</option>
-                        ${subColorOptions}
-                    </select>
-                </div>
-            </div>
-        `}).join('');
+                        <div id="rebrickable-results-wrapper"></div>
+                     `;
+
+                     const rebrickableResultWrapper = document.getElementById('rebrickable-results-wrapper');
+                     handleRebrickableSearch(partNumber, rebrickableResultWrapper, true, false);
+                 } else {
+                     throw new Error('De AI kon geen geldig onderdeelnummer herkennen.');
+                 }
+            } catch (error) {
+                console.error('Fout bij beeldherkenning:', error);
+                showError(imageSearchResultContainer, error.message);
+            }
+        };
+    });
+
+    // Defined Functions (needs to be reused here as they use 'await' or vars from closure)
+    // Note: We exposed window.updateOrderItem etc. above.
+    // Below are internal helper functions reused by the module logic.
+    
+    function showConfirmation(message) {
+        confirmationMessage.textContent = message;
+        confirmationMessage.classList.remove('hidden');
+        setTimeout(() => {
+            confirmationMessage.classList.add('hidden');
+        }, 2000);
     }
 
-    // --- Hulpfuncties voor de UI ---
-    const showLoading = (container, message) => {
+    function showLoading(container, message) {
         container.innerHTML = `<div class="flex justify-center items-center p-8"><div class="w-10 h-10 border-4 border-yellow-400 border-dotted rounded-full animate-spin"></div><span class="ml-4 text-gray-400">${message}</span></div>`;
     };
-    const showError = (container, message) => {
+
+    function showError(container, message) {
         container.innerHTML = `<div class="bg-red-900 text-red-300 p-4 rounded-lg text-center">${message}</div>`;
     };
-    const renderPartResult = (data, container, showClearButton = false, isModal = false) => {
+    
+    function renderPartResult(data, container, showClearButton = false, isModal = false) {
         const { part_img_url, part_url, alternates, name, part_num } = data;
         const alternatesHtml = alternates && alternates.length > 0
             ? `<ul class="list-disc list-inside text-gray-400 mb-4">${alternates.map(alt => `<li>${alt}</li>`).join('')}</ul>`
@@ -610,10 +713,12 @@
             </div>
         `;
     };
-
-    // --- API & Zoek Functies ---
-    const handleRebrickableSearch = async (partNumber, container, showClearButton = false, isModal = false) => {
-        showLoading(container, `Onderdeel ${partNumber} zoeken...`);
+    
+    async function handleRebrickableSearch(partNumber, container, showClearButton = false, isModal = false) {
+        // Don't show loading if it's already shown by parent, unless container is empty
+        if(!container.innerHTML.includes('AI Analyse')) {
+             showLoading(container, `Onderdeel ${partNumber} zoeken...`);
+        }
         try {
             const response = await fetch(`https://rebrickable.com/api/v3/lego/parts/${partNumber}/`, {
                 headers: { 'Authorization': `key ${REBRICKABLE_API_KEY}` }
@@ -623,7 +728,7 @@
             if (!data.part_img_url) throw new Error(`Geen afbeelding gevonden voor ${partNumber}.`);
             searchCache[data.part_num] = data;
             renderPartResult(data, container, showClearButton, isModal);
-            if (!isModal) {
+            if (!isModal && !container.id.includes('rebrickable')) {
                 container.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         } catch (error) {
@@ -632,7 +737,7 @@
         }
     };
 
-    const loadAllPartsData = async () => {
+    async function loadAllPartsData() {
         if (isPartsDataLoaded || isPartsDataLoading) return;
         isPartsDataLoading = true;
         try {
@@ -650,12 +755,8 @@
                         }
                     });
                 }
-                if (item.sub_categorieen) {
-                    item.sub_categorieen.forEach(extractParts);
-                }
-                if (item.types) {
-                    item.types.forEach(extractParts);
-                }
+                if (item.sub_categorieen) item.sub_categorieen.forEach(extractParts);
+                if (item.types) item.types.forEach(extractParts);
             }
             data.lego_data.hoofd_categorieen.forEach(extractParts);
             isPartsDataLoaded = true;
@@ -666,7 +767,7 @@
         }
     };
 
-    const handleTextSearch = async (query) => {
+    async function handleTextSearch(query) {
         await loadAllPartsData();
         const lowerCaseQuery = query.toLowerCase().replace(/×/g, 'x');
         const results = allParts.filter(part => 
@@ -689,31 +790,7 @@
         }
     };
 
-    // --- Event Listeners ---
-    document.body.addEventListener('click', function(event) {
-        const target = event.target.closest('.add-to-list-button');
-        if (target) {
-            const partNum = target.dataset.partNum;
-            const isModal = target.dataset.isModal === 'true';
-            handleAddToOrderList(partNum, isModal);
-        }
-    });
-    
-    const showSearchLoadingState = () => {
-        searchInput.disabled = true;
-        textSearchBtn.disabled = true;
-        searchBtnText.classList.add('hidden');
-        searchBtnSpinner.classList.remove('hidden');
-    };
-
-    const hideSearchLoadingState = () => {
-        searchInput.disabled = false;
-        textSearchBtn.disabled = false;
-        searchBtnText.classList.remove('hidden');
-        searchBtnSpinner.classList.add('hidden');
-    };
-
-    const performTextSearch = async () => {
+    async function performTextSearch() {
         const query = searchInput.value.trim();
         if (!query || textSearchBtn.disabled) return;
 
@@ -737,166 +814,45 @@
             hideSearchLoadingState();
         }
     };
-
-    textSearchBtn.addEventListener('click', performTextSearch);
     
-    clearSearchBtn.addEventListener('click', () => {
-        searchInput.value = '';
-        textSearchResultsContainer.innerHTML = '';
-        searchResultContainer.innerHTML = '';
-        clearSearchBtn.classList.add('hidden');
-        searchInput.focus();
-    });
+    // --- Categorieën Laden en Renderen ---
+    async function fetchCategories() {
+      showLoading(appContainer, "Categorieën laden...");
+      try {
+        const response = await fetch('lego-data.json?t=' + new Date().getTime());
+        if (!response.ok) throw new Error('Kon lego-data.json niet laden.');
+        const data = await response.json();
+        appContainer.innerHTML = buildCategoryHtml(data.lego_data.hoofd_categorieen, 0);
 
-    searchInput.addEventListener('keyup', (event) => {
-        if (event.key === 'Enter') {
-            performTextSearch();
-        }
-    });
-    
-    searchInput.addEventListener('input', () => {
-        const query = searchInput.value.trim();
-        
-        if (query) {
-            clearSearchBtn.classList.remove('hidden');
-        } else {
-            clearSearchBtn.classList.add('hidden');
-        }
-
-        searchResultContainer.innerHTML = '';
-
-        if (query.length < 2) {
-            textSearchResultsContainer.innerHTML = '';
-            return;
-        }
-        
-        if (!/^\d+$/.test(query)) {
-             handleTextSearch(query);
-        } else {
-            textSearchResultsContainer.innerHTML = '';
-        }
-    });
-
-    textSearchResultsContainer.addEventListener('click', (event) => {
-        const target = event.target.closest('[data-part-num]');
-        if (target) {
-            const partNum = target.dataset.partNum;
-            searchInput.value = partNum;
-            textSearchResultsContainer.innerHTML = '';
-            handleRebrickableSearch(partNum, searchResultContainer, true, false);
-        }
-    });
-
-    imageUploadInput.addEventListener('change', async (event) => {
-        const file = event.target.files[0];
-        if (!file) return;
-        
-        showLoading(imageSearchResultContainer, 'Afbeelding analyseren...');
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = async () => {
-            const base64ImageData = reader.result.split(',')[1];
-            try {
-                 const response = await fetch('/.netlify/functions/image-search', {
-                    method: 'POST',
-                    body: JSON.stringify({ 
-                        imageData: base64ImageData,
-                        mimeType: file.type
-                    })
-                 });
-
-                 if (!response.ok) { 
-                    const errorResult = await response.json();
-                    throw new Error(errorResult.error || 'Fout bij de communicatie met de serverless functie.'); 
-                 }
-
-                 const result = await response.json();
-                 const partNumber = result?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-
-                 if (partNumber && /^\d+$/.test(partNumber)) {
-                     handleRebrickableSearch(partNumber, imageSearchResultContainer, true, false);
-                 } else {
-                     throw new Error('De AI kon geen geldig onderdeelnummer herkennen in de afbeelding.');
-                 }
-            } catch (error) {
-                console.error('Fout bij beeldherkenning:', error);
-                showError(imageSearchResultContainer, error.message);
-            }
-        };
-        reader.onerror = () => {
-             showError(imageSearchResultContainer, 'Fout bij het lezen van het afbeeldingsbestand.');
-        };
-    });
-    function closeModal() {
-      imageModal.style.display = 'none';
-      modalBody.innerHTML = '';
-    }
-    function closeShareModal() {
-      shareModal.style.display = 'none';
-    }
-    const fetchPartImage = async (partNumber, partName) => {
-      imageModal.style.display = 'block';
-      handleRebrickableSearch(partNumber, modalBody, false, true);
-    };
-
-    // --- Categorieën Laden en Renderen (NIEUWE ROBUUSTE FUNCTIE) ---
-    const fetchCategories = async () => {
-        showLoading(appContainer, "Categorieën laden...");
-        try {
-            const response = await fetch('lego-data.json?t=' + new Date().getTime());
-            if (!response.ok) {
-                throw new Error('Kon lego-data.json niet laden.');
-            }
-            const data = await response.json();
-            
-            appContainer.innerHTML = buildCategoryHtml(data.lego_data.hoofd_categorieen, 0);
-
-            // Voeg nu pas de event listeners toe
-            appContainer.querySelectorAll('.accordion-header').forEach(header => {
-                header.addEventListener('click', (event) => {
-                    // Stop de actie als er op een info knop wordt geklikt
-                    if (event.target.closest('.info-btn')) {
-                        const infoButton = event.target.closest('.info-btn');
-                        const descId = infoButton.dataset.descId;
-                        const descriptionEl = document.getElementById(descId);
-                        if (descriptionEl) {
-                            descriptionEl.classList.toggle('hidden');
-                        }
-                        return; // Stop verdere acties
-                    }
-                    
-                    const triggerId = header.dataset.accordionTrigger;
-                    if (!triggerId) return;
-
-                    const contentEl = appContainer.querySelector(`[data-accordion-content="${triggerId}"]`);
-                    const iconEl = header.querySelector('svg.chevron-icon');
-                    
-                    if (contentEl) {
-                        contentEl.classList.toggle('hidden');
-                    }
-                    if (iconEl) {
-                        iconEl.classList.toggle('rotate-180');
-                    }
-                });
+        appContainer.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', (event) => {
+                if (event.target.closest('.info-btn')) {
+                    const infoButton = event.target.closest('.info-btn');
+                    const descId = infoButton.dataset.descId;
+                    const descriptionEl = document.getElementById(descId);
+                    if (descriptionEl) descriptionEl.classList.toggle('hidden');
+                    return;
+                }
+                const triggerId = header.dataset.accordionTrigger;
+                if (!triggerId) return;
+                const contentEl = appContainer.querySelector(`[data-accordion-content="${triggerId}"]`);
+                const iconEl = header.querySelector('svg.chevron-icon');
+                if (contentEl) contentEl.classList.toggle('hidden');
+                if (iconEl) iconEl.classList.toggle('rotate-180');
             });
-
-        } catch (error) {
-            console.error('Fout bij laden categorieën:', error);
-            showError(appContainer, 'Fout bij het laden van de categorieën.');
-        }
+        });
+      } catch (error) {
+        console.error('Fout bij laden categorieën:', error);
+        showError(appContainer, 'Fout bij het laden van de categorieën.');
+      }
     };
 
-    const buildCategoryHtml = (items, level, idPrefix = '') => {
+    function buildCategoryHtml(items, level, idPrefix = '') {
         if (!items) return '';
-
         let html = '';
         const listTag = level === 0 ? 'div' : 'ul';
         const itemTag = level === 0 ? 'div' : 'li';
-        
-        let listClass = '';
-        if (level === 0) listClass = 'space-y-4';
-        if (level === 1) listClass = 'mt-4 space-y-2 pl-4 border-l border-gray-600 ml-2 hidden';
-        if (level > 1) listClass = 'mt-2 space-y-1 pl-4 hidden';
+        let listClass = level === 0 ? 'space-y-4' : (level === 1 ? 'mt-4 space-y-2 pl-4 border-l border-gray-600 ml-2 hidden' : 'mt-2 space-y-1 pl-4 hidden');
 
         html += `<${listTag} class="${listClass}" ${level > 0 ? `data-accordion-content="${idPrefix}"` : ''}>`;
 
@@ -920,7 +876,6 @@
             }
              
             html += `<${itemTag} class="${itemClass}">`;
-            
             html += `
               <div class="accordion-header flex justify-between items-center w-full text-left cursor-pointer" data-accordion-trigger="${currentId}">
                 <span class="flex items-center gap-2">
@@ -949,9 +904,23 @@
             }
             html += `</${itemTag}>`;
         });
-
         html += `</${listTag}>`;
         return html;
+    };
+    
+    // Define consts needed inside the module that were global before
+    const colorGroups = {
+        "Red & Pink": {"Solid": ["Red", "Dark Red", "Magenta", "Dark Pink", "Bright Pink"],"Transparent": ["Trans-Red", "Trans-Dark Red", "Trans-Dark Pink"],"Glitter": ["Trans-Red Sparkle"],"Chrome": ["Chrome Pink"]},
+        "Orange & Yellow": {"Solid": ["Orange", "Dark Orange", "Yellow", "Bright Light Orange", "Bright Light Yellow"],"Transparent": ["Trans-Orange", "Trans-Yellow", "Trans-Neon Orange"],"Glitter": ["Trans-Orange Sparkle"]},
+        "Green": {"Solid": ["Green", "Dark Green", "Bright Green", "Lime", "Sand Green", "Olive Green"],"Transparent": ["Trans-Green", "Trans-Bright Green", "Trans-Neon Green"],"Glitter": ["Trans-Green Sparkle"],"Chrome": ["Chrome Green"],"Metallic": ["Metallic Green"]},
+        "Blue": {"Solid": ["Blue", "Dark Blue", "Medium Blue", "Bright Light Blue", "Dark Azure", "Medium Azure", "Light Aqua", "Sand Blue"],"Transparent": ["Trans-Light Blue", "Trans-Medium Blue", "Trans-Dark Blue", "Trans-Aqua"],"Pearl": ["Pearl Sand Blue"],"Glitter": ["Trans-Light Blue Sparkle"],"Satin": ["Satin Trans-Light Blue", "Satin Trans-Dark Blue"],"Chrome": ["Chrome Blue"]},
+        "Purple": {"Solid": ["Dark Purple", "Purple", "Medium Lavender", "Lavender"],"Transparent": ["Trans-Purple"],"Glitter": ["Trans-Purple Sparkle"],"Satin": ["Satin Trans-Purple"]},
+        "Brown & Sand": {"Solid": ["Reddish Brown", "Dark Brown", "Brown", "Dark Tan", "Tan", "Nougat", "Medium Nougat", "Dark Nougat"]},
+        "Gray": {"Solid": ["Dark Bluish Gray", "Light Bluish Gray", "Very Light Bluish Gray"],"Pearl": ["Pearl Dark Gray", "Pearl Light Gray", "Pearl Very Light Gray"],"Metallic": ["Metallic Dark Grey"]},
+        "White": {"Solid": ["White"],"Pearl": ["Pearl White"],"Milky (Opal)": ["Trans-White (Opal)"]},
+        "Black": {"Solid": ["Black"],"Transparent": ["Trans-Black"],"Satin": ["Satin Trans-Black"],"Chrome": ["Chrome Black"],"Speckled": ["Marbled Black/White", "Speckled Black/Silver", "Speckled Black/Gold"]},
+        "Metallic": {"Pearl": ["Pearl Gold", "Pearl Light Gold"],"Chrome": ["Chrome Gold", "Chrome Silver", "Chrome Antique Brass"],"Metallic": ["Metallic Gold", "Metallic Silver", "Metallic Copper"]},
+        "Colorless": {"Transparent": ["Trans-Clear"],"Glitter": ["Trans-Clear Sparkle"],"Satin": ["Satin Trans-Clear"]}
     };
   </script>
 </body>

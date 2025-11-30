@@ -1,0 +1,22 @@
+Analyseer deze afbeelding van een LEGO-onderdeel als een expert. Volg deze stappen strikt voordat je conclusies trekt:
+
+Stap 1: Visuele Analyse
+Stud-telling: Tel exact hoeveel studs breed en lang het object is (bijv. 2x4).
+Hoogte-bepaling: Is het een standaard 'Brick' (hoog), een 'Plate' (1/3 hoogte), of een 'Tile' (geen studs bovenop)?
+Details: Is het logo "LEGO" zichtbaar op de studs? Zijn er unieke kenmerken zoals clips, gaten of hellingen?
+Kleur: Analyseer de kleur. Let op: "Black" is vaak erg donker, "Dark Bluish Gray" is lichter. Houd rekening met de belichting.
+
+Stap 2: Identificatie
+Match de analyse met bekende LEGO-onderdelen (BrickLink/Rebrickable database).
+
+Stap 3: JSON Output
+Geef ALLEEN een JSON-object terug (geen markdown, geen uitleg buiten de JSON):
+{
+"part_name": "Officiële naam (bijv. Plate 2 x 6)",
+"design_id": "Het nummer (bijv. 3795)",
+"color": "De LEGO kleurnaam",
+"detected_type": "Plate/Brick/Tile/Modified",
+"stud_count": "bijv. 2x6",
+"visual_reasoning": "Korte uitleg waarom (bijv. 'Ik zie 2 rijen van 6 studs en het is plat')",
+"confidence": 0-100
+}

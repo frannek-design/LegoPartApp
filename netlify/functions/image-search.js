@@ -5,26 +5,29 @@ exports.handler = async function(event) {
   }
 
   try {
-    // Haal de afbeeldingsdata uit de body van de request
-    const { imageData, mimeType } = JSON.parse(event.body);
+    // AANPASSING 1: Haalt nu ook 'prompt' uit de request body
+    const { imageData, mimeType, prompt } = JSON.parse(event.body);
     
-    // Haal de API sleutel veilig uit de environment variables
+    // Haalt de API sleutel veilig uit de environment variables
     const googleApiKey = process.env.GEMINI_API_KEY;
 
     if (!googleApiKey) {
         throw new Error("API sleutel niet gevonden op de server.");
     }
 
-    const prompt = "Analyseer deze afbeelding van een LEGO-onderdeel. Let goed op de vorm, de afmetingen en het aantal noppen (studs). Identificeer het specifieke onderdeel en geef als antwoord alleen het meest waarschijnlijke Rebrickable onderdeelnummer (part_num). Geef geen extra tekst of uitleg, alleen het nummer.";
+    // AANPASSING 2: Gebruikt de ontvangen prompt, of een fallback als die leeg is
+    // Dit zorgt dat de backend luistert naar jouw 'prompt.txt'
+    const aiInstruction = prompt || "Analyseer deze afbeelding van een LEGO-onderdeel. Identificeer het onderdeelnummer.";
+
     const payload = {
       contents: [{
         parts: [
-          { text: prompt },
+          { text: aiInstruction }, // Hier gebruiken we nu de dynamische tekst
           { inlineData: { mimeType: mimeType, data: imageData } }
         ]
       }]
     };
-    
+
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${googleApiKey}`;
     
     const response = await fetch(apiUrl, {
@@ -34,7 +37,9 @@ exports.handler = async function(event) {
     });
 
     if (!response.ok) {
-      throw new Error('Fout bij de communicatie met de Google AI API.');
+      // Probeer meer info over de fout te krijgen
+      const errorText = await response.text();
+      throw new Error(`Fout bij Google AI API: ${response.status} - ${errorText}`);
     }
 
     const result = await response.json();
